@@ -21,6 +21,11 @@ except ImportError:
     requests = None
 
 try:
+    import lxml
+except ImportError:
+    lxml = None
+
+try:
     from bs4 import BeautifulSoup
 except ImportError:
     BeautifulSoup = None
@@ -37,7 +42,7 @@ class Anime1Downloader:
     MINOR_VERSION = 0
     PATCH_VERSION = 0
 
-    def __init__(self, args: argparse.Namespace):
+    def __init__(self, args: argparse.Namespace, logger: ChronicleLogger):
         self.args = args
         self.session = requests.Session()
 
@@ -334,8 +339,7 @@ def main():
 
     # ====================== Dependency Checks ======================
     if requests is None:
-        print(" [ERROR] 'requests' module is not installed.")
-        print("         Please install it using: pip install requests")
+        logger.log_message("[ERROR] 'requests' module is not installed.\n    Please install it using: pip install requests", level="FATAL", component="main")
         sys.exit(1)
 
     if BeautifulSoup is None:
@@ -344,8 +348,11 @@ def main():
         sys.exit(1)
 
     if yt_dlp is None:
-        print(" [ERROR] 'yt_dlp' module is not installed.")
-        print("         Please install it using: pip install yt-dlp")
+        logger.log_message("[ERROR] 'yt_dlp' module is not installed.\n    Please install it using: pip install requests", level="FATAL", component="main")
+        sys.exit(1)
+
+    if lxml is None:
+        logger.log_message("[ERROR] 'lxml' module is not installed.\n    Please install it using: pip install requests", level="FATAL", component="main")
         sys.exit(1)
 
     # ====================== Argument Parsing ======================
@@ -363,7 +370,7 @@ def main():
     args = parser.parse_args()
 
     # ====================== Run Downloader ======================
-    downloader = Anime1Downloader(args)
+    downloader = Anime1Downloader(args, logger)
     downloader.run()
 
 
