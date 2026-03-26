@@ -45,6 +45,7 @@ class Anime1Downloader:
     def __init__(self, args: argparse.Namespace, logger: ChronicleLogger):
         self.args = args
         self.session = requests.Session()
+        self.logger = logger
 
         # Setup headers and cookies
         self.headers = {
@@ -67,18 +68,17 @@ class Anime1Downloader:
         try:
             r = self.session.get(url, timeout=25)
             if r.status_code != 200:
-                if self.args.verbose:
-                    print(f" [warn] HTTP {r.status_code} → {url}")
+                self.logger.log_message(f"HTTP {r.status_code} → {url}", level="WARN", component="fetch")
                 return None
             return r.text
         except Exception as e:
-            print(f" [error] Failed to fetch {url}: {e}")
+            self.logger.log_message(f"Failed to fetch {url}: {e}", level="ERROR", component="fetch")
             return None
 
     # ====================== anime1.me ======================
     def extract_anime1_me(self, main_url: str) -> List[Tuple[str, str, Dict]]:
         """Extract videos from anime1.me"""
-        print(" [info] Using anime1.me extractor")
+        self.logger.log_message("Using anime1.me extractor", level="INFO", component="extractor")
 
         videos = self._extract_api_paths(main_url)
         if not videos:
@@ -91,7 +91,8 @@ class Anime1Downloader:
                 full_src = 'https:' + src if src.startswith('//') else src
                 result.append((title, full_src, cookie))
                 if self.args.verbose:
-                    print(f" [debug] Extracted: {title} → {full_src[:80]}...")
+                    self.logger.log_message(f"Extracted: {title} → {full_src[:80]}...", 
+                                          level="DEBUG", component="extractor")
         
         return result
 
@@ -101,14 +102,16 @@ class Anime1Downloader:
             if self.args.user_agent and self.args.cloudflare:
                 resp = self.session.get(url)
             elif self.args.user_agent or self.args.cloudflare:
-                print("[ERROR] Provide both --user-agent and --cloudflare or neither")
+                self.logger.log_message("Provide both --user-agent and --cloudflare or neither", 
+                                      level="ERROR", component="main")
                 sys.exit(1)
             else:
-                print(" [warn] Missing user-agent/cf_clearance, Cloudflare may block")
+                self.logger.log_message("Missing user-agent/cf_clearance, Cloudflare may block", 
+                                      level="WARN", component="extractor")
                 resp = self.session.get(url)
 
             if resp.status_code == 403:
-                print("[ERROR] Blocked by Cloudflare")
+                self.logger.log_message("Blocked by Cloudflare", level="ERROR", component="extractor")
                 sys.exit(1)
 
             soup = BeautifulSoup(resp.text, 'lxml')
@@ -117,19 +120,20 @@ class Anime1Downloader:
             videos = [v.get('data-apireq') for v in soup.find_all(class_='video-js')]
 
             if not videos or not videos[0]:
-                print("[ERROR] Could not find data-apireq")
+                self.logger.log_message("Could not find data-apireq", level="ERROR", component="extractor")
                 sys.exit(1)
             if not titles or not titles[0]:
-                print("[ERROR] Could not find titles")
+                self.logger.log_message("Could not find titles", level="ERROR", component="extractor")
                 sys.exit(1)
             if len(titles) != len(videos):
-                print(f"[ERROR] Title/video count mismatch: {len(titles)} titles vs {len(videos)} videos")
+                self.logger.log_message(f"Title/video count mismatch: {len(titles)} titles vs {len(videos)} videos", 
+                                      level="ERROR", component="extractor")
                 sys.exit(1)
 
             return list(zip(titles, videos))
 
         except Exception as e:
-            print(f" [error] Failed to extract API paths: {e}")
+            self.logger.log_message(f"Failed to extract API paths: {e}", level="ERROR", component="extractor")
             return []
 
     def _get_anime1_me_source(self, apireq: str) -> Tuple[Optional[str], Optional[Dict]]:
@@ -145,28 +149,27 @@ class Anime1Downloader:
             result = json.loads(response.content.decode("utf-8"))
             src = result['s'][0]['src']
 
-            # === BETTER LONG-TERM FIX ===
-            # Extract only needed cookies safely (avoids CookieConflictError)
-            # We only care about 'e', 'h', 'p' for anime1.me playback
+            # Extract only needed cookies safely
             cookie_dict = {}
             for cookie in self.session.cookies:
                 if cookie.name in ('e', 'h', 'p'):
                     cookie_dict[cookie.name] = cookie.value
 
             if self.args.verbose:
-                print(f" [debug] API Response src: https:{src}")
-                print(f" [debug] Relevant cookies: {cookie_dict}")
+                self.logger.log_message(f"API Response src: https:{src}", level="DEBUG", component="api")
+                self.logger.log_message(f"Relevant cookies: {cookie_dict}", level="DEBUG", component="api")
             
             return src, cookie_dict
 
         except Exception as e:
-            print(f" [error] anime1.me API call failed: {e}")
+            self.logger.log_message(f"anime1.me API call failed: {e}", level="ERROR", component="api")
             return None, None
 
     # ====================== anime1.pw ======================
     def extract_anime1_pw(self, main_url: str) -> List[Tuple[str, str]]:
         """Extract videos from anime1.pw"""
-        print(" [info] Using anime1.pw extractor")
+        self.logger.log_message("Using anime1.pw extractor", level="INFO", component="extractor")
+
         html = self.fetch_html(main_url)
         if not html:
             return []
@@ -188,13 +191,13 @@ class Anime1Downloader:
 
         if not episode_pages:
             episode_pages = [main_url]
-            print(" [info] Single episode page detected")
+            self.logger.log_message("Single episode page detected", level="INFO", component="extractor")
         else:
             def get_episode_num(u):
                 match = re.search(r'/(\d+)', u)
                 return int(match.group(1)) if match else 999999
             episode_pages = sorted(set(episode_pages), key=get_episode_num)
-            print(f" [info] Found {len(episode_pages)} episodes")
+            self.logger.log_message(f"Found {len(episode_pages)} episodes", level="INFO", component="extractor")
 
         videos = []
         for ep_url in episode_pages:
@@ -213,9 +216,10 @@ class Anime1Downloader:
                     found_url = 'https:' + found_url
                 videos.append((ep_title, found_url))
                 if self.args.verbose:
-                    print(f" [debug] Extracted: {ep_title} → {found_url[:80]}...")
+                    self.logger.log_message(f"Extracted: {ep_title} → {found_url[:80]}...", 
+                                          level="DEBUG", component="extractor")
             else:
-                print(f" [warn] Failed to extract video from {ep_url}")
+                self.logger.log_message(f"Failed to extract video from {ep_url}", level="WARN", component="extractor")
 
         return videos
 
@@ -248,11 +252,10 @@ class Anime1Downloader:
     # ====================== Download ======================
     def download_video(self, title: str, video_url: str, special_cookie: Optional[Dict] = None):
         """Download using yt-dlp"""
-        print(f" [info] Downloading → {title}")
+        self.logger.log_message(f"Downloading → {title}", level="INFO", component="downloader")
 
         cookie_str = ''
         if special_cookie and isinstance(special_cookie, dict):
-            # anime1.me special cookies
             parts = []
             for key in ['e', 'h', 'p']:
                 if key in special_cookie:
@@ -277,22 +280,23 @@ class Anime1Downloader:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                 ydl.download([video_url])
         except Exception as e:
-            print(f" [error] Download failed for {title}: {e}")
+            self.logger.log_message(f"Download failed for {title}: {e}", level="ERROR", component="downloader")
 
     # ====================== Main Logic ======================
     def run(self):
         url = self.args.url.strip().rstrip('/')
-        print(f" [info] Processing: {url}")
+        self.logger.log_message(f"Processing: {url}", level="INFO", component="main")
 
         domain = urlparse(url).netloc.lower()
         is_anime1_me = 'anime1.me' in domain
         is_anime1_pw = 'anime1.pw' in domain
 
         if not (is_anime1_me or is_anime1_pw):
-            print(" [error] URL must be from anime1.me or anime1.pw")
+            self.logger.log_message("URL must be from anime1.me or anime1.pw", level="ERROR", component="main")
             sys.exit(1)
 
-        print(f" [info] Detected site: {'anime1.me' if is_anime1_me else 'anime1.pw'}")
+        self.logger.log_message(f"Detected site: {'anime1.me' if is_anime1_me else 'anime1.pw'}", 
+                              level="INFO", component="main")
 
         all_videos = []
 
@@ -305,11 +309,11 @@ class Anime1Downloader:
             for title, src in items:
                 all_videos.append((title, src, None))
 
-        print(f"\n [info] Total videos found: {len(all_videos)}\n")
+        self.logger.log_message(f"Total videos found: {len(all_videos)}", level="INFO", component="main")
 
         if self.args.extract:
             for title, src, cookie in all_videos:
-                print(f"Title : {title}")
+                print(f"Title : {title}")   # Keep human-readable extract output as-is
                 print(f"URL   : {src}")
                 if cookie:
                     print(f"Cookie: {cookie}")
@@ -320,7 +324,7 @@ class Anime1Downloader:
         for title, video_url, special_cookie in all_videos:
             self.download_video(title, video_url, special_cookie)
 
-        print(" [info] All downloads completed!")
+        self.logger.log_message("All downloads completed!", level="INFO", component="main")
 
 
 def main():
@@ -331,28 +335,34 @@ def main():
 
     # Create logger instance
     logger = ChronicleLogger(logname=appname)
-    appname=logger.logName()    
-    basedir=logger.baseDir()
+    appname = logger.logName()
+    basedir = logger.baseDir()
+
     if logger.isDebug():
-        logger.log_message(f"{appname} v{MAJOR_VERSION}.{MINOR_VERSION}.{PATCH_VERSION} ({__file__}) with the following:", component="main")
-        logger.log_message(f">> {ChronicleLogger.class_version()}", component="main")
+        logger.log_message(f"{appname} v{MAJOR_VERSION}.{MINOR_VERSION}.{PATCH_VERSION} ({__file__})", 
+                         component="main")
+        logger.log_message(f"Using {ChronicleLogger.class_version()}", component="main")
 
     # ====================== Dependency Checks ======================
     if requests is None:
-        logger.log_message("[ERROR] 'requests' module is not installed.\n    Please install it using: pip install requests", level="FATAL", component="main")
+        logger.log_message("'requests' module is not installed. Please install it using: pip install requests", 
+                          level="FATAL", component="main")
         sys.exit(1)
 
     if BeautifulSoup is None:
-        print(" [ERROR] 'beautifulsoup4' module is not installed.")
-        print("         Please install it using: pip install beautifulsoup4 lxml")
+        logger.log_message("'beautifulsoup4' and 'lxml' modules are not installed. "
+                          "Please install using: pip install beautifulsoup4 lxml", 
+                          level="FATAL", component="main")
         sys.exit(1)
 
     if yt_dlp is None:
-        logger.log_message("[ERROR] 'yt_dlp' module is not installed.\n    Please install it using: pip install requests", level="FATAL", component="main")
+        logger.log_message("'yt_dlp' module is not installed. Please install it using: pip install yt-dlp", 
+                          level="FATAL", component="main")
         sys.exit(1)
 
     if lxml is None:
-        logger.log_message("[ERROR] 'lxml' module is not installed.\n    Please install it using: pip install requests", level="FATAL", component="main")
+        logger.log_message("'lxml' module is not installed. Please install it using: pip install lxml", 
+                          level="FATAL", component="main")
         sys.exit(1)
 
     # ====================== Argument Parsing ======================
