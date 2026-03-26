@@ -1,0 +1,8 @@
+._*
+*.egg-info
+build
+dist
+.pytest_cache
+statelogic.pxd
+
+__pycache__

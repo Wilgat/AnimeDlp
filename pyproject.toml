@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "AnimeDlp"
+version = "1.0.0"
+description = "A command-line video editing tool built in Python for cutting, speeding up, and applying a boomerang effect to MP4 videos."
+readme = "README.md"
+requires-python = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+license = {text = "MIT"}
+authors = [
+    {name = "Wilgat Wong", email = "wilgat.wong@gmail.com"}
+]
+keywords = ["Video Editing", "Multimeida"]
+
+dependencies = [
+    "ChronicleLogger>=1.2.3",
+    "requests",
+    "beautifulsoup4",
+    "yt-dlp"
+]
+
+# Official project links (this is what shows on PyPI!)
+[project.urls]
+Homepage = "https://github.com/Wilgat/AnimeDlp"
+Repository = "https://github.com/Wilgat/AnimeDlp"
+Issues = "https://github.com/Wilgat/AnimeDlp/issues"
+
+# This makes `anime-dlp` command available after pip install
+[project.scripts]
+anime-dlp = "AnimeDlp.cli:main"
