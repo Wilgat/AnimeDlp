@@ -1,8 +1,93 @@
+# =============================================================================
+# .gitignore — AnimeDlp (Python package + product requirements trackable)
+# Track docs/requirements/** ; ignore other docs harness surfaces by default
+# Do NOT ignore: README.md, CHANGELOG.md, LICENSE.md, SECURITY.md, ship package src
+# =============================================================================
+
+# --- Secrets / local env ---
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+
+# --- OS ---
+.DS_Store
+.DS_Store?
+Thumbs.db
+Desktop.ini
+ehthumbs.db
 ._*
-*.egg-info
-build
-dist
-.pytest_cache
+
+# --- Editors / IDEs ---
+*.swp
+*.swo
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.code-workspace
+
+# --- Temp / scratch / logs ---
+tmp/
+temp/
+temps/
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+*.log
+logs/
+*.pid
+
+# --- Python / packaging ---
+build/
+dist/
+out/
+output/
+*.egg
+*.egg-info/
+src/*.egg-info/
+*.whl
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+ENV/
+
+# --- Cython / local build debris ---
+*.so
+*.c
 statelogic.pxd
 
-__pycache__
+# --- Shell / local run debris ---
+*.YYYYMMDD-*.bak
+
+# --- Harness transfer safety backups ---
+.harness-transfer-bak-*/
+.harness-sync-*-bak-*/
+.harness-*-bak-*/
+.harness-backup-*/
+.h1-backup-*/
+.h2-backup-*/
+
+# --- Agent contract (local workspace; often untracked) ---
+AGENTS.md
+
+# --- Docs layer: ignore all docs, re-include requirements only ---
+# Policies/skills/terms/templates/reviews local surfaces may be gitignored
+# Product law under docs/requirements/** remains tracked.
+docs/**
+!docs/requirements/
+!docs/requirements/**
+# Also track durable product reviews when present (proof maps / findings)
+!docs/reviews/
+!docs/reviews/**

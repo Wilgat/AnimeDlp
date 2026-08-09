@@ -39,7 +39,7 @@ except ImportError:
 class Anime1Downloader:
     CLASSNAME = "Anime1Downloader"
     MAJOR_VERSION = 1
-    MINOR_VERSION = 0
+    MINOR_VERSION = 1
     PATCH_VERSION = 0
 
     def __init__(self, args: argparse.Namespace, logger: ChronicleLogger):
@@ -329,6 +329,7 @@ class Anime1Downloader:
 
 def main():
     appname = 'AnimeDlp'
+    # Keep in lockstep with package version SSOT (pyproject.toml + __version__)
     MAJOR_VERSION = 1
     MINOR_VERSION = 1
     PATCH_VERSION = 0

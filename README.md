@@ -2,53 +2,69 @@
 
 **A clean and robust command-line downloader for specific anime video sites**
 
-AnimeDlp allows you to easily extract direct video URLs or download episodes from supported anime video sites. It handles protection mechanisms and special cookie requirements gracefully, powered by `yt-dlp`.
+AnimeDlp extracts direct video URLs or downloads episodes from supported anime video sites. It handles common protection cookies and session needs gracefully, and uses **yt-dlp** for reliable media download.
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Version](https://img.shields.io/badge/version-1.0.0-green)
+![Version](https://img.shields.io/badge/version-1.1.0-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
+[![PyPI](https://img.shields.io/pypi/v/AnimeDlp.svg)](https://pypi.org/project/AnimeDlp/)
+[![GitHub stars](https://img.shields.io/github/stars/Wilgat/AnimeDlp?style=social)](https://github.com/Wilgat/AnimeDlp)
+
+**Philosophy:** [CIAO](https://github.com/cloudgen/ciao) / [CIAO-Lite](https://github.com/cloudgen/ciao-lite) defensive design.
 
 ## Features
 
-- Support for popular anime video sites (including API-based extraction)
-- Automatically detects multi-episode series
-- Extract video URLs only (`--extract`) or download directly
-- Built-in handling for Cloudflare protection (`cf_clearance`)
-- Safe cookie extraction to prevent common session conflicts
-- Fast downloads using `yt-dlp` with concurrent fragment support
-- Clean output with optional verbose debug mode
+- Support for **anime1.me** and **anime1.pw** (API and HTML extract paths)
+- Multi-episode series discovery where pages expose episode links
+- Extract URLs only (`--extract`) or download directly
+- Optional Cloudflare assist (`cf_clearance` + User-Agent)
+- Safe playback-cookie subset for anime1.me API cookies
+- Fast downloads via **yt-dlp** with concurrent fragment support
+- Clean logging with optional verbose debug mode
 
 ## Installation
 
-Install via pip:
+### From PyPI
 
 ```bash
 pip3 install AnimeDlp
 ```
 
-### Required Dependencies
-If you install by git clone, you need to add the following dependencies.
+### From a local checkout
+
 ```bash
-pip3 install requests beautifulsoup4 lxml yt-dlp ChronicleLogger
+pip3 install -e .
+# or
+pip3 install .
 ```
+
+### Required dependencies
+
+Declared in `pyproject.toml` and installed with the package:
+
+- `requests`, `beautifulsoup4`, `lxml`, `yt-dlp`, `ChronicleLogger`
+
+Python **3.8+** is required (`requires-python` in packaging).
 
 ## Usage
 
-### Basic Command
+### Basic command
 
 ```bash
-anime-dlp "https://your-anime-video-site-url-here"
+anime-dlp "https://anime1.me/your-series-or-episode-url"
+# or
+python -m AnimeDlp "https://anime1.pw/your-page-url"
 ```
 
 ### Options
 
-```bash
+```text
 Usage: anime-dlp [OPTIONS] URL
 
-A clean downloader for supported anime video sites
+A clean downloader for anime1.me and anime1.pw
 
 Positional Arguments:
-  url                   URL from a supported anime video site
+  url                   URL from anime1.me or anime1.pw
 
 Optional Arguments:
   -h, --help            show this help message and exit
@@ -63,66 +79,65 @@ Optional Arguments:
 **1. Download episodes:**
 
 ```bash
-anime-dlp "https://example-anime-site.com/your-series-url"
+anime-dlp "https://anime1.me/..."
 ```
 
 **2. Extract direct video URLs only:**
 
 ```bash
-anime-dlp "https://example-anime-site.com/..." --extract
+anime-dlp "https://anime1.me/..." --extract
 ```
 
 **3. Bypass Cloudflare protection:**
 
 ```bash
-anime-dlp "https://example-anime-site.com/..." --cloudflare "your_cf_clearance_value_here" --verbose
+anime-dlp "https://anime1.me/..." --cloudflare "your_cf_clearance_value" --user-agent "Mozilla/5.0 ..." --verbose
 ```
 
-**4. Custom User-Agent:**
+## How it works
 
-```bash
-anime-dlp "https://example-anime-site.com/..." --user-agent "Mozilla/5.0 ..."
-```
-
-## How It Works
-
-- Parses episode information from the page
-- Calls internal APIs when needed and safely handles required playback cookies
-- Automatically finds and sorts episodes in series pages
-- Uses **yt-dlp** for reliable, high-speed downloading
+1. Validates the host (`anime1.me` or `anime1.pw` only).  
+2. Parses episode information / API tokens from the page.  
+3. For anime1.me, calls the site API and applies needed playback cookies safely.  
+4. Either prints sources (`--extract`) or downloads with **yt-dlp**.
 
 ## Troubleshooting
 
-- **Cloudflare block (403)**: Get a fresh `cf_clearance` cookie from your browser and use the `--cloudflare` flag.
-- **Cookie-related errors**: The tool includes a robust fix for duplicate cookie name issues.
-- **No video found**: Run with `--verbose` to see detailed logs.
+- **Cloudflare block (403):** Get a fresh `cf_clearance` from your browser and pass `--cloudflare` with a matching `--user-agent` when required.  
+- **Cookie-related errors:** The tool uses a fixed cookie-name subset for me API downloads.  
+- **No video found:** Run with `--verbose` for detailed logs.  
+- **Unsupported host:** Only anime1.me / anime1.pw are accepted.
 
-## Requirements
+## Development / tests
 
-- Python 3.8 or higher
-- `requests`, `beautifulsoup4`, `lxml`, `yt-dlp`, and `ChronicleLogger`
+```bash
+pip3 install -e . pytest
+python3 -m pytest -q tests/
+```
 
-## Project Links
+Product law: `docs/requirements/`. TP map: `docs/reviews/test-plan.md`.
 
-- **Homepage**: https://github.com/Wilgat/AnimeDlp
-- **Repository**: https://github.com/Wilgat/AnimeDlp
-- **Issues**: https://github.com/Wilgat/AnimeDlp/issues
+## Project links
 
-## Changelog
+- **Homepage / Repository:** https://github.com/Wilgat/AnimeDlp  
+- **Issues:** https://github.com/Wilgat/AnimeDlp/issues  
+- **PyPI:** https://pypi.org/project/AnimeDlp/
 
-**v1.0.0** (Current)
-- Initial public release
-- Robust cookie handling implemented
-- Support for major anime video sites
-- CLI command `anime-dlp` added
+## Version
+
+**1.1.0** — SSOT: `pyproject.toml` and `src/AnimeDlp/__init__.py` (`__version__`).
 
 ## License
 
-This project is licensed under the MIT License.
+MIT — see [`LICENSE.md`](./LICENSE.md).
+
+## Security
+
+See [`SECURITY.md`](./SECURITY.md) for reporting contact and design posture.
 
 ## Disclaimer
 
-This tool is intended for personal, educational use only. Please respect the terms of service of the websites you use it with. Downloading copyrighted material may be illegal in your jurisdiction.
+This tool is intended for **personal, educational use** only. Respect the terms of service of the websites you use it with. Downloading copyrighted material may be illegal in your jurisdiction.
 
 ---
 

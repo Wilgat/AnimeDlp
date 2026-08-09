@@ -1,4 +1,6 @@
-from .cli import ChronicleLogger
+"""AnimeDlp — CLI downloader for supported anime video sites."""
 
-__version__ = "1.0.1"
-__all__ = ["ChronicleLogger"]
+from .cli import main
+
+__version__ = "1.1.0"
+__all__ = ["__version__", "main"]
