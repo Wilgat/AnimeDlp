@@ -12,6 +12,7 @@ Not product law (`docs/requirements/`). Not incidents (`docs/incidents/`).
 | `reports/2026-08-11-product-review-revision-and-test.md` | 2026-08-11 | EXIT/ERR/SEC/VER/IO; **1.2.0** | Pass (fixed) |
 | `reports/2026-08-11-product-review-l2-oop-1.3.0.md` | 2026-08-11 | **L2 OOP + version 1.3.0** re-review | **Pass** |
 | `reports/2026-08-11-h2-sync-from-ram-genesis.md` | 2026-08-11 | Harness H2 (not product law) | Pass |
+| `reports/2026-08-11-h2-pull-genesis-into-animedlp.md` | 2026-08-11 | H2 pull genesis → AnimeDlp (housekeeping phase 1) | Pass |
 
 ## Conventions
 

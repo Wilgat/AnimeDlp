@@ -81,6 +81,7 @@ statelogic.pxd
 
 # --- Agent contract (local workspace; often untracked) ---
 AGENTS.md
+AGENTS.md.bak*
 
 # --- Docs layer: ignore all docs, re-include requirements only ---
 # Policies/skills/terms/templates/reviews local surfaces may be gitignored
