@@ -15,42 +15,49 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 ### 2.1 Source package layout
 
 1. **MUST** keep the installable package under **`src/AnimeDlp/`**.  
-2. **MUST** include `__init__.py` (version export), `__main__.py` (module entry), and `cli.py` (CLI + domain extractors + download orchestration).  
-3. **MUST NOT** scatter a second installable package name that contradicts packaging SSOT without an explicit rename plan.
+2. **MUST** include `__init__.py` (version export), `__main__.py` (module entry), and thin `cli.py` (argparse + dep gates + exit map).  
+3. **MUST** keep download/extract implementation outside a fat `cli.py` (`downloader.py` coordinator, `download_service.py`, `extractors/`).  
+4. **MUST NOT** scatter a second installable package name that contradicts packaging SSOT without an explicit rename plan.
 
 ### 2.2 Project root layout
 
-4. **MUST** keep `pyproject.toml` at repository root.  
-5. **MUST** keep product user docs at root **`README.md`**.  
-6. **MUST** keep specialized product law under **`docs/requirements/`** with `requirement-` prefix and registry `index.md`.  
-7. Product design notes **MAY** live under `docs/` without becoming requirement law unless registered.
+5. **MUST** keep `pyproject.toml` at repository root.  
+6. **MUST** keep product user docs at root **`README.md`**.  
+7. **MUST** keep specialized product law under **`docs/requirements/`** with `requirement-` prefix and registry `index.md`.  
+8. Product design notes **MAY** live under `docs/` without becoming requirement law unless registered.
 
 ### 2.3 Generated / non-source
 
-8. **MUST NOT** commit `build/` or `dist/` artifacts as product source of truth.  
-9. Egg-info / `__pycache__` / compiled artifacts **MUST** remain ignore-friendly (gitignore).  
-10. Optional Cython/`build.sh` tooling **MAY** exist as maintainer tooling; it **MUST NOT** replace `src/AnimeDlp` as runtime package SSOT.
+9. **MUST NOT** commit `build/` or `dist/` artifacts as product source of truth.  
+10. Egg-info / `__pycache__` / compiled artifacts **MUST** remain ignore-friendly (gitignore).  
+11. Optional Cython/`build.sh` tooling **MAY** exist as maintainer tooling; it **MUST NOT** replace `src/AnimeDlp` as runtime package SSOT.
 
 ### 2.4 Requirements surface discipline
 
-11. All product-law files **MUST** use basename prefix `requirement-`.  
-12. **MUST** register every Active requirement in `docs/requirements/index.md`.  
-13. Product source comments that cite law **MUST** cite live `requirement-*.md` keys only — never templates or skills as behavioral authority.
+12. All product-law files **MUST** use basename prefix `requirement-`.  
+13. **MUST** register every Active requirement in `docs/requirements/index.md`.  
+14. Product source comments that cite law **MUST** cite live `requirement-*.md` keys only — never templates or skills as behavioral authority.
 
 ### 2.5 Implementation Notes (this project)
 
 | Path | Role |
 |------|------|
 | `src/AnimeDlp/` | Installable package |
-| `src/AnimeDlp/cli.py` | CLI, extractors, yt-dlp download |
-| `src/AnimeDlp/__init__.py` | `__version__` |
+| `src/AnimeDlp/cli.py` | Thin CLI entry (argparse, dep gates, exit map) |
+| `src/AnimeDlp/downloader.py` | L2 coordinator (`Anime1Downloader`) |
+| `src/AnimeDlp/download_service.py` | `YtDlpDownloadService` |
+| `src/AnimeDlp/extractors/me.py` | `Anime1MeExtractor` |
+| `src/AnimeDlp/extractors/pw.py` | `Anime1PwExtractor` |
+| `src/AnimeDlp/errors.py` | `AnimeDlpError` |
+| `src/AnimeDlp/util.py` | Pure helpers (sanitize, redaction) |
+| `src/AnimeDlp/__init__.py` | `__version__` + public `main` |
 | `src/AnimeDlp/__main__.py` | Module entry |
 | `pyproject.toml` | Packaging SSOT |
 | `build.sh` | Maintainer build/release helper |
 | `cy-master` / `cy-master.ini` | Optional Cython/maintainer tooling (not runtime SSOT) |
 | `docs/requirements/` | Product law |
 | `README.md` | User documentation |
-| `tests/` | Planned/executable suites (proof; not law) when added |
+| `tests/` | Executable suites (proof; not law) |
 
 ### 2.6 Why This Requirement Exists (CIAO)
 
@@ -100,6 +107,8 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 |-----|--------------|
 | `requirement-python-packaging` | Manifest |
 | `requirement-python-cli-interface` | Entry modules |
+| `requirement-python-system-architecture` | Architecture boundaries |
+| `requirement-python-classes` | Module/class map |
 | `requirement-class-software-dev` | Class residual |
 | `docs/requirements/index.md` | Registry |
 
@@ -120,9 +129,11 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 | Date | Status | Note |
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | Layout law for AnimeDlp |
+| 2026-08-11 | Active 1.0.0 | Thin cli + downloader/helpers; L2 target modules |
+| 2026-08-11 | Active 1.0.0 | L2 modules on disk; product **1.3.0** |
 
 ---
 
-**Last Updated**: 2026-08-09  
+**Last Updated**: 2026-08-11  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

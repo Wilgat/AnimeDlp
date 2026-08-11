@@ -57,7 +57,8 @@ CLI flags that enable extract-only mode are owned by **`requirement-python-cli-i
 
 | Item | Value |
 |------|--------|
-| **Implementation** | `Anime1Downloader.download_video` in `src/AnimeDlp/cli.py` |
+| **Implementation** | `YtDlpDownloadService` in `src/AnimeDlp/download_service.py` (coordinator facade: `Anime1Downloader.download_video`) |
+| **Classes peer** | `requirement-python-classes` |
 | **Engine** | `yt_dlp.YoutubeDL` |
 | **outtmpl** | `"{title}.%(ext)s"` (cwd relative) |
 | **concurrent_fragment_downloads** | `16` |
@@ -146,9 +147,10 @@ CLI flags that enable extract-only mode are owned by **`requirement-python-cli-i
 | Date | Status | Note |
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | yt-dlp + cookie-safe pipeline for AnimeDlp |
+| 2026-08-11 | Active 1.0.0 | Implementation path: `downloader.py`; L2 service target |
 
 ---
 
-**Last Updated**: 2026-08-09  
+**Last Updated**: 2026-08-11  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

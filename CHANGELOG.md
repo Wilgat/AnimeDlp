@@ -5,7 +5,43 @@ All notable changes to **AnimeDlp** are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__`.
+Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__` (CLI reads package version only).
+
+## [1.3.0] - 2026-08-11
+
+### Changed (L2 OOP revision)
+
+- **L2 multi-class SRP** on disk: `Anime1MeExtractor`, `Anime1PwExtractor`, `YtDlpDownloadService`, slim `Anime1Downloader` coordinator, thin `cli.main`
+- Product law: `requirement-python-system-architecture` / `requirement-python-classes` updated to **L2 achieved**
+- Portable molds added earlier in harness for domain URL-CLI, yt-dlp pipeline, python runtime prerequisites
+
+### Added
+
+- Tests: TP-ARCH-01/02, TP-CLASS-01/02 (`tests/test_architecture.py`); Core suite **29** cases
+- Updated RTM / test-plan for architecture and classes peers
+
+---
+
+## [1.2.0] - 2026-08-11
+
+### Fixed (product review revision)
+
+- **ADLP-EXIT-01:** empty extract and download failures return non-zero exit; no false “All downloads completed!”
+- **ADLP-ERR-02:** extractors raise `AnimeDlpError` instead of deep `sys.exit`; `main` maps to exit codes
+- **ADLP-SEC-01:** verbose logs redact cookie values; extract prints redacted cookies unless `--show-cookies`
+- **ADLP-VER-02:** single version SSOT via `__version__` (removed CLI MAJOR/MINOR/PATCH triples)
+- **ADLP-IO-01:** episode titles sanitized for filesystem; optional `-o` / `--output-dir`
+- **ADLP-ARCH-01:** split package into `cli.py`, `downloader.py`, `errors.py`, `util.py`
+
+### Added
+
+- Tests: TP-ERR-03/04, TP-SEC-01, TP-YTDLP-05 (Core suite now 25 cases)
+
+### Security
+
+- Cookie values redacted by default in logs and extract output; use `--show-cookies` only when needed.
+
+---
 
 ## [1.1.0] - 2026-08-09
 

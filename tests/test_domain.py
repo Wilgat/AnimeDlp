@@ -6,6 +6,7 @@ from unittest import mock
 import pytest
 
 from AnimeDlp.cli import Anime1Downloader
+from AnimeDlp.errors import AnimeDlpError
 
 
 def _args(**kwargs):
@@ -15,6 +16,8 @@ def _args(**kwargs):
         extract=True,
         cloudflare=None,
         user_agent=None,
+        output_dir=None,
+        show_cookies=False,
     )
     base.update(kwargs)
     return argparse.Namespace(**base)
@@ -24,9 +27,9 @@ def test_TP_ANIMEDLP_01_unsupported_host_message():
     """TP-ANIMEDLP-01: unsupported host rejects."""
     args = _args(url="https://not-supported.example/x")
     logger = mock.Mock()
-    with pytest.raises(SystemExit) as ei:
+    with pytest.raises(AnimeDlpError) as ei:
         Anime1Downloader(args, logger).run()
-    assert ei.value.code == 1
+    assert ei.value.exit_code == 1
 
 
 def test_TP_ANIMEDLP_02_extract_mode_skips_download():
@@ -38,11 +41,14 @@ def test_TP_ANIMEDLP_02_extract_mode_skips_download():
     with mock.patch.object(dl, "extract_anime1_me", return_value=fake_items):
         with mock.patch.object(dl, "download_video") as dl_dl:
             with mock.patch("builtins.print") as pr:
-                dl.run()
+                code = dl.run()
+            assert code == 0
             dl_dl.assert_not_called()
             printed = " ".join(str(c) for c in pr.call_args_list)
             assert "Ep 1" in printed
             assert "https://cdn.example/v.mp4" in printed
+            # cookies redacted by default
+            assert "e=1" not in printed or "redacted" in printed.lower() or "…" in printed or "len=" in printed
 
 
 def test_TP_ANIMEDLP_03_detects_anime1_pw_route():
@@ -50,7 +56,9 @@ def test_TP_ANIMEDLP_03_detects_anime1_pw_route():
     args = _args(url="https://anime1.pw/123", extract=True)
     logger = mock.Mock()
     dl = Anime1Downloader(args, logger)
-    with mock.patch.object(dl, "extract_anime1_pw", return_value=[("T", "https://x/v.m3u8")]) as ex:
+    with mock.patch.object(
+        dl, "extract_anime1_pw", return_value=[("T", "https://x/v.m3u8")]
+    ) as ex:
         with mock.patch.object(dl, "download_video") as dl_dl:
             with mock.patch("builtins.print"):
                 dl.run()

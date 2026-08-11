@@ -1,6 +1,7 @@
 """AnimeDlp — CLI downloader for supported anime video sites."""
 
+__version__ = "1.3.0"
+
 from .cli import main
 
-__version__ = "1.1.0"
 __all__ = ["__version__", "main"]

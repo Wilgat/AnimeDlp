@@ -21,7 +21,7 @@ Pipeline-specific download apply is owned by **`requirement-download-ytdlp-pipel
 3. **SHOULD** use clear function **General Purpose** docstrings on public helpers.  
 4. **MUST** fail closed with user-visible messages on expected errors (unsupported host, missing deps, Cloudflare block, empty extract).  
 5. Logging **SHOULD** go through **ChronicleLogger** for durable diagnostics; user-facing extract listings **MAY** use direct `print` for readability.  
-6. Full StateLogic+Attr OOP shape is **aspirational**; current class-based downloader + procedural `main()` is accepted. **MUST NOT** force a whole-file rewrite solely for style while the specialized architecture remains working (respect working code). Future migration requires explicit user order and updated REQs.
+6. **OOP level:** **L2** multi-class SRP is **current law and disk shape** (thin `cli` + coordinator + extractors + download service + helpers). Full StateLogic+Attr remains **L3 aspirational** only. **MUST NOT** force a whole-file rewrite solely for style while working behavior holds. **MUST NOT** collapse L2 back to a god-class without architecture/classes peer updates.
 
 ### 2.2 HTTP and cookie handling
 
@@ -45,15 +45,17 @@ Pipeline-specific download apply is owned by **`requirement-download-ytdlp-pipel
 | Item | Value |
 |------|--------|
 | **Package** | `AnimeDlp` |
-| **Primary modules** | `src/AnimeDlp/cli.py`, `__main__.py`, `__init__.py` |
-| **Architecture shape today** | Class `Anime1Downloader` + procedural `main()` |
+| **Primary modules** | `cli.py`, `downloader.py`, `download_service.py`, `extractors/{me,pw}.py`, `errors.py`, `util.py`, `__main__.py`, `__init__.py` |
+| **Architecture shape** | **L2**: thin `cli.main` + coordinator + extractors + `YtDlpDownloadService` + helpers — not L3 |
+| **Architecture / classes peers** | `requirement-python-system-architecture`, `requirement-python-classes` |
+| **OOP levels vocabulary** | `python-oop-style-levels` (L0–L3) |
 | **Logging** | ChronicleLogger |
 | **HTTP** | `requests.Session` |
 | **HTML** | BeautifulSoup + lxml |
 | **Download engine** | yt-dlp (pipeline peer) |
 | **Temp/promote path today** | none (engine writes final name) |
 | **Gate checklist (cite ID when audit publish paths)** | **`CL-PYTHON-SHUTIL-MOVE-PUBLISH`** if intermediate publish is added later |
-| **Version** | package `1.1.0` |
+| **Version** | package `1.3.0` |
 | **Public exports** | `__version__` and `main` only (no phantom `ChronicleLogger` re-export) — fixed in 1.1.0 |
 
 ### 2.6 Why This Requirement Exists (CIAO)
@@ -78,11 +80,12 @@ Pipeline-specific download apply is owned by **`requirement-download-ytdlp-pipel
 
 **Future AI assistants, Grok, or maintainers MUST NOT**:
 
-1. Force a full StateLogic rewrite without explicit user order while this REQ allows current class+main shape.  
-2. Cite templates/skills as product-source behavioral authority.  
-3. Store secrets in style docs or code.  
-4. Reintroduce multi-name CookieJar collisions as “simpler” cookie apply.  
-5. Leave `__init__.py` exporting undefined symbols when claiming package cleanliness.
+1. Force a full StateLogic (L3) rewrite without explicit user order and L3 law.  
+2. Collapse L2 collaborators back into a single god-class without peer law update.  
+3. Cite templates/skills as product-source behavioral authority.  
+4. Store secrets in style docs or code.  
+5. Reintroduce multi-name CookieJar collisions as “simpler” cookie apply.  
+6. Leave `__init__.py` exporting undefined symbols when claiming package cleanliness.
 
 **Violating this rule is a critical style regression.**
 
@@ -107,6 +110,8 @@ Pipeline-specific download apply is owned by **`requirement-download-ytdlp-pipel
 | `requirement-download-ytdlp-pipeline` | Cookie/download apply |
 | `requirement-python-error-handling` | Error messaging |
 | `requirement-python-project-structure` | Layout |
+| `requirement-python-system-architecture` | Level target + boundaries |
+| `requirement-python-classes` | SRP class map |
 | `requirement-domain-animedlp` | Domain features |
 | `docs/requirements/index.md` | Registry |
 
@@ -127,9 +132,11 @@ Pipeline-specific download apply is owned by **`requirement-download-ytdlp-pipel
 | Date | Status | Note |
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | Coding style + export honesty for AnimeDlp |
+| 2026-08-11 | Active 1.0.0 | L2 target peers; stay-honest L1→L2 transitional |
+| 2026-08-11 | Active 1.0.0 | L2 on disk; product **1.3.0** |
 
 ---
 
-**Last Updated**: 2026-08-09  
+**Last Updated**: 2026-08-11  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

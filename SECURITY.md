@@ -4,7 +4,8 @@
 
 | Version | Supported |
 |---------|-----------|
-| 1.1.0 (current) | Yes |
+| 1.2.0 (current) | Yes |
+| 1.1.x | Best-effort; prefer upgrading to current |
 | 1.0.x | Best-effort; prefer upgrading to current |
 
 ## Reporting a Vulnerability
@@ -37,6 +38,6 @@ This section describes **design posture**. It is **not** a claim of third-party 
 
 - AnimeDlp is a **network-using** CLI that contacts supported anime video sites and media CDNs. Use only where you have the right to access content.
 - Optional Cloudflare `cf_clearance` values are **session cookies** supplied by the operator — do not commit them to git.
-- Verbose mode may log diagnostic cookie maps for troubleshooting; treat logs as sensitive.
+- Verbose mode logs **redacted** cookie maps by default. `--extract` also redacts cookies unless `--show-cookies`. Still treat logs as sensitive; do not commit cookies.
 - This product does **not** implement online shell install channels or companion `.sha256` download integrity for itself.
 - Related product docs: [`README.md`](./README.md), [`LICENSE.md`](./LICENSE.md).

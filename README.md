@@ -5,7 +5,7 @@
 AnimeDlp extracts direct video URLs or downloads episodes from supported anime video sites. It handles common protection cookies and session needs gracefully, and uses **yt-dlp** for reliable media download.
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Version](https://img.shields.io/badge/version-1.1.0-green)
+![Version](https://img.shields.io/badge/version-1.3.0-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 [![PyPI](https://img.shields.io/pypi/v/AnimeDlp.svg)](https://pypi.org/project/AnimeDlp/)
 [![GitHub stars](https://img.shields.io/github/stars/Wilgat/AnimeDlp?style=social)](https://github.com/Wilgat/AnimeDlp)
@@ -68,10 +68,12 @@ Positional Arguments:
 
 Optional Arguments:
   -h, --help            show this help message and exit
-  -v, --verbose         Enable debug output
+  -v, --verbose         Enable debug output (cookie values redacted in logs)
   -x, --extract         Extract URLs only (no download)
+  -o, --output-dir DIR  Directory for downloads (default: current directory)
   -cf, --cloudflare CF  cf_clearance cookie value (for Cloudflare protection)
   -ua, --user-agent UA  Custom User-Agent string
+  --show-cookies        Print full playback cookies with --extract (default: redacted)
 ```
 
 ### Examples
@@ -125,7 +127,7 @@ Product law: `docs/requirements/`. TP map: `docs/reviews/test-plan.md`.
 
 ## Version
 
-**1.1.0** — SSOT: `pyproject.toml` and `src/AnimeDlp/__init__.py` (`__version__`).
+**1.3.0** — SSOT: `pyproject.toml` and `src/AnimeDlp/__init__.py` (`__version__`).
 
 ## License
 

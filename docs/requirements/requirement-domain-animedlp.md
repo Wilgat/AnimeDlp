@@ -98,8 +98,10 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 |------|--------|
 | **Product / package name** | `AnimeDlp` |
 | **Console script** | `anime-dlp` |
-| **Domain implementation module** | `src/AnimeDlp/cli.py` (`Anime1Downloader`) |
-| **VERSION (package)** | `1.1.0` (align `__init__.py` and `pyproject.toml`) |
+| **Domain implementation** | `src/AnimeDlp/extractors/me.py`, `extractors/pw.py` (coordinator: `downloader.py`) |
+| **CLI entry** | `src/AnimeDlp/cli.py` (thin) |
+| **L2 classes peer** | `requirement-python-classes` |
+| **VERSION (package)** | `1.3.0` (align `__init__.py` and `pyproject.toml`) |
 | **Supported hosts** | `anime1.me`, `anime1.pw` |
 | **anime1.me path** | Parse `entry-title` + `video-js` `data-apireq`; POST `https://v.anime1.me/api`; collect cookies `e`,`h`,`p` |
 | **anime1.pw path** | Find episode links; per-page `<source>`, iframe, or m3u8/mp4 regex |
@@ -110,6 +112,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | **Output files (download)** | `{title}.%(ext)s` in **current working directory** (yt-dlp `outtmpl`) |
 | **Ops SSOT** | `requirement-download-ytdlp-pipeline` |
 | **CLI SSOT** | `requirement-python-cli-interface` |
+| **Architecture / classes peers** | `requirement-python-system-architecture`, `requirement-python-classes` |
 | **User docs** | Root `README.md` Features / Usage / Examples / Disclaimer must match this catalog |
 | **Disclaimer** | README Disclaimer section is product-user surface SSOT for legal caution |
 
@@ -192,9 +195,10 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | Date | Status | Note |
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | Domain SSOT for AnimeDlp extract/download on anime1.me / anime1.pw |
+| 2026-08-11 | Active 1.0.0 | Implementation Notes: downloader module + 1.2.0 + L2 peers |
 
 ---
 
-**Last Updated**: 2026-08-09  
+**Last Updated**: 2026-08-11  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

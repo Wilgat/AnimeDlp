@@ -2,20 +2,22 @@
 
 **Product:** AnimeDlp (Python CLI — extract/download from supported anime video sites)  
 **Workspace state:** Specialized product law (left genesis); **software-development** class; **pip/local package** install (not shell online Type 0).  
-**Product version:** **1.1.0** (align `pyproject.toml`, `__init__.__version__`, root `README.md` Version badge)  
-**Updated:** 2026-08-09
+**Product version:** **1.3.0** (align `pyproject.toml`, `__init__.__version__`, root `README.md` Version badge)  
+**Updated:** 2026-08-11
 
 | ID / key | Title | Area | Status | Path | Updated |
 |----------|-------|------|--------|------|---------|
 | requirement-class-software-dev | Software-development class law + residual stack (Python, setuptools) | class | Active | `requirement-class-software-dev.md` | 2026-08-09 |
-| requirement-domain-animedlp | Domain surface SSOT (four pillars: workflow, features, help, about) | domain | Active | `requirement-domain-animedlp.md` | 2026-08-09 |
-| requirement-download-ytdlp-pipeline | yt-dlp download ops SSOT (cookies, headers, retries, extract boundary) | download | Active | `requirement-download-ytdlp-pipeline.md` | 2026-08-09 |
+| requirement-domain-animedlp | Domain surface SSOT (four pillars: workflow, features, help, about) | domain | Active | `requirement-domain-animedlp.md` | 2026-08-11 |
+| requirement-download-ytdlp-pipeline | yt-dlp download ops SSOT (cookies, headers, retries, extract boundary) | download | Active | `requirement-download-ytdlp-pipeline.md` | 2026-08-11 |
 | requirement-python-cli-interface | CLI entry points + argparse surface | python | Active | `requirement-python-cli-interface.md` | 2026-08-09 |
-| requirement-python-coding-style | Python style; exports honesty; cookie/I/O conventions | python | Active | `requirement-python-coding-style.md` | 2026-08-09 |
-| requirement-python-packaging | `pyproject.toml` / version / console script packaging | python | Active | `requirement-python-packaging.md` | 2026-08-09 |
-| requirement-python-project-structure | Repository and `src/AnimeDlp` layout | python | Active | `requirement-python-project-structure.md` | 2026-08-09 |
+| requirement-python-coding-style | Python style; exports honesty; cookie/I/O conventions; L2 shape | python | Active | `requirement-python-coding-style.md` | 2026-08-11 |
+| requirement-python-packaging | `pyproject.toml` / version / console script packaging | python | Active | `requirement-python-packaging.md` | 2026-08-11 |
+| requirement-python-project-structure | Repository and `src/AnimeDlp` L2 layout | python | Active | `requirement-python-project-structure.md` | 2026-08-11 |
 | requirement-python-error-handling | Fail-closed errors; host/dep/download failures | python | Active | `requirement-python-error-handling.md` | 2026-08-09 |
-| requirement-runtime-prerequisites | Pip deps + network; no root auto-install claim | runtime | Active | `requirement-runtime-prerequisites.md` | 2026-08-09 |
+| requirement-python-system-architecture | PyPI execution shape; L2 architecture (implemented) | python | Active | `requirement-python-system-architecture.md` | 2026-08-11 |
+| requirement-python-classes | L2 multi-class SRP map (implemented) | python | Active | `requirement-python-classes.md` | 2026-08-11 |
+| requirement-runtime-prerequisites | Pip deps + network; no root auto-install claim | runtime | Active | `requirement-runtime-prerequisites.md` | 2026-08-11 |
 
 ## Intentionally absent (by design)
 
