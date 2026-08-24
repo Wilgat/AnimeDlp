@@ -182,10 +182,10 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 
 | TP family / ID | Suite | Status | Note |
 |----------------|-------|--------|------|
-| **TP-ANIMEDLP-01** | `tests/test_domain_extract.py` | **have** | Unsupported host rejects |
-| **TP-ANIMEDLP-02** | `tests/test_domain_extract.py` | **have** | `--extract` prints without download |
-| **TP-ANIMEDLP-03** | `tests/test_cli.py` | **have** | Missing URL → argparse error |
-| **TP-ANIMEDLP-04** | `tests/test_domain_me.py` | todo | me extractor path (mocked HTTP) |
+| **TP-ANIMEDLP-01** | `tests/test_domain.py` | **have** | Unsupported host rejects |
+| **TP-ANIMEDLP-02** | `tests/test_domain.py` | **have** | `--extract` prints without download |
+| **TP-ANIMEDLP-03** | `tests/test_domain.py` | **have** | anime1.pw routes to pw extractor |
+| **TP-ANIMEDLP-04** | `tests/test_live_network.py` | **optional** | Live HTTP extract; opt-in `ANIMEDLP_LIVE_NET=1` |
 | **TP-CLI-01** | `tests/test_cli.py` | **have** | Peer: help lists domain flags |
 
 ---
@@ -196,9 +196,10 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | Domain SSOT for AnimeDlp extract/download on anime1.me / anime1.pw |
 | 2026-08-11 | Active 1.0.0 | Implementation Notes: downloader module + 1.2.0 + L2 peers |
+| 2026-08-19 | Active 1.0.0 | DTV aligned to disk; TP-ANIMEDLP-04 optional live extract |
 
 ---
 
-**Last Updated**: 2026-08-11  
+**Last Updated**: 2026-08-19  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

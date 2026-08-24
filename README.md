@@ -5,7 +5,7 @@
 AnimeDlp extracts direct video URLs or downloads episodes from supported anime video sites. It handles common protection cookies and session needs gracefully, and uses **yt-dlp** for reliable media download.
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Version](https://img.shields.io/badge/version-1.3.0-green)
+![Version](https://img.shields.io/badge/version-1.3.1-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 [![PyPI](https://img.shields.io/pypi/v/AnimeDlp.svg)](https://pypi.org/project/AnimeDlp/)
 [![GitHub stars](https://img.shields.io/github/stars/Wilgat/AnimeDlp?style=social)](https://github.com/Wilgat/AnimeDlp)

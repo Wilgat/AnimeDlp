@@ -1,7 +1,7 @@
 # AnimeDlp — product test plan (TP map)
 
-**Product:** AnimeDlp `1.3.0`  
-**Updated:** 2026-08-11  
+**Product:** AnimeDlp `1.3.1`  
+**Updated:** 2026-08-19  
 **Install mode:** pip / local package (`anime-dlp`) — **not** shell Type O  
 **Suite root:** `tests/`  
 **Architecture:** **L2** multi-class SRP (`requirement-python-system-architecture`, `requirement-python-classes`)  
@@ -62,8 +62,8 @@
 
 | TP-ID | Intent | Core | Suite | Primary requirement(s) | Status |
 |-------|--------|------|-------|------------------------|--------|
-| **TP-ANIMEDLP-04** | Live HTTP extract against real host | Optional | — | domain | **todo** (network; not Core) |
-| **TP-YTDLP-04** | Integration download of a short public fixture | Optional | — | download | **todo** (network) |
+| **TP-ANIMEDLP-04** | Live HTTP extract against real host | Optional | `tests/test_live_network.py` | `requirement-domain-animedlp` | **optional** (opt-in `ANIMEDLP_LIVE_NET=1`) |
+| **TP-YTDLP-04** | Integration download of a short HTTP fixture | Optional | `tests/test_live_network.py` | `requirement-download-ytdlp-pipeline` | **have** (loopback; no public net) |
 
 ## DoD for flipping `todo` → `have`
 
@@ -76,14 +76,16 @@
 
 ```text
 PYTHONPATH=src python3 -m pytest -q tests/
-# 29 passed (2026-08-11) — product 1.3.0 / L2
+# 30 passed, 1 skipped (2026-08-19) — product 1.3.1 / L2
+# skip = TP-ANIMEDLP-04 optional live extract (ANIMEDLP_LIVE_NET not set)
 ```
 
 **Reviews:**  
 - `docs/reviews/reports/2026-08-11-product-review-revision-and-test.md` — 1.2.0 residual close  
 - `docs/reviews/reports/2026-08-11-product-review-l2-oop-1.3.0.md` — L2 OOP re-review  
+- `docs/reviews/reports/2026-08-19-product-review-open-residuals.md` — ADLP-NET-01 / ADLP-DOC-02 close  
 
 ---
 
-**Last Updated:** 2026-08-11  
+**Last Updated:** 2026-08-19  
 **Owner:** project maintainers

@@ -86,6 +86,7 @@ AGENTS.md.bak*
 # --- Docs layer: ignore all docs, re-include requirements only ---
 # Policies/skills/terms/templates/reviews local surfaces may be gitignored
 # Product law under docs/requirements/** remains tracked.
+# docs/housekeeping/ stays ignored (local cadence summaries — not public).
 docs/**
 !docs/requirements/
 !docs/requirements/**

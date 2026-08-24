@@ -1,5 +1,7 @@
 # Requirements review: AnimeDlp
 
+> **Historical.** This review records the Active set at **1.1.0**. Live product SSOT is **1.3.1**.
+
 **Date:** 2026-08-09  
 **Reviewer:** multi-agent council  
 **Product:** AnimeDlp `1.1.0`  

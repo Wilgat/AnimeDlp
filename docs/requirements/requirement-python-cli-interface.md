@@ -73,7 +73,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | **Logger** | `ChronicleLogger(logname='AnimeDlp')` |
 | **Class runner** | `Anime1Downloader(args, logger).run()` |
 | **User docs** | Root `README.md` Usage / Options / Examples must match this contract |
-| **Product version** | package **1.3.0** |
+| **Product version** | package **1.3.1** |
 
 ### 2.8 Why This Requirement Exists (CIAO)
 

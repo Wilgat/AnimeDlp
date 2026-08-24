@@ -3,13 +3,14 @@
 Executable proof for product law. **Design map:** `docs/reviews/test-plan.md`.  
 **RTM:** `docs/reviews/requirement-test-matrix.md`.
 
-## Status (2026-08-09, product 1.1.0)
+## Status (2026-08-19, product 1.3.1)
 
 | Item | State |
 |------|--------|
 | Design TP map | present under `docs/reviews/test-plan.md` |
 | Automated suites | implemented under `tests/` |
-| Runner | `pytest -q tests/` |
+| Runner | `PYTHONPATH=src python3 -m pytest -q tests/` |
+| Live extract | optional; `ANIMEDLP_LIVE_NET=1` + `ANIMEDLP_LIVE_URL` |
 
 ## Layout
 
@@ -19,22 +20,30 @@ Executable proof for product law. **Design map:** `docs/reviews/test-plan.md`.
 | `test_packaging.py` | TP-PKG |
 | `test_prerequisites.py` | TP-PRE |
 | `test_cli.py` | TP-CLI |
-| `test_domain.py` | TP-ANIMEDLP |
-| `test_download_pipeline.py` | TP-YTDLP |
+| `test_domain.py` | TP-ANIMEDLP-01..03 |
+| `test_download_pipeline.py` | TP-YTDLP-01..03, TP-YTDLP-05 |
+| `test_live_network.py` | TP-ANIMEDLP-04, TP-YTDLP-04 |
 | `test_errors.py` | TP-ERR |
 | `test_exports.py` | TP-STYLE |
+| `test_security_redaction.py` | TP-SEC |
+| `test_architecture.py` | TP-ARCH, TP-CLASS |
 
 ## Rules
 
 1. Assert messages / test names **MUST** include the **TP-ID**.  
-2. Core cases **MUST NOT** require public network (use mocks).  
+2. Core cases **MUST NOT** require public network (use mocks or loopback).  
 3. Flip `todo` → `have` in maps only after green runs.  
-4. Do not place executable tests under `docs/templates/`.
+4. Do not place executable tests under `docs/templates/`.  
+5. Live extract (**TP-ANIMEDLP-04**) stays opt-in.
 
 ## Run
 
 ```bash
-pip3 install -e ".[ ]" 2>/dev/null || pip3 install -e .
+pip3 install -e .
 pip3 install pytest
-pytest -q tests/
+PYTHONPATH=src python3 -m pytest -q tests/
+
+# Optional live extract (real host; may skip on Cloudflare):
+ANIMEDLP_LIVE_NET=1 ANIMEDLP_LIVE_URL='https://anime1.me/…' \
+  PYTHONPATH=src python3 -m pytest -q tests/test_live_network.py
 ```

@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__` (CLI reads package version only).
 
+## [1.3.1] - 2026-08-19
+
+### Added
+
+- Optional live-network extract suite **TP-ANIMEDLP-04** (`ANIMEDLP_LIVE_NET=1` + `ANIMEDLP_LIVE_URL`)
+- Loopback HTTP integration download **TP-YTDLP-04** (no public network)
+
+### Fixed
+
+- **ADLP-NET-01:** live/integration proof now exists (optional extract; offline download fixture)
+- **ADLP-DOC-02:** live SSOT surfaces say **1.3.1**; historical 1.1.0/1.2.0 reviews marked superseded
+
+---
+
 ## [1.3.0] - 2026-08-11
 
 ### Changed (L2 OOP revision)

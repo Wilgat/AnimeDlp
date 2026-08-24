@@ -1,5 +1,7 @@
 # Report: product re-review — L2 OOP + AnimeDlp 1.3.0
 
+> **Follow-up:** ADLP-NET-01 and ADLP-DOC-02 closed in `docs/reviews/reports/2026-08-19-product-review-open-residuals.md` (product **1.3.1**). This report remains the L2 / 1.3.0 implement review.
+
 **Date:** 2026-08-11  
 **Mode:** post-implement product review (OOP L2 finish + version bump + TP/RTM refresh)  
 **Status:** **Pass**  

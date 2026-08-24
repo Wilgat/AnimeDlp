@@ -1,5 +1,7 @@
 # Report: product review for revision and test — AnimeDlp 1.1.0
 
+> **Historical.** This review led to **1.2.0**. Live product SSOT is **1.3.1**. Residual close: `docs/reviews/reports/2026-08-19-product-review-open-residuals.md`.
+
 **Date:** 2026-08-11  
 **Mode:** full product review (revision + test focus)  
 **Status:** **Pass (fixed in 1.2.0 implement)** — residuals closed; Core **25 passed**  

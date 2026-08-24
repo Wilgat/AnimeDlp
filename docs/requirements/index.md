@@ -2,8 +2,8 @@
 
 **Product:** AnimeDlp (Python CLI — extract/download from supported anime video sites)  
 **Workspace state:** Specialized product law (left genesis); **software-development** class; **pip/local package** install (not shell online Type 0).  
-**Product version:** **1.3.0** (align `pyproject.toml`, `__init__.__version__`, root `README.md` Version badge)  
-**Updated:** 2026-08-11
+**Product version:** **1.3.1** (align `pyproject.toml`, `__init__.__version__`, root `README.md` Version badge)  
+**Updated:** 2026-08-19
 
 | ID / key | Title | Area | Status | Path | Updated |
 |----------|-------|------|--------|------|---------|

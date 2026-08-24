@@ -64,7 +64,7 @@ This file is the architecture SSOT for **shape and boundaries**. Class inventory
 | Item | Value |
 |------|--------|
 | **Package** | `AnimeDlp` (`src/AnimeDlp/`) |
-| **Product version** | `1.3.0` |
+| **Product version** | `1.3.1` |
 | **Classification** | PyPI Execution CLI |
 | **Current OOP level** | **L2** multi-class SRP |
 | **Target OOP level** | **L2** (current); L3 optional future |

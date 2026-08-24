@@ -50,7 +50,7 @@ Declare **host and Python runtime prerequisites** required to run AnimeDlp succe
 | **System binary** | **none required** beyond CPython for core CLI (yt-dlp may use ffmpeg for some formats as its own optional tool — not claimed as AnimeDlp product auto-install) |
 | **Auto install command** | **none** for OS packages |
 | **Platform notes** | Linux primary; macOS/Windows OK when CPython + network available |
-| **Product version** | 1.3.0 |
+| **Product version** | 1.3.1 |
 | **Startup checks** | Import gates in `cli.main()` for requests, BeautifulSoup, yt_dlp, lxml |
 | **User docs** | Root `README.md` Required Dependencies / Requirements sections |
 

@@ -139,6 +139,8 @@ CLI flags that enable extract-only mode are owned by **`requirement-python-cli-i
 | **TP-YTDLP-01** | `tests/test_download_pipeline.py` | **have** | Cookie string builds only e/h/p |
 | **TP-YTDLP-02** | `tests/test_download_pipeline.py` | **have** | Extract mode never calls YoutubeDL |
 | **TP-YTDLP-03** | `tests/test_download_pipeline.py` | **have** | Referer selection me vs pw |
+| **TP-YTDLP-04** | `tests/test_live_network.py` | **have** | Loopback HTTP integration download |
+| **TP-YTDLP-05** | `tests/test_download_pipeline.py` | **have** | Unsafe title sanitized in outtmpl |
 
 ---
 
@@ -148,9 +150,10 @@ CLI flags that enable extract-only mode are owned by **`requirement-python-cli-i
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | yt-dlp + cookie-safe pipeline for AnimeDlp |
 | 2026-08-11 | Active 1.0.0 | Implementation path: `downloader.py`; L2 service target |
+| 2026-08-19 | Active 1.0.0 | TP-YTDLP-04 loopback HTTP fixture; TP-YTDLP-05 DTV row |
 
 ---
 
-**Last Updated**: 2026-08-11  
+**Last Updated**: 2026-08-19  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

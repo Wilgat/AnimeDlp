@@ -81,7 +81,7 @@ Coordinator **MAY** expose thin facade methods (`extract_anime1_me`, `download_v
 | **Architecture peer** | `requirement-python-system-architecture` |
 | **Domain peer** | `requirement-domain-animedlp` |
 | **Pipeline peer** | `requirement-download-ytdlp-pipeline` |
-| **Product version** | `1.3.0` |
+| **Product version** | `1.3.1` |
 
 ### 2.7 Why This Requirement Exists (CIAO)
 
