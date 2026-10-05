@@ -2,7 +2,7 @@
 
 **Product:** AnimeDlp (Python CLI — extract/download from supported anime video sites)  
 **Workspace state:** Specialized product law (left genesis); **software-development** class; **pip/local package** install (not shell online Type 0).  
-**Product version:** **1.4.1** (align `pyproject.toml`, `__init__.__version__`, root `README.md` Version badge)  
+**Product version:** **1.4.0** (align `pyproject.toml`, `__init__.__version__`, root `README.md` Version badge)  
 **Updated:** 2026-10-05
 
 | ID / key | Title | Area | Status | Path | Updated |
@@ -10,7 +10,8 @@
 | requirement-class-software-dev | Software-development class law + residual stack (Python, setuptools) | class | Active | `requirement-class-software-dev.md` | 2026-10-05 |
 | requirement-domain-animedlp | Domain surface SSOT (four pillars). A terminal download flashes `file current/total`, the percent finished, and the time until finish | domain | Active | `requirement-domain-animedlp.md` | 2026-10-05 |
 | requirement-download-ytdlp-pipeline | yt-dlp download ops SSOT (cookies, headers, retries, extract boundary) | download | Active | `requirement-download-ytdlp-pipeline.md` | 2026-08-11 |
-| requirement-python-cli-interface | CLI entry points + argparse surface | python | Active | `requirement-python-cli-interface.md` | 2026-10-05 |
+| requirement-python-cli-interface | CLI entry points + argparse surface. No URL on a terminal opens the text menu | python | Active | `requirement-python-cli-interface.md` | 2026-10-05 |
+| requirement-python-tui | Text menu: download, system-log, language, self-management, Exit | python | Active | `requirement-python-tui.md` | 2026-10-05 |
 | requirement-python-coding-style | Python style; exports honesty; cookie/I/O conventions; L2 shape | python | Active | `requirement-python-coding-style.md` | 2026-08-11 |
 | requirement-python-packaging | `pyproject.toml` / version / console script packaging | python | Active | `requirement-python-packaging.md` | 2026-10-05 |
 | requirement-python-project-structure | Repository and `src/AnimeDlp` L2 layout, including `please_wait.py` | python | Active | `requirement-python-project-structure.md` | 2026-10-05 |

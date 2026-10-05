@@ -55,19 +55,19 @@ Define packaging SSOT for the AnimeDlp Python distribution: **`pyproject.toml`**
 |------|--------|
 | **Manifest** | `pyproject.toml` |
 | **Project name** | `AnimeDlp` |
-| **Version** | `1.4.1` |
+| **Version** | `1.4.0` |
 | **requires-python** | as declared in `pyproject.toml` (broad string today — README advertises **Python 3.8+**; agents re-verify before marketing) |
 | **Dependencies** | `ChronicleLogger>=1.2.3`, `requests`, `beautifulsoup4`, `yt-dlp`, `lxml` |
 | **Build backend** | `setuptools.build_meta` |
 | **Console script** | `anime-dlp = AnimeDlp.cli:main` |
 | **Homepage / repo** | `https://github.com/Wilgat/AnimeDlp` |
-| **Maintainer build helper** | `build.sh` — VideoJoin maintainer script retargeted to AnimeDlp. Reads `AnimeDlp.__version__`. `anime-dlp` flags are not accepted. `./build.sh test` runs `tests/run.sh` |
+| **Maintainer build helper** | `build.sh` |
 | **Optional Cython config** | `cy-master.ini` (maintainer tooling; not runtime package SSOT) |
 | **License** | MIT (packaging claims MIT; ensure root LICENSE file present when publishing) |
 | **Public package exports** | `__version__` (+ optional `main`); **MUST NOT** re-export undefined `ChronicleLogger` from `.cli` |
 | **Metadata honesty** | Description/keywords must describe anime site downloader (not unrelated video editing) — aligned in 1.1.0 |
 | **User docs** | Root `README.md` Installation must document `pip install AnimeDlp` / local install and console script `anime-dlp` |
-| **README version badge** | Must match packaging version when README claims complete (**1.4.1**) |
+| **README version badge** | Must match packaging version when README claims complete (**1.4.0**) |
 
 ### 2.8 Why This Requirement Exists (CIAO)
 
@@ -142,7 +142,6 @@ Define packaging SSOT for the AnimeDlp Python distribution: **`pyproject.toml`**
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | Packaging SSOT + honesty debt notes for AnimeDlp |
 | 2026-10-05 | Active 1.0.0 | Version cell and README badge cell aligned to **1.4.0** |
-| 2026-10-05 | Active 1.0.0 | Package **1.4.1**. `build.sh` retargeted from VideoJoin. Version is read from `AnimeDlp.__version__` |
 
 ---
 

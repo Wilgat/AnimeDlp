@@ -54,7 +54,7 @@ There is no pip row and no `update-yt-dlp` verb on this tree, so a pip line that
 
 ## Verdict
 
-The wait line matches `requirement-domain-animedlp` 1.1.0. `TP-ANIMEDLP-05` is have. The frames were captured at package 1.4.0. The package string is now **1.4.1** in `pyproject.toml` and `src/AnimeDlp/__init__.py`.
+The wait line matches `requirement-domain-animedlp` 1.1.0. `TP-ANIMEDLP-05` is have. Package version is 1.4.0 in `pyproject.toml` and `src/AnimeDlp/__init__.py`.
 
 **Written:** 2026-10-05  
 **Review status:** Pass, with ADLP-WAIT-03 left open and out of this change.

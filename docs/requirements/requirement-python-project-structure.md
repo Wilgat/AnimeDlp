@@ -51,10 +51,19 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 | `src/AnimeDlp/errors.py` | `AnimeDlpError` |
 | `src/AnimeDlp/util.py` | Pure helpers (sanitize, redaction) |
 | `src/AnimeDlp/please_wait.py` | Download line: file count, percent finished, time until finish |
+| `src/AnimeDlp/tui.py` | Text menu session (`Tui`) |
+| `src/AnimeDlp/menu_painter.py` | Menu frame (`MenuPainter`) |
+| `src/AnimeDlp/menu_model.py` | Keystroke state (`MenuModel`) |
+| `src/AnimeDlp/menu_session.py` | Menu loop (`MenuSession`) |
+| `src/AnimeDlp/menu_language.py` | Menu language (`MenuLanguage`) |
+| `src/AnimeDlp/system_log.py` | Log folder actions (`SystemLog`) |
+| `src/AnimeDlp/self_management.py` | Pip lifecycle (`SelfManage`) |
+| `src/AnimeDlp/about_page.py` | About page (`AboutPage`) |
+| `src/AnimeDlp/check_system.py` | Host check for the about page (`CheckSystem`) |
 | `src/AnimeDlp/__init__.py` | `__version__` + public `main` |
 | `src/AnimeDlp/__main__.py` | Module entry |
 | `pyproject.toml` | Packaging SSOT |
-| `build.sh` | Maintainer verbs from the VideoJoin script, retargeted to AnimeDlp. Version from `AnimeDlp.__version__`. `anime-dlp` flags are not accepted |
+| `build.sh` | Maintainer build/release helper |
 | `cy-master` / `cy-master.ini` | Optional Cython/maintainer tooling (not runtime SSOT) |
 | `docs/requirements/` | Product law |
 | `README.md` | User documentation |
@@ -133,7 +142,6 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 | 2026-08-11 | Active 1.0.0 | Thin cli + downloader/helpers; L2 target modules |
 | 2026-08-11 | Active 1.0.0 | L2 modules on disk; product **1.3.0** |
 | 2026-10-05 | Active 1.0.1 | `please_wait.py` draws the file count, the percent finished, and the time until finish |
-| 2026-10-05 | Active 1.0.1 | `build.sh` retargeted from VideoJoin. Package **1.4.1** |
 
 ---
 

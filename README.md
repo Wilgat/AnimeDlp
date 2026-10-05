@@ -5,7 +5,7 @@
 AnimeDlp extracts direct video URLs or downloads episodes from supported anime video sites. It handles common protection cookies and session needs gracefully, and uses **yt-dlp** for reliable media download.
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Version](https://img.shields.io/badge/version-1.4.1-green)
+![Version](https://img.shields.io/badge/version-1.4.0-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 [![PyPI](https://img.shields.io/pypi/v/AnimeDlp.svg)](https://pypi.org/project/AnimeDlp/)
 [![GitHub stars](https://img.shields.io/github/stars/Wilgat/AnimeDlp?style=social)](https://github.com/Wilgat/AnimeDlp)
@@ -51,7 +51,12 @@ Python **3.8+** is required (`requires-python` in packaging).
 
 ### Basic command
 
+On a terminal, `anime-dlp` with no URL opens the text menu. Paste one `http(s)` page URL in the bottom box. Row 1 is download, row 3 is system-log, row 4 is language, row 8 is self-management, and row 9 is Exit. With no terminal and no URL, the program prints help and returns 0.
+
+A page URL on the command line downloads or extracts and does not open the menu. `--debug` with no URL still opens the menu.
+
 ```bash
+anime-dlp
 anime-dlp "https://anime1.me/your-series-or-episode-url"
 # or
 python -m AnimeDlp "https://anime1.pw/your-page-url"
@@ -60,12 +65,13 @@ python -m AnimeDlp "https://anime1.pw/your-page-url"
 ### Options
 
 ```text
-Usage: anime-dlp [OPTIONS] URL
+Usage: anime-dlp [OPTIONS] [URL]
 
 A clean downloader for anime1.me and anime1.pw
 
 Positional Arguments:
-  url                   URL from anime1.me or anime1.pw
+  url                   Optional page URL from anime1.me or anime1.pw.
+                        Omit it on a terminal to open the text menu.
 
 Optional Arguments:
   -h, --help            show this help message and exit
@@ -146,7 +152,7 @@ Product law: `docs/requirements/`. TP map: `docs/reviews/test-plan.md`.
 
 ## Version
 
-**1.4.1** — SSOT: `pyproject.toml` and `src/AnimeDlp/__init__.py` (`__version__`).
+**1.4.0** — SSOT: `pyproject.toml` and `src/AnimeDlp/__init__.py` (`__version__`).
 
 ## License
 

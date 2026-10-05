@@ -17,11 +17,46 @@ def test_TP_CLI_01_help_lists_domain_flags():
     assert code == 0
 
 
-def test_TP_CLI_02_missing_url_nonzero():
-    """TP-CLI-02: no args → argparse error / non-zero."""
-    with mock.patch.object(sys, "argv", ["anime-dlp"]):
-        code = main()
-    assert code != 0
+def test_TP_CLI_02_missing_url_help_when_not_a_terminal(capsys):
+    """TP-CLI-02: no URL and no terminal → help, exit 0. Not install-ensure."""
+    with mock.patch.object(sys.stdout, "isatty", return_value=False):
+        code = main([])
+    assert code == 0
+    captured = capsys.readouterr()
+    assert "text menu" in captured.out
+    assert "url" in captured.out
+
+
+def test_TP_CLI_04_bare_terminal_opens_menu():
+    """A terminal with no URL opens the text menu and does not require a URL."""
+    with mock.patch.object(sys.stdout, "isatty", return_value=True), mock.patch(
+        "AnimeDlp.cli.Tui.open_text_menu", return_value=None
+    ) as open_menu:
+        code = main([])
+    assert code == 0
+    open_menu.assert_called_once()
+
+
+def test_TP_CLI_04_debug_without_url_opens_menu():
+    """--debug with no URL still opens the text menu."""
+    with mock.patch.object(sys.stdout, "isatty", return_value=True), mock.patch(
+        "AnimeDlp.cli.Tui.open_text_menu", return_value=None
+    ) as open_menu:
+        code = main(["--debug"])
+    assert code == 0
+    open_menu.assert_called_once()
+
+
+def test_TP_CLI_05_url_does_not_open_menu():
+    """A page URL stays on the terminal downloader."""
+    with mock.patch.object(sys.stdout, "isatty", return_value=True), mock.patch(
+        "AnimeDlp.cli.Tui.open_text_menu"
+    ) as open_menu, mock.patch("AnimeDlp.cli.Anime1Downloader") as downloader:
+        downloader.return_value.run.return_value = 0
+        code = main(["https://anime1.me/x"])
+    assert code == 0
+    open_menu.assert_not_called()
+    downloader.assert_called_once()
 
 
 def test_TP_CLI_03_unsupported_host_rejected():

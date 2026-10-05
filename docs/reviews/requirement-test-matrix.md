@@ -1,6 +1,6 @@
 # AnimeDlp — requirement ↔ test matrix (RTM)
 
-**Product:** AnimeDlp `1.4.1`  
+**Product:** AnimeDlp `1.4.0`  
 **Updated:** 2026-10-05  
 **Map:** `docs/reviews/test-plan.md`  
 **Law registry:** `docs/requirements/index.md`  

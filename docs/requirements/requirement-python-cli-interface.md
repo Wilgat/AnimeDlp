@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-cli-interface.md  
-**Status**: Active (Version 1.0.0)  
+**Status**: Active (Version 1.1.0)  
 **Area**: python  
 **Key**: `requirement-python-cli-interface`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -23,15 +23,15 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 
 ### 2.2 Empty argv / missing URL (Type N)
 
-5. **MUST** treat bare invocation without required URL as **argparse error / usage help**, not Type O online install-ensure.  
+5. **MUST** treat bare invocation with no URL as the text menu when stdout is a terminal, and as usage help with exit 0 when stdout is not a terminal. That path is not Type O online install-ensure.  
 6. **MUST NOT** default empty argv to shell channel install or self-update.  
-7. Future optional no-URL modes (e.g. `--version` only) **MAY** be added only with Active updates to this file and domain peers.
+7. `--debug` and `--verbose` with no URL **MUST** still open the text menu on a terminal. A page URL **MUST** download or extract and **MUST NOT** open the text menu. `--help` and `--version` **MUST NOT** open the text menu.
 
 ### 2.3 Required and optional arguments
 
 | Arg | Form | Required | Behavior |
 |-----|------|----------|----------|
-| URL | positional `url` | **yes** | Source page from supported host |
+| URL | positional `url` | no | Source page from a supported host. Omit it to open the text menu on a terminal |
 | Verbose | `-v` / `--verbose` | no | Debug logging + yt-dlp verbose |
 | Extract only | `-x` / `--extract` | no | Print sources; no download |
 | Cloudflare | `-cf` / `--cloudflare` | no | `cf_clearance` cookie value |
@@ -54,8 +54,8 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 
 ### 2.6 Non-interactive environments
 
-16. CLI is **non-interactive** for prompts (URL + flags only) — suitable for scripts once URL is supplied.  
-17. Network failures **MUST** surface via logger/exit rather than hanging on stdin prompts (no prompt loop today).
+16. With a page URL, the CLI does not prompt. It is suitable for scripts. With no URL and no terminal, it prints help and returns 0. It does not wait for stdin.  
+17. Network failures **MUST** surface via logger/exit rather than hanging on stdin prompts. The text menu is the interactive path and is owned with `requirement-python-tui`.
 
 ### 2.7 Implementation Notes (this project)
 
@@ -64,7 +64,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | **Console script** | `anime-dlp = AnimeDlp.cli:main` |
 | **Module entry** | `src/AnimeDlp/__main__.py` → `main()` |
 | **CLI module** | `src/AnimeDlp/cli.py` |
-| **Empty argv** | argparse error (missing `url`) |
+| **Empty argv** | Terminal: text menu. No terminal: help, exit 0 |
 | **Argparse** | implemented (`ArgumentParser`) |
 | **Quiet/JSON flags** | not implemented today |
 | **Privilege** | user-level only |
@@ -73,7 +73,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | **Logger** | `ChronicleLogger(logname='AnimeDlp')` |
 | **Class runner** | `Anime1Downloader(args, logger).run()` |
 | **User docs** | Root `README.md` Usage / Options / Examples must match this contract |
-| **Product version** | package **1.4.1** |
+| **Product version** | package **1.4.0** |
 
 ### 2.8 Why This Requirement Exists (CIAO)
 
@@ -100,7 +100,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 2. Remove console script or module entry without packaging + docs update.  
 3. Bypass domain/pipeline peers by reimplementing download only in a second ad-hoc script as the “real” product.  
 4. Require root to run normal extract/download.  
-5. Drop required URL without a documented replacement help/version mode.
+5. Drop the page-URL download without a documented replacement. The replacement for a missing URL is the text menu on a terminal and help (exit 0) with no terminal.
 
 **Violating this rule is a critical CLI regression.**
 
@@ -112,7 +112,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 |----|-----------|
 | AC-1 | `anime-dlp` entry declared in packaging |
 | AC-2 | `python -m AnimeDlp` works |
-| AC-3 | Missing URL → usage/error (not install-ensure) |
+| AC-3 | Missing URL on a terminal → text menu. Missing URL with no terminal → help, exit 0. Not install-ensure |
 | AC-4 | Flags: verbose, extract, cloudflare, user-agent |
 | AC-5 | Missing Python deps → actionable FATAL messages |
 | AC-6 | Unsupported host → clear error |
@@ -128,6 +128,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | `requirement-python-packaging` | Console script declaration |
 | `requirement-python-error-handling` | Fail-closed messaging |
 | `requirement-runtime-prerequisites` | Dep modules |
+| `requirement-python-tui` | Text menu opened when no URL is given on a terminal |
 | `docs/requirements/index.md` | Registry |
 
 ## Design-time verification
@@ -139,7 +140,9 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | TP family / ID | Suite | Status | Note |
 |----------------|-------|--------|------|
 | **TP-CLI-01** | `tests/test_cli.py` | **have** | `--help` lists flags |
-| **TP-CLI-02** | `tests/test_cli.py` | **have** | no args → non-zero |
+| **TP-CLI-02** | `tests/test_cli.py` | **have** | no URL and no terminal → help, exit 0 |
+| **TP-CLI-04** | `tests/test_cli.py` | **have** | no URL on a terminal, and `--debug` with no URL, open the text menu |
+| **TP-CLI-05** | `tests/test_cli.py` | **have** | a page URL does not open the text menu |
 | **TP-CLI-03** | `tests/test_cli.py` | **have** | unsupported host rejected |
 
 ---
@@ -150,7 +153,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | CLI entry + argparse for AnimeDlp |
 | 2026-10-05 | Active 1.0.0 | Product version cell aligned to **1.4.0** |
-| 2026-10-05 | Active 1.0.0 | Product version cell aligned to **1.4.1** |
+| 2026-10-05 | Active 1.1.0 | No URL on a terminal opens the text menu. No terminal prints help and returns 0 |
 
 ---
 
