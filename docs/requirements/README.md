@@ -9,11 +9,11 @@ Authoritative specialized product law for **AnimeDlp** lives here.
 | Field | Value |
 |-------|--------|
 | Product / package | `AnimeDlp` |
-| Version SSOT | **`1.3.0`** (`pyproject.toml` + `src/AnimeDlp/__init__.py`) |
+| Version SSOT | **`1.4.0`** (`pyproject.toml` + `src/AnimeDlp/__init__.py`) |
 | Product README SSOT | Root `README.md` (app-name, short description, version badge) |
 | Ship surface | Python package; console script **`anime-dlp`**; module `python -m AnimeDlp` |
 | Install mode | **pip / local package** — not shell Type O |
-| Domain surface | `requirement-domain-animedlp` — four pillars (anime1.me / anime1.pw extract+download) |
+| Domain surface | `requirement-domain-animedlp` — four pillars (anime1.me / anime1.pw extract+download). A terminal download flashes the file count, the percent finished, and the time until finish |
 | Download ops | `requirement-download-ytdlp-pipeline` — yt-dlp; cookie-safe headers; extract boundary |
 | Coding style | `requirement-python-coding-style` — exports honesty; fail-closed messaging |
 | Runtime tools | Pip deps (requests, bs4, lxml, yt-dlp, ChronicleLogger); network egress |

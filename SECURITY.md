@@ -4,7 +4,8 @@
 
 | Version | Supported |
 |---------|-----------|
-| 1.3.1 (current) | Yes |
+| 1.4.0 (current) | Yes |
+| 1.3.1 | Yes |
 | 1.3.0 | Best-effort; prefer upgrading to current |
 | 1.2.x | Best-effort; prefer upgrading to current |
 | 1.1.x | Best-effort; prefer upgrading to current |

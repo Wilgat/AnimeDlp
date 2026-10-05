@@ -55,7 +55,7 @@ Define packaging SSOT for the AnimeDlp Python distribution: **`pyproject.toml`**
 |------|--------|
 | **Manifest** | `pyproject.toml` |
 | **Project name** | `AnimeDlp` |
-| **Version** | `1.3.0` |
+| **Version** | `1.4.0` |
 | **requires-python** | as declared in `pyproject.toml` (broad string today — README advertises **Python 3.8+**; agents re-verify before marketing) |
 | **Dependencies** | `ChronicleLogger>=1.2.3`, `requests`, `beautifulsoup4`, `yt-dlp`, `lxml` |
 | **Build backend** | `setuptools.build_meta` |
@@ -67,7 +67,7 @@ Define packaging SSOT for the AnimeDlp Python distribution: **`pyproject.toml`**
 | **Public package exports** | `__version__` (+ optional `main`); **MUST NOT** re-export undefined `ChronicleLogger` from `.cli` |
 | **Metadata honesty** | Description/keywords must describe anime site downloader (not unrelated video editing) — aligned in 1.1.0 |
 | **User docs** | Root `README.md` Installation must document `pip install AnimeDlp` / local install and console script `anime-dlp` |
-| **README version badge** | Must match packaging version when README claims complete (**1.3.0**) |
+| **README version badge** | Must match packaging version when README claims complete (**1.4.0**) |
 
 ### 2.8 Why This Requirement Exists (CIAO)
 
@@ -141,9 +141,10 @@ Define packaging SSOT for the AnimeDlp Python distribution: **`pyproject.toml`**
 | Date | Status | Note |
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | Packaging SSOT + honesty debt notes for AnimeDlp |
+| 2026-10-05 | Active 1.0.0 | Version cell and README badge cell aligned to **1.4.0** |
 
 ---
 
-**Last Updated**: 2026-08-09  
+**Last Updated**: 2026-10-05  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

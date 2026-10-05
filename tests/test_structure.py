@@ -20,6 +20,7 @@ def test_TP_STRUCT_01_package_layout():
         "download_service.py",
         "errors.py",
         "util.py",
+        "please_wait.py",
         "extractors/__init__.py",
         "extractors/me.py",
         "extractors/pw.py",

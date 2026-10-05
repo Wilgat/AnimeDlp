@@ -3,7 +3,7 @@
 Executable proof for product law. **Design map:** `docs/reviews/test-plan.md`.  
 **RTM:** `docs/reviews/requirement-test-matrix.md`.
 
-## Status (2026-08-19, product 1.3.1)
+## Status (2026-10-05, product 1.4.0)
 
 | Item | State |
 |------|--------|
@@ -21,6 +21,7 @@ Executable proof for product law. **Design map:** `docs/reviews/test-plan.md`.
 | `test_prerequisites.py` | TP-PRE |
 | `test_cli.py` | TP-CLI |
 | `test_domain.py` | TP-ANIMEDLP-01..03 |
+| `test_please_wait.py` | TP-ANIMEDLP-05 |
 | `test_download_pipeline.py` | TP-YTDLP-01..03, TP-YTDLP-05 |
 | `test_live_network.py` | TP-ANIMEDLP-04, TP-YTDLP-04 |
 | `test_errors.py` | TP-ERR |

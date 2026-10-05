@@ -1,7 +1,7 @@
 # AnimeDlp — product test plan (TP map)
 
-**Product:** AnimeDlp `1.3.1`  
-**Updated:** 2026-08-19  
+**Product:** AnimeDlp `1.4.0`  
+**Updated:** 2026-10-05  
 **Install mode:** pip / local package (`anime-dlp`) — **not** shell Type O  
 **Suite root:** `tests/`  
 **Architecture:** **L2** multi-class SRP (`requirement-python-system-architecture`, `requirement-python-classes`)  
@@ -43,6 +43,7 @@
 | **TP-ANIMEDLP-01** | Unsupported host domain reject | Core | `tests/test_domain.py` | `requirement-domain-animedlp` | **have** |
 | **TP-ANIMEDLP-02** | Extract mode prints without download | Core | `tests/test_domain.py` | `requirement-domain-animedlp`, `requirement-download-ytdlp-pipeline` | **have** |
 | **TP-ANIMEDLP-03** | anime1.pw routes to pw extractor | Core | `tests/test_domain.py` | `requirement-domain-animedlp` | **have** |
+| **TP-ANIMEDLP-05** | The wait line names the file count, the percent finished, and the time until finish. The bullet flashes. The line is gone when the job returns | Core | `tests/test_please_wait.py` | `requirement-domain-animedlp` | **have** |
 | **TP-YTDLP-01** | Cookie header only e/h/p | Core | `tests/test_download_pipeline.py` | `requirement-download-ytdlp-pipeline` | **have** |
 | **TP-YTDLP-02** | Extract never builds YoutubeDL | Core | `tests/test_download_pipeline.py` | `requirement-download-ytdlp-pipeline` | **have** |
 | **TP-YTDLP-03** | Referer me vs pw selection | Core | `tests/test_download_pipeline.py` | `requirement-download-ytdlp-pipeline` | **have** |
@@ -76,7 +77,7 @@
 
 ```text
 PYTHONPATH=src python3 -m pytest -q tests/
-# 30 passed, 1 skipped (2026-08-19) — product 1.3.1 / L2
+# 38 passed, 1 skipped (2026-10-05) — product 1.4.0 / L2
 # skip = TP-ANIMEDLP-04 optional live extract (ANIMEDLP_LIVE_NET not set)
 ```
 

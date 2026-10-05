@@ -5,7 +5,7 @@
 AnimeDlp extracts direct video URLs or downloads episodes from supported anime video sites. It handles common protection cookies and session needs gracefully, and uses **yt-dlp** for reliable media download.
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Version](https://img.shields.io/badge/version-1.3.1-green)
+![Version](https://img.shields.io/badge/version-1.4.0-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 [![PyPI](https://img.shields.io/pypi/v/AnimeDlp.svg)](https://pypi.org/project/AnimeDlp/)
 [![GitHub stars](https://img.shields.io/github/stars/Wilgat/AnimeDlp?style=social)](https://github.com/Wilgat/AnimeDlp)
@@ -20,6 +20,7 @@ AnimeDlp extracts direct video URLs or downloads episodes from supported anime v
 - Optional Cloudflare assist (`cf_clearance` + User-Agent)
 - Safe playback-cookie subset for anime1.me API cookies
 - Fast downloads via **yt-dlp** with concurrent fragment support
+- On a terminal, a flashing bullet shows the file being saved, the file total, the percent finished, and the time until finish. The line disappears when the downloads return
 - Clean logging with optional verbose debug mode
 
 ## Installation
@@ -96,6 +97,24 @@ anime-dlp "https://anime1.me/..." --extract
 anime-dlp "https://anime1.me/..." --cloudflare "your_cf_clearance_value" --user-agent "Mozilla/5.0 ..." --verbose
 ```
 
+## Sample operation
+
+These frames are one terminal download of three files. The bullet flashes. The file number, the percent finished, and the time until finish are read again on each flash. When the last file returns, the line is erased.
+
+The first frame is file 1 of 3, 18% finished, with about two minutes left. The bullet is drawn.
+
+![File 1 of 3, 18 percent finished, 2 minutes 10 seconds until finish, bullet on](https://github.com/Wilgat/AnimeDlp/raw/main/screenshots/download-progress-file-1.png)
+
+The next flash is file 2 of 3, 54% finished, with 48 seconds left. The bullet cell is a space, so the numbers stay put.
+
+![File 2 of 3, 54 percent finished, 48 seconds until finish, bullet off](https://github.com/Wilgat/AnimeDlp/raw/main/screenshots/download-progress-file-2.png)
+
+The last file is 3 of 3, 91% finished, with 6 seconds left. The bullet is drawn again.
+
+![File 3 of 3, 91 percent finished, 6 seconds until finish, bullet on](https://github.com/Wilgat/AnimeDlp/raw/main/screenshots/download-progress-file-3.png)
+
+`--extract` does not show this line. A pipe or other non-terminal keeps yt-dlp's own progress and does not add this line.
+
 ## How it works
 
 1. Validates the host (`anime1.me` or `anime1.pw` only).  
@@ -127,7 +146,7 @@ Product law: `docs/requirements/`. TP map: `docs/reviews/test-plan.md`.
 
 ## Version
 
-**1.3.0** — SSOT: `pyproject.toml` and `src/AnimeDlp/__init__.py` (`__version__`).
+**1.4.0** — SSOT: `pyproject.toml` and `src/AnimeDlp/__init__.py` (`__version__`).
 
 ## License
 

@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__` (CLI reads package version only).
 
+## [1.4.0] - 2026-10-05
+
+### Changed
+
+- On a terminal, a download no longer leaves the screen on yt-dlp's own bar. A flashing bullet shows the file being saved, the file total, the percent finished, and the time until finish. Each flash redraws that time. The line is erased when the downloads return.
+- `--extract` and a non-terminal do not show that line. Off a terminal, yt-dlp keeps its own progress.
+
+### Added
+
+- Sample frames in `screenshots/` and a sample-operation section in the README.
+- Checklist `docs/checklists/2026-10-05-checklist-download-progress.md` and review `docs/reviews/2026-10-05-download-progress-review.md`.
+- `TP-ANIMEDLP-05` asserts the file count, the percent, and a time that changes before the line is erased.
+
+---
+
 ## [1.3.1] - 2026-08-19
 
 ### Added

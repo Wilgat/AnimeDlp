@@ -18,6 +18,8 @@ class YtDlpDownloadService:
         self.verbose = verbose
         self.output_dir = output_dir
         self.logger = logger
+        self.progress = None
+        self.quiet_native_progress = False
 
     def download(
         self, title: str, video_url: str, special_cookie: Optional[Dict] = None
@@ -58,6 +60,15 @@ class YtDlpDownloadService:
 
         if cookie_str:
             ydl_opts["http_headers"]["Cookie"] = cookie_str
+
+        if self.progress is not None:
+            from .please_wait import apply_ytdlp_event
+
+            ydl_opts["progress_hooks"] = [
+                lambda event, progress=self.progress: apply_ytdlp_event(progress, event)
+            ]
+        if self.quiet_native_progress:
+            ydl_opts["noprogress"] = True
 
         if yt_dlp is None:
             self.logger.log_message(

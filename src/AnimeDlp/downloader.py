@@ -5,10 +5,12 @@ Site extractors: ``extractors.me`` / ``extractors.pw``.
 Download ops: ``download_service.YtDlpDownloadService``.
 """
 
+import sys
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import urlparse
 
 from .download_service import YtDlpDownloadService, yt_dlp
+from .please_wait import DownloadProgress, flashing_wait
 from .errors import AnimeDlpError
 from .extractors import Anime1MeExtractor, Anime1PwExtractor
 from .util import redact_cookie_map
@@ -143,11 +145,25 @@ class Anime1Downloader:
                 print("-" * 70)
             return 0
 
-        failures = 0
-        for title, video_url, special_cookie in all_videos:
-            ok = self.download_video(title, video_url, special_cookie)
-            if not ok:
-                failures += 1
+        progress = DownloadProgress()
+        progress.begin(len(all_videos))
+        self.download_service.progress = progress
+        show_wait = callable(getattr(sys.stderr, "isatty", None)) and sys.stderr.isatty()
+        self.download_service.quiet_native_progress = show_wait
+
+        def save_all():
+            failed = 0
+            for index, (title, video_url, special_cookie) in enumerate(all_videos, start=1):
+                progress.start_file(index)
+                if not self.download_video(title, video_url, special_cookie):
+                    failed += 1
+            return failed
+
+        if show_wait:
+            with flashing_wait(progress=progress):
+                failures = save_all()
+        else:
+            failures = save_all()
 
         if failures:
             self.logger.log_message(

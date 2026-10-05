@@ -1,7 +1,7 @@
 # AnimeDlp — requirement ↔ test matrix (RTM)
 
-**Product:** AnimeDlp `1.3.1`  
-**Updated:** 2026-08-19  
+**Product:** AnimeDlp `1.4.0`  
+**Updated:** 2026-10-05  
 **Map:** `docs/reviews/test-plan.md`  
 **Law registry:** `docs/requirements/index.md`  
 **Architecture level:** **L2** (multi-class SRP)
@@ -11,7 +11,7 @@
 | Requirement key | Area | TP families | Core TP-IDs (minimum) | Coverage status |
 |-----------------|------|-------------|------------------------|-----------------|
 | `requirement-class-software-dev` | class | (document + packaging smoke) | TP-PKG-*, TP-STRUCT-01 | **have** (via peers) |
-| `requirement-domain-animedlp` | domain | **TP-ANIMEDLP**, TP-CLI | TP-ANIMEDLP-01..03, TP-CLI-03 | **have** (TP-ANIMEDLP-04 optional live) |
+| `requirement-domain-animedlp` | domain | **TP-ANIMEDLP**, TP-CLI | TP-ANIMEDLP-01..03, TP-ANIMEDLP-05, TP-CLI-03 | **have** (TP-ANIMEDLP-04 optional live) |
 | `requirement-download-ytdlp-pipeline` | download | **TP-YTDLP** | TP-YTDLP-01..05 | **have** |
 | `requirement-python-cli-interface` | python | **TP-CLI**, TP-PKG | TP-CLI-01..03, TP-PKG-01 | **have** |
 | `requirement-python-packaging` | python | **TP-PKG** | TP-PKG-01..03 | **have** |
@@ -41,5 +41,5 @@
 
 ---
 
-**Last Updated:** 2026-08-19  
+**Last Updated:** 2026-10-05  
 **Owner:** project maintainers

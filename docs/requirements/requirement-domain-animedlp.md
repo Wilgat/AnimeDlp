@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-domain-animedlp.md  
-**Status**: Active (Version 1.0.0)  
+**Status**: Active (Version 1.1.0)  
 **Area**: domain  
 **Key**: `requirement-domain-animedlp`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -44,6 +44,18 @@ AnimeDlp is a **URL-argument domain CLI** (not a multi-verb Type 0 shell product
 
 **Non-goals as domain commands (unless a future requirement adds them):** arbitrary-site generic scraper, batch URL file queue, GUI, cloud sync, DRM break beyond documented cookie assist, multi-host plugin marketplace, root/system install ensure, automatic credential vault.
 
+**Download progress:** This file owns the words on the wait line. While videos are being saved on a terminal, the operator sees one line. The bullet is `•`. It flashes. One moment the bullet is drawn. The next moment that cell is a space, so the rest of the line does not jump. Each flash rebuilds the line.
+
+The line is `file {current}/{total}, {percent}% finished, {time} until finish`. `{current}` is the video being saved, starting at 1. `{total}` is how many videos the page yielded. `{percent}` is how much of that list is finished, counting the bytes of the current video. A finished video counts in full, so the next video starts at that share. `{time}` is the time until finish, estimated from the time already spent and that percent. Under one percent the time word is `estimating`. A minute is `1m 05s`. An hour is `1h 01m 01s`. Under a minute the line says `45s until finish`.
+
+A worked line is `• file 2/5, 40% finished, 1m 05s until finish`. The next flash may be `  file 2/5, 46% finished, 58s until finish`.
+
+When the downloads return, the line is erased before later text. A stream that is not a terminal does not show the line, and yt-dlp keeps its own progress. `--extract` does not save videos and does not show the line. On a terminal, yt-dlp's own bar is turned off so it does not overwrite this line. The bytes still move the percent through yt-dlp's progress hook.
+
+This product does not print `please wait`. It does not print `{choice} has been selected. {process} takes time to finish.`
+
+The line is drawn by `src/AnimeDlp/please_wait.py`. `Anime1Downloader.run` counts the files. `YtDlpDownloadService` reports the bytes. Do not store the line in a module-level constant.
+
 ### 2.2 Pillar B — Specialized features (surface map)
 
 | Feature area | Domain role | Full law |
@@ -55,6 +67,7 @@ AnimeDlp is a **URL-argument domain CLI** (not a multi-verb Type 0 shell product
 | Playback-cookie handling | Safe subset for me API cookies | pipeline peer |
 | High-speed fragment download | Concurrent fragments via yt-dlp | pipeline peer |
 | Verbose diagnostics | `-v` / `--verbose` | CLI + error peer |
+| Download progress line | File count, percent finished, time until finish | this file |
 
 Domain **MUST NOT** restate full yt-dlp option graphs in a second competing SSOT. Pointers and feature catalog only.
 
@@ -101,7 +114,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | **Domain implementation** | `src/AnimeDlp/extractors/me.py`, `extractors/pw.py` (coordinator: `downloader.py`) |
 | **CLI entry** | `src/AnimeDlp/cli.py` (thin) |
 | **L2 classes peer** | `requirement-python-classes` |
-| **VERSION (package)** | `1.3.0` (align `__init__.py` and `pyproject.toml`) |
+| **VERSION (package)** | `1.4.0` (align `__init__.py` and `pyproject.toml`) |
 | **Supported hosts** | `anime1.me`, `anime1.pw` |
 | **anime1.me path** | Parse `entry-title` + `video-js` `data-apireq`; POST `https://v.anime1.me/api`; collect cookies `e`,`h`,`p` |
 | **anime1.pw path** | Find episode links; per-page `<source>`, iframe, or m3u8/mp4 regex |
@@ -115,12 +128,13 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | **Architecture / classes peers** | `requirement-python-system-architecture`, `requirement-python-classes` |
 | **User docs** | Root `README.md` Features / Usage / Examples / Disclaimer must match this catalog |
 | **Disclaimer** | README Disclaimer section is product-user surface SSOT for legal caution |
+| **Download progress** | `• file 2/5, 40% finished, 1m 05s until finish` on a terminal. The bullet flashes and the time is redrawn. The line is erased when the downloads return. Drawn by `src/AnimeDlp/please_wait.py` |
 
 ### 2.6 Why This Requirement Exists (CIAO)
 
 - **Principle 2 – Intentional**: Domain surface is explicit (four pillars) and not mixed with full download option law.  
 - **Principle 5 – SSOT**: One Active domain file for feature catalog.  
-- **Principle 1 – Caution**: Non-goals and legal posture listed so agents do not invent bulk/DRM/unauthorized host scope.
+- **Principle 1 – Caution**: Non-goals and legal posture listed so agents do not invent bulk/DRM/unauthorized host scope. A download on a terminal shows the file count, the percent finished, and a time until finish that moves on each flash. That line is removed when the downloads return.
 
 ---
 
@@ -143,7 +157,9 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 4. Drop support for either documented host while README still advertises it without coordinated update.  
 5. Claim arbitrary-site support without updating this file, CLI validation, and peers.  
 6. Remove legal disclaimer while product still downloads third-party media.  
-7. Silently re-scope this product into local video editing (cut/speed/join) without domain rename / new REQs.
+7. Silently re-scope this product into local video editing (cut/speed/join) without domain rename / new REQs.  
+8. Leave the progress line on the screen after the downloads have returned.  
+9. Print `please wait`, or freeze the time until finish so a later flash shows a stale clock.
 
 **Violating this rule is a critical domain regression.**
 
@@ -160,6 +176,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | AC-5 | Non-goals include arbitrary-site scraper / Type 0 shell install / elev |
 | AC-6 | Registered as sole Active domain SSOT |
 | AC-7 | No competing full yt-dlp ops body (defers to download-ytdlp-pipeline) |
+| AC-8 | A terminal download shows `file current/total`, the percent finished, and a time until finish that changes when the flash redraws. The line is gone when the downloads return. Extract-only and a non-terminal do not show it |
 
 ---
 
@@ -187,6 +204,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | **TP-ANIMEDLP-03** | `tests/test_domain.py` | **have** | anime1.pw routes to pw extractor |
 | **TP-ANIMEDLP-04** | `tests/test_live_network.py` | **optional** | Live HTTP extract; opt-in `ANIMEDLP_LIVE_NET=1` |
 | **TP-CLI-01** | `tests/test_cli.py` | **have** | Peer: help lists domain flags |
+| **TP-ANIMEDLP-05** | `tests/test_please_wait.py` | **have** | The bullet flashes beside `file current/total`, the percent finished, and the time until finish. The line is absent when the job returns |
 
 ---
 
@@ -197,9 +215,10 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | 2026-08-09 | Active 1.0.0 | Domain SSOT for AnimeDlp extract/download on anime1.me / anime1.pw |
 | 2026-08-11 | Active 1.0.0 | Implementation Notes: downloader module + 1.2.0 + L2 peers |
 | 2026-08-19 | Active 1.0.0 | DTV aligned to disk; TP-ANIMEDLP-04 optional live extract |
+| 2026-10-05 | Active 1.1.0 | A terminal download shows `file current/total`, the percent finished, and the time until finish. Each flash redraws that time. Package **1.4.0**. `TP-ANIMEDLP-05` has |
 
 ---
 
-**Last Updated**: 2026-08-19  
+**Last Updated**: 2026-10-05  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).
