@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "AnimeDlp"
-version = "1.4.0"
+version = "1.4.1"
 description = "A clean and robust command-line downloader for supported anime video sites (anime1.me / anime1.pw)."
 readme = "README.md"
 requires-python = ">=3.8"

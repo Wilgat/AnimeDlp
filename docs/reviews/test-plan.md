@@ -1,6 +1,6 @@
 # AnimeDlp — product test plan (TP map)
 
-**Product:** AnimeDlp `1.4.0`  
+**Product:** AnimeDlp `1.4.1`  
 **Updated:** 2026-10-05  
 **Install mode:** pip / local package (`anime-dlp`) — **not** shell Type O  
 **Suite root:** `tests/`  
@@ -77,7 +77,7 @@
 
 ```text
 PYTHONPATH=src python3 -m pytest -q tests/
-# 38 passed, 1 skipped (2026-10-05) — product 1.4.0 / L2
+# 38 passed, 1 skipped (2026-10-05) — product 1.4.1 / L2
 # skip = TP-ANIMEDLP-04 optional live extract (ANIMEDLP_LIVE_NET not set)
 ```
 

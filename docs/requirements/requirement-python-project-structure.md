@@ -54,7 +54,7 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 | `src/AnimeDlp/__init__.py` | `__version__` + public `main` |
 | `src/AnimeDlp/__main__.py` | Module entry |
 | `pyproject.toml` | Packaging SSOT |
-| `build.sh` | Maintainer build/release helper |
+| `build.sh` | Maintainer verbs from the VideoJoin script, retargeted to AnimeDlp. Version from `AnimeDlp.__version__`. `anime-dlp` flags are not accepted |
 | `cy-master` / `cy-master.ini` | Optional Cython/maintainer tooling (not runtime SSOT) |
 | `docs/requirements/` | Product law |
 | `README.md` | User documentation |
@@ -133,6 +133,7 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 | 2026-08-11 | Active 1.0.0 | Thin cli + downloader/helpers; L2 target modules |
 | 2026-08-11 | Active 1.0.0 | L2 modules on disk; product **1.3.0** |
 | 2026-10-05 | Active 1.0.1 | `please_wait.py` draws the file count, the percent finished, and the time until finish |
+| 2026-10-05 | Active 1.0.1 | `build.sh` retargeted from VideoJoin. Package **1.4.1** |
 
 ---
 

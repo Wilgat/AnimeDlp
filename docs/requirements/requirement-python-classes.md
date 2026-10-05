@@ -81,7 +81,7 @@ Coordinator **MAY** expose thin facade methods (`extract_anime1_me`, `download_v
 | **Architecture peer** | `requirement-python-system-architecture` |
 | **Domain peer** | `requirement-domain-animedlp` |
 | **Pipeline peer** | `requirement-download-ytdlp-pipeline` |
-| **Product version** | `1.4.0` |
+| **Product version** | `1.4.1` |
 
 ### 2.7 Why This Requirement Exists (CIAO)
 
@@ -163,6 +163,7 @@ Coordinator **MAY** expose thin facade methods (`extract_anime1_me`, `download_v
 | 2026-08-11 | Active 1.0.0 | L2 class map law (design+REQ; migration phased) |
 | 2026-08-11 | Active 1.1.0 | L2 implemented on disk; product **1.3.0** |
 | 2026-10-05 | Active 1.1.0 | Product version cell aligned to **1.4.0** |
+| 2026-10-05 | Active 1.1.0 | Product version cell aligned to **1.4.1** |
 
 ---
 

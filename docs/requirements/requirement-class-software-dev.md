@@ -78,13 +78,13 @@ This file is **class law + residual SSOT**, not a second copy of domain download
 | **Cross-compile in scope?** | no (unless Cython extension build is deliberately re-enabled and tested) |
 | **Primary project/package tool** | setuptools via PEP 517/621 **`pyproject.toml`** |
 | **Lockfile policy** | **not used** as product law (no committed lockfile requirement) |
-| **Test runner** | none as project law today (honest gap — `build.sh test` may invoke pytest when suites exist) |
+| **Test runner** | `PYTHONPATH=src python3 -m pytest -q tests/`. `./build.sh test` runs `tests/run.sh` and takes no extra arguments |
 | **Linter/formatter** | none as project law |
 | **Primary runtime / OS family** | multi-OS where Python + network + yt-dlp run (documented focus: Linux; macOS/Windows when deps exist) |
 | **Architectures supported** | any arch with CPython available |
 | **Git surface** | used — remote `https://github.com/Wilgat/AnimeDlp` |
 | **Ship surface** | installable Python package `AnimeDlp`; console script `anime-dlp`; module form `python -m AnimeDlp` |
-| **Product version SSOT** | `src/AnimeDlp/__init__.py` → `__version__` and `pyproject.toml` `[project].version` **MUST** stay equal when either is bumped (current package: **1.4.0**). CLI-internal version constants in `cli.py` **MUST** not contradict without documentation |
+| **Product version SSOT** | `src/AnimeDlp/__init__.py` → `__version__` and `pyproject.toml` `[project].version` **MUST** stay equal when either is bumped (current package: **1.4.1**). CLI-internal version constants in `cli.py` **MUST** not contradict without documentation |
 | **Install mode** | **pip / local package** — not a shell online-install Type 0 product |
 | **Type 1 elevation** | **intentionally absent** — no root/sudo product surface |
 | **Author contact (non-secret)** | Wilgat Wong · `wilgat.wong@gmail.com` (also in `pyproject.toml`) |
@@ -189,6 +189,7 @@ This file is **class law + residual SSOT**, not a second copy of domain download
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | Initial class law for AnimeDlp leaving genesis |
 | 2026-10-05 | Active 1.0.0 | Product version cell aligned to **1.4.0** |
+| 2026-10-05 | Active 1.0.0 | Product version cell aligned to **1.4.1**. `build.sh` is the VideoJoin maintainer script retargeted to AnimeDlp |
 
 ---
 

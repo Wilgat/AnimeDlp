@@ -3,7 +3,7 @@
 Executable proof for product law. **Design map:** `docs/reviews/test-plan.md`.  
 **RTM:** `docs/reviews/requirement-test-matrix.md`.
 
-## Status (2026-10-05, product 1.4.0)
+## Status (2026-10-05, product 1.4.1)
 
 | Item | State |
 |------|--------|

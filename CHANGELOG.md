@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__` (CLI reads package version only).
 
+## [1.4.1] - 2026-10-05
+
+### Changed
+
+- `build.sh` is the VideoJoin maintainer script retargeted to AnimeDlp. It reads the version from `AnimeDlp.__version__` in `src/AnimeDlp/__init__.py`. `anime-dlp` flags are not accepted. Clean removes `AnimeDlp.egg-info` and `src/AnimeDlp.egg-info`. `test-install` still reads `[project].name` from `pyproject.toml`.
+- Package version is **1.4.1**. The README badge, SECURITY current row, and requirement version cells follow that string.
+
+---
+
 ## [1.4.0] - 2026-10-05
 
 ### Changed

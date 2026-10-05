@@ -5,8 +5,8 @@ Not product law (`docs/requirements/`). Not incidents (`docs/incidents/`).
 
 | File | Date | Scope | Status |
 |------|------|-------|--------|
-| `2026-10-05-download-progress-review.md` | 2026-10-05 | Wait line: file count, percent finished, time until finish | **Current** (`1.4.0`) |
-| `test-plan.md` | 2026-10-05 | TP map Core **have**, including TP-ANIMEDLP-05 | **Current** (`1.4.0` / L2) |
+| `2026-10-05-download-progress-review.md` | 2026-10-05 | Wait line: file count, percent finished, time until finish | **Current** (`1.4.1`; frames captured at 1.4.0) |
+| `test-plan.md` | 2026-10-05 | TP map Core **have**, including TP-ANIMEDLP-05 | **Current** (`1.4.1` / L2) |
 | `requirement-test-matrix.md` | 2026-08-19 | REQ ↔ TP RTM (incl. live/integration rows) | **Current** |
 | `2026-08-09-product-review.md` | 2026-08-09 | Full product + requirements + tests | Prior |
 | `2026-08-09-requirements-review.md` | 2026-08-09 | Requirements set quality | Closed (Active set) |
@@ -25,7 +25,7 @@ Not product law (`docs/requirements/`). Not incidents (`docs/incidents/`).
 | ID | Status | Notes |
 |----|--------|-------|
 | ADLP-NET-01 | **fixed** (2026-08-19) | TP-ANIMEDLP-04 optional live extract; TP-YTDLP-04 loopback HTTP **have** |
-| ADLP-DOC-02 | **fixed** (2026-08-19) | Live SSOT was aligned to 1.3.1; **1.4.0** realigns the version cells |
+| ADLP-DOC-02 | **fixed** (2026-08-19) | Live SSOT was aligned to 1.3.1; **1.4.0** realigned the version cells; **1.4.1** realigns them again |
 | ADLP-SEC-01 and earlier 1.2.0/1.3.0 findings | **fixed** | Superseded by 2026-08-11 revision + L2 reports |
 | ADLP-WAIT-02 | **fixed** (2026-10-05) | A terminal download shows the file line and turns off yt-dlp's own bar |
 | ADLP-WAIT-03 | **open** | Five unregistered requirement files stay out of the registry |

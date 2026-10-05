@@ -114,7 +114,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | **Domain implementation** | `src/AnimeDlp/extractors/me.py`, `extractors/pw.py` (coordinator: `downloader.py`) |
 | **CLI entry** | `src/AnimeDlp/cli.py` (thin) |
 | **L2 classes peer** | `requirement-python-classes` |
-| **VERSION (package)** | `1.4.0` (align `__init__.py` and `pyproject.toml`) |
+| **VERSION (package)** | `1.4.1` (align `__init__.py` and `pyproject.toml`) |
 | **Supported hosts** | `anime1.me`, `anime1.pw` |
 | **anime1.me path** | Parse `entry-title` + `video-js` `data-apireq`; POST `https://v.anime1.me/api`; collect cookies `e`,`h`,`p` |
 | **anime1.pw path** | Find episode links; per-page `<source>`, iframe, or m3u8/mp4 regex |
@@ -216,6 +216,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | 2026-08-11 | Active 1.0.0 | Implementation Notes: downloader module + 1.2.0 + L2 peers |
 | 2026-08-19 | Active 1.0.0 | DTV aligned to disk; TP-ANIMEDLP-04 optional live extract |
 | 2026-10-05 | Active 1.1.0 | A terminal download shows `file current/total`, the percent finished, and the time until finish. Each flash redraws that time. Package **1.4.0**. `TP-ANIMEDLP-05` has |
+| 2026-10-05 | Active 1.1.0 | Package **1.4.1**. `build.sh` retargeted from VideoJoin |
 
 ---
 

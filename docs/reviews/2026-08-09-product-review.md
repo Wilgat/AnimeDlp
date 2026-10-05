@@ -1,6 +1,6 @@
 # Product review: AnimeDlp (full product)
 
-> **Historical.** This review records product **1.1.0**. Live SSOT is **1.4.0**. Residual close: `docs/reviews/reports/2026-08-19-product-review-open-residuals.md`. Download-line review: `docs/reviews/2026-10-05-download-progress-review.md`.
+> **Historical.** This review records product **1.1.0**. Live SSOT is **1.4.1**. Residual close: `docs/reviews/reports/2026-08-19-product-review-open-residuals.md`. Download-line review: `docs/reviews/2026-10-05-download-progress-review.md`.
 
 **Date:** 2026-08-09  
 **Reviewer:** multi-agent council (Explore/Plan/Implement/Review/Security)  
