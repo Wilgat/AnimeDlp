@@ -343,6 +343,7 @@ _TEXTS = {
         "saved": "Menu language is English",
         "save_failed": "Could not save the menu language",
         "lang_long": "use {name} for this menu",
+        "please_wait": "please wait",
     },
     "zh-Hans": {
         "path": "路径",
@@ -377,6 +378,7 @@ _TEXTS = {
         "saved": "菜单语言是简体中文",
         "save_failed": "无法保存菜单语言",
         "lang_long": "此菜单使用{name}",
+        "please_wait": "请稍候",
     },
     "zh-Hant": {
         "path": "路徑",
@@ -411,6 +413,7 @@ _TEXTS = {
         "saved": "選單語言是繁體中文",
         "save_failed": "無法儲存選單語言",
         "lang_long": "這個選單使用{name}",
+        "please_wait": "請稍候",
     },
     "es": {
         "path": "Ruta",
@@ -445,6 +448,7 @@ _TEXTS = {
         "saved": "El idioma del menú es español",
         "save_failed": "No se pudo guardar el idioma del menú",
         "lang_long": "usar {name} en este menú",
+        "please_wait": "por favor, espere",
     },
     "ar": {
         "path": "المسار",
@@ -479,6 +483,7 @@ _TEXTS = {
         "saved": "لغة القائمة هي العربية",
         "save_failed": "تعذر حفظ لغة القائمة",
         "lang_long": "استخدام {name} لهذه القائمة",
+        "please_wait": "يرجى الانتظار",
     },
     "fr": {
         "path": "Chemin",
@@ -513,6 +518,7 @@ _TEXTS = {
         "saved": "La langue du menu est le français",
         "save_failed": "Impossible d'enregistrer la langue du menu",
         "lang_long": "utiliser {name} pour ce menu",
+        "please_wait": "veuillez patienter",
     },
     "pt": {
         "path": "Caminho",
@@ -547,6 +553,7 @@ _TEXTS = {
         "saved": "O idioma do menu é português",
         "save_failed": "Não foi possível guardar o idioma do menu",
         "lang_long": "usar {name} neste menu",
+        "please_wait": "aguarde, por favor",
     },
     "ru": {
         "path": "Путь",
@@ -581,6 +588,7 @@ _TEXTS = {
         "saved": "Язык меню — русский",
         "save_failed": "Не удалось сохранить язык меню",
         "lang_long": "использовать {name} для этого меню",
+        "please_wait": "пожалуйста, подождите",
     },
     "de": {
         "path": "Pfad",
@@ -615,6 +623,7 @@ _TEXTS = {
         "saved": "Die Menüsprache ist Deutsch",
         "save_failed": "Die Menüsprache konnte nicht gespeichert werden",
         "lang_long": "{name} für dieses Menü verwenden",
+        "please_wait": "bitte warten",
     },
     "ja": {
         "path": "パス",
@@ -649,6 +658,7 @@ _TEXTS = {
         "saved": "メニューの言語は日本語",
         "save_failed": "メニューの言語を保存できませんでした",
         "lang_long": "このメニューで{name}を使う",
+        "please_wait": "お待ちください",
     },
     "ko": {
         "path": "경로",
@@ -683,6 +693,7 @@ _TEXTS = {
         "saved": "메뉴 언어는 한국어",
         "save_failed": "메뉴 언어를 저장하지 못했습니다",
         "lang_long": "이 메뉴에서 {name} 사용",
+        "please_wait": "잠시만 기다려 주세요",
     },
     "nl": {
         "path": "Pad",
@@ -717,6 +728,7 @@ _TEXTS = {
         "saved": "De menutaal is Nederlands",
         "save_failed": "De menutaal kon niet worden opgeslagen",
         "lang_long": "{name} voor dit menu gebruiken",
+        "please_wait": "even geduld",
     },
     "el": {
         "path": "Διαδρομή",
@@ -751,5 +763,6 @@ _TEXTS = {
         "saved": "Η γλώσσα του μενού είναι ελληνικά",
         "save_failed": "Δεν ήταν δυνατή η αποθήκευση της γλώσσας του μενού",
         "lang_long": "χρήση της {name} για αυτό το μενού",
+        "please_wait": "παρακαλώ περιμένετε",
     },
 }

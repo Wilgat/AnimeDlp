@@ -1,7 +1,7 @@
 # AnimeDlp — requirement ↔ test matrix (RTM)
 
-**Product:** AnimeDlp `1.4.0`  
-**Updated:** 2026-10-05  
+**Product:** AnimeDlp `1.5.1`  
+**Updated:** 2026-10-06  
 **Map:** `docs/reviews/test-plan.md`  
 **Law registry:** `docs/requirements/index.md`  
 **Architecture level:** **L2** (multi-class SRP)

@@ -51,7 +51,7 @@ class Cli:
     APP_NAME = "AnimeDlp"
     CONSOLE_NAME = "anime-dlp"
     AUTHOR_NAME = "Wilgat Wong"
-    LAST_UPDATE = "2026-10-05"
+    LAST_UPDATE = "2026-10-06"
     HOMEPAGE = "https://github.com/Wilgat/AnimeDlp"
     BASIC_USAGE = "anime-dlp <url>"
     PRODUCT_VERBS = (

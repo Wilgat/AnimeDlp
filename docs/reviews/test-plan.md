@@ -1,7 +1,7 @@
 # AnimeDlp — product test plan (TP map)
 
-**Product:** AnimeDlp `1.4.0`  
-**Updated:** 2026-10-05  
+**Product:** AnimeDlp `1.5.1`  
+**Updated:** 2026-10-06  
 **Install mode:** pip / local package (`anime-dlp`) — **not** shell Type O  
 **Suite root:** `tests/`  
 **Architecture:** **L2** multi-class SRP (`requirement-python-system-architecture`, `requirement-python-classes`)  
@@ -43,7 +43,7 @@
 | **TP-ANIMEDLP-01** | Unsupported host domain reject | Core | `tests/test_domain.py` | `requirement-domain-animedlp` | **have** |
 | **TP-ANIMEDLP-02** | Extract mode prints without download | Core | `tests/test_domain.py` | `requirement-domain-animedlp`, `requirement-download-ytdlp-pipeline` | **have** |
 | **TP-ANIMEDLP-03** | anime1.pw routes to pw extractor | Core | `tests/test_domain.py` | `requirement-domain-animedlp` | **have** |
-| **TP-ANIMEDLP-05** | The wait line names the file count, the percent finished, and the time until finish. The bullet flashes. The line is gone when the job returns | Core | `tests/test_please_wait.py` | `requirement-domain-animedlp` | **have** |
+| **TP-ANIMEDLP-05** | The wait line names please wait in the saved language, the file count, the percent finished, and the time until finish. The bullet flashes. The line is gone when the job returns | Core | `tests/test_please_wait.py` | `requirement-domain-animedlp` | **have** |
 | **TP-YTDLP-01** | Cookie header only e/h/p | Core | `tests/test_download_pipeline.py` | `requirement-download-ytdlp-pipeline` | **have** |
 | **TP-YTDLP-02** | Extract never builds YoutubeDL | Core | `tests/test_download_pipeline.py` | `requirement-download-ytdlp-pipeline` | **have** |
 | **TP-YTDLP-03** | Referer me vs pw selection | Core | `tests/test_download_pipeline.py` | `requirement-download-ytdlp-pipeline` | **have** |
@@ -58,6 +58,7 @@
 | **TP-ARCH-02** | Download service unit seam (no full run) | Core | `tests/test_architecture.py` | `requirement-python-system-architecture` | **have** |
 | **TP-CLASS-01** | Coordinator composes extractors + download service | Core | `tests/test_architecture.py` | `requirement-python-classes` | **have** |
 | **TP-CLASS-02** | Me extractor unit seam without CLI main | Core | `tests/test_architecture.py` | `requirement-python-classes` | **have** |
+| **TP-TUI-10** | Components list, style guide, and storyboard of captures already on disk, in operator order | Core | `tests/test_tui.py` | `requirement-python-tui` | **have** |
 
 ## Optional map
 
@@ -77,8 +78,12 @@
 
 ```text
 PYTHONPATH=src python3 -m pytest -q tests/
-# 38 passed, 1 skipped (2026-10-05) — product 1.4.0 / L2
+# 38 passed, 1 skipped (2026-10-05) — product 1.5.0 / L2
+PYTHONPATH=src python3 -m pytest -q tests/test_tui.py
+# 6 passed (2026-10-06) — TP-TUI-10 have. Full suite not re-run this change.
 # skip = TP-ANIMEDLP-04 optional live extract (ANIMEDLP_LIVE_NET not set)
+PYTHONPATH=src python3 -m pytest -q tests/
+# 48 passed, 1 skipped (2026-10-06) — product 1.5.1 / L2. The skip is TP-ANIMEDLP-04.
 ```
 
 **Reviews:**  

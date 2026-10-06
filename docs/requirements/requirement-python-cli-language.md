@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-cli-language.md
-**Status**: Active (Version 1.0.4)
+**Status**: Active (Version 1.0.5)
 **Area**: python
 **Key**: `requirement-python-cli-language`
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -18,7 +18,7 @@ Class `MenuLanguage` in `src/AnimeDlp/menu_language.py` holds the codes, the sav
 |-----|---------|---------|
 | You / this login | The person at the keyboard | `anime-dlp`, then `4` |
 | The other role | The menu language object | class `MenuLanguage` in `menu_language.py` |
-| Not this file | Download messages, pip output, help, and the about page | Those stay English in this version |
+| Not this file | Download messages other than the please-wait phrase, pip output, help, and the about page | Those stay English in this version |
 
 | Includes | Excludes |
 |----------|----------|
@@ -48,8 +48,8 @@ Class `MenuLanguage` in `src/AnimeDlp/menu_language.py` holds the codes, the sav
 5. **Front row 4.** On every host, including Termux, Git Bash, and Windows cmd, the front board **MUST** print row **4** `language`. That row **MUST** open the language board. It **MUST NOT** run a command and **MUST NOT** leave the program. Row **1** is `download`. Row **2** stays omitted. Rows **8** and **9** stay self-management and Exit. **MUST NOT** put `join` on row 1. System-log is front row **3**. Its children are **31** view-log, **32** clear-log, and **33** log-folder. Those numbers are the picture on `requirement-python-tui`. The leaf short `download` stays English.
 6. **Language block.** The language board uses the twenty numbers **40** through **59**. Assigned rows are **41** through **53**, in the order below. **40** and **54** through **59** are reserved. They **MUST NOT** be printed. Typing a reserved number **MUST** show the unknown-choice line and **MUST NOT** write the leaf. **0**, an empty Enter on Back, and Esc **MUST** return to the front board and **MUST NOT** write the leaf.
 7. **Names on the language board.** Each assigned row **MUST** show that language’s endonym as the short. This build prints the English explain `use this language for this menu` on every language row. The per-language sentence in the table below is the saved-language line. A translated explain for every UI language stays with `TP-LANG-01`.
-8. **What follows the code.** This build applies the path word and the saved-language sentence for the selected code. Board titles, category shorts, Back, Exit, the unknown-choice line, and the failed-write line stay English. Full translation of those strings is `TP-LANG-01` and stays todo. Leaf shorts stay the English tokens `download`, `view-log`, `clear-log`, `log-folder`, `version`, `about`, `version-check`, `self-update`, `self-uninstall`, and `self-install`. `join` is not a leaf.
-9. **What stays English.** Extract and download messages, command output, pip lifecycle output, the argv `version` line, host and download fail-closed sentences, the help body, and the about page stay English in this version. The key hint `Up/Down  •  Enter` stays English. The folder path and the clock `HH:MM:SS` are not translated. The product name and the version stay on the status line.
+8. **What follows the code.** This build applies the path word, the saved-language sentence, and the please-wait phrase for the selected code. Board titles, category shorts, Back, Exit, the unknown-choice line, and the failed-write line stay English. Full translation of those strings is `TP-LANG-01` and stays todo. Leaf shorts stay the English tokens `download`, `view-log`, `clear-log`, `log-folder`, `version`, `about`, `version-check`, `self-update`, `self-uninstall`, and `self-install`. `join` is not a leaf.
+9. **What stays English.** Extract messages, download messages other than the please-wait phrase, command output, pip lifecycle output, the argv `version` line, host and download fail-closed sentences, the help body, and the about page stay English in this version. On the download line, `file`, `finished`, `until finish`, and `estimating` stay English. The key hint `Up/Down  •  Enter` stays English. The folder path and the clock `HH:MM:SS` are not translated. The product name and the version stay on the status line. The please-wait phrase is the one download phrase this build translates. It is not `TP-LANG-01`.
 10. **After a successful pick.** The session **MUST** show the saved-language line and **MUST** return to the front board with the new path word. That line sits above the box. It is not the error line. It stays until the next key. A failed write uses the same place. This build shows the English line `Could not save the menu language`.
 11. **Unknown choice.** A number or a word that is not on the current board **MUST** stay on that board and show the unknown-choice line in the selected language. It **MUST NOT** exit the process and **MUST NOT** write the leaf. The English line is `That choice is not on this list. Pick a listed number.`
 12. **Clock.** The language board is a clock board. The one-second wait from `requirement-python-tui` rule 13 includes it. A language pick does not open a result page.
@@ -74,6 +74,24 @@ Class `MenuLanguage` in `src/AnimeDlp/menu_language.py` holds the codes, the sav
 | `ko` | 한국어 | 51 | 경로 | 메뉴 언어는 한국어 | 메뉴 언어를 저장하지 못했습니다 |
 | `nl` | Nederlands | 52 | Pad | De menutaal is Nederlands | De menutaal kon niet worden opgeslagen |
 | `el` | Ελληνικά | 53 | Διαδρομή | Η γλώσσα του μενού είναι ελληνικά | Δεν ήταν δυνατή η αποθήκευση της γλώσσας του μενού |
+
+The download line’s please-wait phrase. `requirement-domain-animedlp` owns where that phrase sits. This file owns the thirteen sentences. English is `please wait`.
+
+| Code | Phrase |
+|------|--------|
+| `en` | please wait |
+| `zh-Hans` | 请稍候 |
+| `zh-Hant` | 請稍候 |
+| `es` | por favor, espere |
+| `ar` | يرجى الانتظار |
+| `fr` | veuillez patienter |
+| `pt` | aguarde, por favor |
+| `ru` | пожалуйста, подождите |
+| `de` | bitte warten |
+| `ja` | お待ちください |
+| `ko` | 잠시만 기다려 주세요 |
+| `nl` | even geduld |
+| `el` | παρακαλώ περιμένετε |
 
 | Item | Value |
 |------|--------|
@@ -183,9 +201,10 @@ On Termux, Git Bash, Windows cmd, or the same class, the person runs `anime-dlp`
 | 2026-10-05 | Active 1.0.2 | Specialized from the VideoJoin bootstrap. About explain no longer names FFmpeg. Product is AnimeDlp |
 | 2026-10-05 | Active 1.0.3 | Specialized from the VideoJoin bootstrap. Row 1 is omitted. `join` is not a leaf. The process override is `ANIMEDLP_LANG` |
 | 2026-10-05 | Active 1.0.4 | Row 1 is `download`. Row 2 stays omitted. The running session stores the codes on `Tui`. `TP-LANG-01` stays todo |
+| 2026-10-06 | Active 1.0.5 | The download line’s please-wait phrase follows the saved code. The rest of that line stays English. `TP-LANG-01` stays todo |
 
 ---
 
-**Last Updated**: 2026-10-05
+**Last Updated**: 2026-10-06
 **Owner**: project maintainers
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

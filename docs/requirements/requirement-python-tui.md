@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-tui.md  
-**Status**: Active (Version 1.0.0)  
+**Status**: Active (Version 1.2.0)  
 **Area**: python  
 **Key**: `requirement-python-tui`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -43,6 +43,44 @@ The argument contract stays on `requirement-python-cli-interface`. Download appl
 | **Loop** | `src/AnimeDlp/menu_session.py` class `MenuSession` |
 | **Proof** | `tests/test_tui.py`, `tests/test_cli.py` TP-CLI-02, TP-CLI-04, TP-CLI-05 |
 
+### 2.2 Components list and style guide
+
+This menu names each part, where that part sits, and the display style.
+
+| Part | What it is | Where it sits | Display style |
+|------|------------|---------------|---------------|
+| navigation | The numbered rows you pick | Under the path line and above the bottom input box, on the front board and on each child board | Each row is a number, a short name, and an explain sentence. The front board is **1** download, **3** system-log, **4** language, **8** self-management, and **9** Exit. Row **2** stays omitted. Child boards stay rule 5: system-log **31**–**33**, language **41**–**53**, self-management **82**–**87**, and each child board ends with **0** Back |
+| status | The product name, the version, the board title, and the key hint | The line under the bottom input box. It is the last row of a choice board | Plain text: two spaces, the product name, one space, the version, two spaces, `│`, two spaces, the board title, two spaces, `│`, two spaces, `Up/Down  •  Enter`. A result page does not draw this line. When the about page is longer than the window, its footer is `Up/Down scrolls this page.` The return line is `Press a key to return to the main menu.` |
+| major input | The box where you type a row number or a page URL | The bottom three rows of a board that takes a choice: a top border, one typing line, and a bottom border | The typing line starts with `> `. The corners are `╭` `╮` `╰` `╯`. The horizontal stroke is `─`. The vertical stroke is `│`. A focused box shows the typed text and a block caret `█`. A result page has no input box |
+| major output | The board the screen writer draws | The whole terminal | `MenuPainter` in `src/AnimeDlp/menu_painter.py` is the writer. One paint replaces the screen. A result page scrolls with Up and Down and does not draw the path or the clock |
+| path display | The folder you are standing in | The left side of row 0 on the front board, system-log, language, and self-management | `<label>: <absolute current directory>` with one space after the colon. The English label is `Path`. Other languages use the path word `requirement-python-cli-language` names. Traditional Chinese is `路徑`. The directory is not translated. When the row is too narrow, the directory shortens from the left |
+| system-time display | The local time of this machine | The right side of that same row 0, when the row has room, on the front board, system-log, language, and self-management | `HH:MM:SS`, 24-hour, zero-padded, eight characters. No date, no timezone, and no label. At least two spaces sit before the clock. A row that cannot hold both keeps the path and omits the clock. A result page and a question do not draw the clock. The clock is drawn again at most once a second, with no thread. The clock is not translated |
+| time-consuming process messages | The sentence shown while videos are being saved | One line on the terminal’s error stream, while that download runs. It is not a row of this menu | A flashing bullet, then the saved-language words for `please wait`, then the file count, the percent finished, and the time until finish. The bullet cell flashes. The phrase and the numbers stay put. The thirteen phrases stay on `requirement-python-cli-language`. The line shape stays on `requirement-domain-animedlp`. This menu does not download an AI model and does not convert images, and it does not print `{choice} has been selected. {process} takes time to finish.` |
+
+### 2.3 Storyboard
+
+These captures are already on disk. The order is the operator flow. Each row names the action that opens that file. Caption sentences stay on `requirement-python-readme`. Exit has no capture. A page URL does not open this menu, so a download picture is not a step of this menu.
+
+| Order | Action | Capture |
+|------|--------|---------|
+| 1 | Open `anime-dlp` with no page URL on a terminal | `screenshots/main-menu-en.png` |
+| 2 | Choose **4** language | `screenshots/language-menu.png` |
+| 3 | Save 简体中文 and return to the front board | `screenshots/main-menu-zh-hans.png` |
+| 4 | Save 繁體中文 and return to the front board | `screenshots/main-menu-zh-hant.png` |
+| 5 | Save Español and return to the front board | `screenshots/main-menu-es.png` |
+| 6 | Save العربية and return to the front board | `screenshots/main-menu-ar.png` |
+| 7 | Save Français and return to the front board | `screenshots/main-menu-fr.png` |
+| 8 | Save Português and return to the front board | `screenshots/main-menu-pt.png` |
+| 9 | Save Русский and return to the front board | `screenshots/main-menu-ru.png` |
+| 10 | Save Deutsch and return to the front board | `screenshots/main-menu-de.png` |
+| 11 | Save 日本語 and return to the front board | `screenshots/main-menu-ja.png` |
+| 12 | Save 한국어 and return to the front board | `screenshots/main-menu-ko.png` |
+| 13 | Save Nederlands and return to the front board | `screenshots/main-menu-nl.png` |
+| 14 | Save Ελληνικά and return to the front board | `screenshots/main-menu-el.png` |
+| 15 | Choose **3** system-log | `screenshots/system-log.png` |
+| 16 | Back, then choose **8** self-management | `screenshots/self-management.png` |
+| 17 | Choose **83** about. This result page has no clock and no input box | `screenshots/tui-about.png` |
+
 ## 3. Protection Rule (Sacred)
 
 **Future AI assistants MUST NOT**:
@@ -50,7 +88,10 @@ The argument contract stays on `requirement-python-cli-interface`. Download appl
 1. Require a page URL before this menu can open on a terminal.  
 2. Open this menu when a page URL was given.  
 3. Put row 2 back, or put install on the front board.  
-4. Hang when stdout is not a terminal.
+4. Hang when stdout is not a terminal.  
+5. Drop a part, its place, or its display style from the components list.  
+6. Name a storyboard capture that is not a file under `screenshots/`, or describe `screenshots/video.png` or a download-progress frame as a step of this menu.  
+7. Invent a capture, or recapture pictures from this requirement.
 
 ## 4. Acceptance criteria
 
@@ -61,17 +102,56 @@ The argument contract stays on `requirement-python-cli-interface`. Download appl
 | AC-3 | Front numbers are 1, 3, 4, 8, 9 |
 | AC-4 | A pasted `http(s)` URL is a download |
 | AC-5 | An unknown choice stays on the board |
+| AC-6 | The components list names each part with where it sits and the display style, and the storyboard names the captured menu files in operator order |
+
+### 4.1 Design-time verification
+
+| TP-ID | Suite | Status |
+|-------|-------|--------|
+| **TP-TUI-10** | `tests/test_tui.py` | have |
+
+**Map:** `docs/reviews/test-plan.md`
 
 ## 5. Related requirements (peer keys only)
 
 | Key | Relationship |
 |-----|--------------|
 | `requirement-python-cli-interface` | Who opens this menu |
-| `requirement-domain-animedlp` | Page download |
+| `requirement-domain-animedlp` | Page download, and the download wait line |
+| `requirement-python-readme` | Caption cells for the captures this storyboard names |
+| `requirement-python-cli-language` | The path word for each saved language |
 | `docs/requirements/index.md` | Registry |
 
-## 6. Status history
+## 6. Terminologies
+
+### default-tui-style
+
+**Definition:** Default TUI style is the full-screen look of this text menu. One screen writer draws two regions on a choice board: a menu region and a bottom input box pinned to the bottom of the screen. The first row of the menu region is the path line: a label, a colon, one space, and the absolute current directory. That directory is not translated. The product name and the version are not on that row. They stay on the status line under the box, as plain text, with a space between the name and the version. When the row has room, a local clock `HH:MM:SS` is on the right: 24-hour, zero-padded, eight characters, no date, no timezone name, no label, and not translated. At least two spaces separate the path from the clock. A row that cannot hold both keeps the path, shortened from the left, and omits the clock. Numbered rows follow the path line. The box is a rounded frame exactly three terminal rows high, and the status row under it is the last row of the screen. While a choice board is showing, the session waits at most one second for the next key. No key redraws the clock and stays on the board. A typed key is still delivered. No thread. A result page and a question do not draw the clock and do not use that wait.
+
+**Human daily-life explanation:** The chalkboard fills the window. The top line names the folder you are standing in, and a small clock of the local time sits on the right of that same line and moves once a second. The rows sit under that line, and a rounded writing tray is fixed to the bottom edge. The product name and the version sit on the thin strip under the tray, not on the top line.
+
+**Daily-life example:** On the AnimeDlp front board the top line reads `Path: ` and then the folder you are standing in, and the clock `14:05:09` ends at the right edge. A second later the clock shows the new local time and the rows have not moved. You type the row number in the bottom box. The about page does not show the clock.
+
+### major-tui-entry-point
+
+**Definition:** The major entry of this text menu is interactive mode with no positional page URL. Flags that are not a command, such as `--debug` or `--verbose` with no URL, stay on that entry. `--help` and `--version` do not open the menu. A page URL does not open the menu. A verb opens this menu only when this requirement names that verb.
+
+**Human daily-life explanation:** You see the walk-up board when you name no dish. Naming a page sends you to the download counter. A light switch that is not a dish, such as `--debug`, still leaves you at the walk-up board.
+
+**Daily-life example:** You run `anime-dlp` and name no page. The menu opens. You add only `--debug`. The menu still opens. You pass a page URL. That download is not this door.
+
+### well-known-time-consuming-process
+
+**Definition:** A well-known time-consuming process is a closed catalog of operator work that is known to take long enough that the selected choice must show one sentence before that work starts. The catalog is downloading an AI model and converting images. The sentence names the choice and says that the process takes time to finish. The process words are `Downloading the AI model` or `Converting images`. The sentence is shown only when that process is about to start. A choice that only opens a submenu does not announce. An empty input, a missing path, a rejected format, a failure to create the output directory, language, Exit, version, about, and a package-manager lifecycle do not announce. Do not say the model is downloading when the weights file is already a file. On a terminal the sentence is printed and flushed before the blocking call. On a text screen it is painted and refreshed and does not wait for a key. A caller that also prints returned text must not print the sentence a second time.
+
+**Human daily-life explanation:** It is a dish the kitchen already knows will take a while. The waiter says the dish you picked and that it takes time, then goes to the kitchen. Opening the menu book is not that dish. A glass of water that is already on the table is not announced as still being filled.
+
+**Daily-life example:** This AnimeDlp menu does not download an AI model and does not convert images, so it does not say that sentence. A video download shows a flashing bullet and the saved-language words for please wait, then the file count, the percent, and the time until finish. That line stays on `requirement-domain-animedlp` and is erased when the downloads return.
+
+## 7. Status history
 
 | Date | Status | Note |
 |------|--------|------|
+| 2026-10-06 | Active 1.2.0 | The time-consuming row is the download wait line: a flashing bullet and the saved-language words for please wait |
+| 2026-10-06 | Active 1.1.0 | Components list, style guide, and storyboard of captures already on disk |
 | 2026-10-05 | Active 1.0.0 | Text menu for a bare `anime-dlp` |

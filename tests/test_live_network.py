@@ -32,7 +32,7 @@ def _args(**kwargs):
         verbose=False,
         extract=True,
         cloudflare=None,
-        user_agent="AnimeDlp-live-test/1.4.0",
+        user_agent="AnimeDlp-live-test/1.5.1",
         output_dir=None,
         show_cookies=False,
     )

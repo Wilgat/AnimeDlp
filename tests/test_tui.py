@@ -1,6 +1,8 @@
-"""Text menu tests — front board, pasted URL, invalid choice. No curses screen."""
+"""Text menu tests — front board, pasted URL, invalid choice, TP-TUI-10. No curses screen."""
 
 import curses
+import re
+from pathlib import Path
 
 from AnimeDlp.menu_model import MenuModel
 from AnimeDlp.menu_painter import MenuPainter
@@ -46,3 +48,48 @@ def test_exit_row_leaves(tmp_path):
     model = MenuModel(painter=_painter(tmp_path))
     model.index = 4
     assert model.apply_key(curses.KEY_ENTER) == "exit"
+
+
+def test_components_list_and_storyboard():
+    """TP-TUI-10: the requirement prints each part, the style columns, and the capture flow."""
+    root = Path(__file__).resolve().parents[1]
+    text = (root / "docs/requirements/requirement-python-tui.md").read_text(encoding="utf-8")
+    section_parts = text.split("### 2.2 ", 1)[1].split("### 2.3 ", 1)[0]
+    section_flow = text.split("### 2.3 ", 1)[1].split("## 3.", 1)[0]
+    for name in (
+        "navigation",
+        "status",
+        "major input",
+        "major output",
+        "path display",
+        "system-time display",
+        "time-consuming process messages",
+    ):
+        assert name in section_parts
+    assert "Where it sits" in section_parts
+    assert "Display style" in section_parts
+    found = re.findall(r"screenshots/[a-z0-9.-]+\.png", section_flow)
+    expected = [
+        "screenshots/main-menu-en.png",
+        "screenshots/language-menu.png",
+        "screenshots/main-menu-zh-hans.png",
+        "screenshots/main-menu-zh-hant.png",
+        "screenshots/main-menu-es.png",
+        "screenshots/main-menu-ar.png",
+        "screenshots/main-menu-fr.png",
+        "screenshots/main-menu-pt.png",
+        "screenshots/main-menu-ru.png",
+        "screenshots/main-menu-de.png",
+        "screenshots/main-menu-ja.png",
+        "screenshots/main-menu-ko.png",
+        "screenshots/main-menu-nl.png",
+        "screenshots/main-menu-el.png",
+        "screenshots/system-log.png",
+        "screenshots/self-management.png",
+        "screenshots/tui-about.png",
+    ]
+    assert found == expected
+    for name in expected:
+        assert (root / name).is_file()
+    assert "video.png" not in section_flow
+    assert "download-progress" not in section_flow

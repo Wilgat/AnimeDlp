@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-about.md
-**Status**: Active (Version 1.0.1)
+**Status**: Active (Version 1.0.2)
 **Area**: python
 **Key**: `requirement-python-about`
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -178,7 +178,7 @@ Invocation: `anime-dlp` on a terminal, then `8`, then `83`. The same page is `an
 | **Console script** | `anime-dlp` |
 | **Author** | `Wilgat Wong` |
 | **Homepage** | `https://github.com/Wilgat/AnimeDlp` |
-| **About date** | `2026-10-04` (`Cli.LAST_UPDATE`). This is the box date, not the host-check stamp |
+| **About date** | `2026-10-06` (`Cli.LAST_UPDATE`). This is the box date, not the host-check stamp |
 | **Usage line** | `anime-dlp <url>` (`Cli.BASIC_USAGE`) |
 | **Download URL** | empty (`Cli.DOWNLOAD_URL`) |
 | **Docker marker** | `/.dockerenv` only |
@@ -284,7 +284,8 @@ TP-ABOUT-01 asserts the identity line, every host-check label, the star-box titl
 |------|--------|------|
 | 2026-10-04 | Active 1.0.0 | About page: identity, host check, star box. Pyenv and conda reads stay here. No `--json`. Product version **1.1.0**. `./tests/run.sh` — 23 tests, OK. `TP-ABOUT-01` through `TP-ABOUT-14` and `TP-ABOUT-16` are have. There is no `TP-ABOUT-15` |
 | 2026-10-05 | Active 1.0.1 | Specialized from the VideoJoin bootstrap. Domain line is the anime downloader. The page does not probe ffmpeg |
+| 2026-10-06 | Active 1.0.2 | The about box date is `2026-10-06`. The host-check stamp is the time of the capture |
 
-**Last Updated**: 2026-10-05
+**Last Updated**: 2026-10-06
 **Owner**: project maintainers
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

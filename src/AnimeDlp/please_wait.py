@@ -1,13 +1,15 @@
 """A flashing bullet while videos are being saved.
 
-Each flash redraws one line: the file now being saved, the file total,
-the percent finished, and the time until finish. The line is removed
-when the downloads return. A stream that is not a terminal is left alone.
+Each flash redraws one line: the saved-language please-wait phrase,
+the file now being saved, the file total, the percent finished, and
+the time until finish. The line is removed when the downloads return.
+A stream that is not a terminal is left alone.
 """
 
 import sys
 import threading
 import time
+import unicodedata
 
 
 class DownloadProgress:
@@ -106,28 +108,52 @@ def format_until_finish(seconds):
     return f"{secs}s until finish"
 
 
-def please_wait_line(bullet_on, current=0, total=0, percent=0, remaining_seconds=None):
+def _columns(text):
+    """Terminal columns. Wide and fullwidth count as two. Ambiguous stays one."""
+    total = 0
+    for char in text:
+        total += 2 if unicodedata.east_asian_width(char) in ("W", "F") else 1
+    return total
+
+
+def _saved_please_wait_phrase():
+    """The please-wait words for the saved menu language. Does not write the leaf."""
+    from .menu_language import MenuLanguage
+
+    return MenuLanguage().text("please_wait")
+
+
+def please_wait_line(
+    bullet_on, current=0, total=0, percent=0, remaining_seconds=None, phrase=None,
+):
     """One line. The bullet is drawn, or a space of the same width.
 
-    With a file total the line names `file current/total`, the percent
-    finished, and the time until finish. Without a total it names the
-    percent and the time only.
+    The phrase is the saved-language words for please wait. With a file
+    total the line then names `file current/total`, the percent finished,
+    and the time until finish. Without a total it names the percent and
+    the time only. `file`, `finished`, `until finish`, and `estimating`
+    stay English.
     """
+    if phrase is None:
+        phrase = _saved_please_wait_phrase()
     bullet = "•" if bullet_on else " "
     percent = max(0, min(100, int(percent)))
     clock = format_until_finish(remaining_seconds)
+    head = f"{bullet} {phrase}."
     if int(total) > 0:
         shown = max(1, min(int(current), int(total)))
-        return f"{bullet} file {shown}/{int(total)}, {percent}% finished, {clock}"
-    return f"{bullet} {percent}% finished, {clock}"
+        return f"{head} file {shown}/{int(total)}, {percent}% finished, {clock}"
+    return f"{head} {percent}% finished, {clock}"
 
 
 class flashing_wait:
     """Rewrite one terminal line until the block ends, then erase it."""
 
-    def __init__(self, stream=None, progress=None):
+    def __init__(self, stream=None, progress=None, phrase=None):
         self.stream = sys.stderr if stream is None else stream
         self.progress = progress
+        self.phrase = phrase
+        self._phrase = ""
         self._stop = threading.Event()
         self._thread = None
         self._active = False
@@ -137,6 +163,10 @@ class flashing_wait:
         isatty = getattr(self.stream, "isatty", None)
         if not callable(isatty) or not isatty():
             return self
+        if self.phrase is None:
+            self._phrase = _saved_please_wait_phrase()
+        else:
+            self._phrase = self.phrase
         self._active = True
         self._thread = threading.Thread(target=self._loop, daemon=True)
         self._thread.start()
@@ -153,16 +183,18 @@ class flashing_wait:
 
     def _line(self, bullet_on):
         if self.progress is None:
-            return please_wait_line(bullet_on)
+            return please_wait_line(bullet_on, phrase=self._phrase)
         current, total, percent, remaining = self.progress.snapshot()
-        return please_wait_line(bullet_on, current, total, percent, remaining)
+        return please_wait_line(
+            bullet_on, current, total, percent, remaining, phrase=self._phrase,
+        )
 
     def _loop(self):
         on = True
         while not self._stop.is_set():
             line = self._line(on)
-            self._width = max(self._width, len(line))
-            padded = line + (" " * (self._width - len(line)))
+            self._width = max(self._width, _columns(line))
+            padded = line + (" " * (self._width - _columns(line)))
             self.stream.write("\r" + padded)
             self.stream.flush()
             on = not on

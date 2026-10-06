@@ -1,4 +1,4 @@
-"""TP-ANIMEDLP-05: the download line names the file, the percent, and the time until finish."""
+"""TP-ANIMEDLP-05: the download line names please wait, the file, the percent, and the time until finish."""
 
 import argparse
 import io
@@ -16,6 +16,29 @@ from AnimeDlp.please_wait import (
     format_until_finish,
     please_wait_line,
 )
+
+PHRASES = {
+    "en": "please wait",
+    "zh-Hans": "请稍候",
+    "zh-Hant": "請稍候",
+    "es": "por favor, espere",
+    "ar": "يرجى الانتظار",
+    "fr": "veuillez patienter",
+    "pt": "aguarde, por favor",
+    "ru": "пожалуйста, подождите",
+    "de": "bitte warten",
+    "ja": "お待ちください",
+    "ko": "잠시만 기다려 주세요",
+    "nl": "even geduld",
+    "el": "παρακαλώ περιμένετε",
+}
+
+
+@pytest.fixture(autouse=True)
+def _english_wait_phrase(monkeypatch, tmp_path):
+    """Do not read this login’s language leaf. English unless a test sets ANIMEDLP_LANG."""
+    monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.delenv("ANIMEDLP_LANG", raising=False)
 
 
 class _Tty(io.StringIO):
@@ -38,16 +61,20 @@ def _args(**kwargs):
 
 
 def test_TP_ANIMEDLP_05_line_names_file_percent_and_time():
-    """The line tells file current/total, percent finished, and time until finish."""
+    """The line tells please wait, file current/total, percent finished, and time until finish."""
     assert please_wait_line(True, 2, 5, 40, 65) == (
-        "• file 2/5, 40% finished, 1m 05s until finish"
+        "• please wait. file 2/5, 40% finished, 1m 05s until finish"
     )
     assert please_wait_line(False, 2, 5, 40, 65) == (
-        "  file 2/5, 40% finished, 1m 05s until finish"
+        "  please wait. file 2/5, 40% finished, 1m 05s until finish"
     )
+    on = please_wait_line(True, 2, 5, 40, 65, phrase="please wait")
+    off = please_wait_line(False, 2, 5, 40, 65, phrase="please wait")
+    assert on[1:] == off[1:]
     assert please_wait_line(True, 1, 5, 0, None) == (
-        "• file 1/5, 0% finished, estimating"
+        "• please wait. file 1/5, 0% finished, estimating"
     )
+    assert "takes time to finish" not in please_wait_line(True, 2, 5, 40, 65)
     assert format_until_finish(5) == "5s until finish"
     assert format_until_finish(3661) == "1h 01m 01s until finish"
     assert format_until_finish(None) == "estimating"
@@ -85,13 +112,13 @@ def test_TP_ANIMEDLP_05_terminal_bullet_flashes_then_is_erased():
         progress.started = time.monotonic() - 90
         time.sleep(0.9)
     text = stream.getvalue()
-    assert "• file 1/1, 50% finished, 30s until finish" in text
-    assert "  file 1/1, 50% finished," in text
+    assert "• please wait. file 1/1, 50% finished, 30s until finish" in text
+    assert "  please wait. file 1/1, 50% finished," in text
     assert ("1m 30s until finish" in text or "1m 31s until finish" in text)
     parts = text.split("\r")
     assert parts[-1] == ""
     assert parts[-2].strip() == ""
-    assert len(parts[-2]) >= len("• file 1/1, 50% finished, 30s until finish")
+    assert len(parts[-2]) >= len("• please wait. file 1/1, 50% finished, 30s until finish")
 
 
 def test_TP_ANIMEDLP_05_quiet_stream_is_unchanged():
@@ -148,8 +175,8 @@ def test_TP_ANIMEDLP_05_download_installs_the_hook_on_a_terminal(monkeypatch):
     assert seen == [1, 2]
     assert dl.download_service.quiet_native_progress is True
     text = stream.getvalue()
-    assert "• file 1/2, 0% finished, estimating" in text
-    assert "  file 1/2, 0% finished, estimating" in text
+    assert "• please wait. file 1/2, 0% finished, estimating" in text
+    assert "  please wait. file 1/2, 0% finished, estimating" in text
     assert "file 2/2, 50% finished," in text
     assert "until finish" in text
     parts = text.split("\r")
@@ -224,3 +251,15 @@ def test_TP_ANIMEDLP_05_hook_is_installed_only_with_progress():
         assert bare.download_video("Title", "https://cdn.anime1.me/a.mp4", None) is True
     assert "progress_hooks" not in captured["opts"]
     assert "noprogress" not in captured["opts"]
+
+
+def test_TP_ANIMEDLP_05_please_wait_follows_the_saved_language(monkeypatch, tmp_path):
+    """Each saved menu language supplies its own please-wait phrase. The read does not write the leaf."""
+    monkeypatch.setenv("HOME", str(tmp_path))
+    for code, phrase in PHRASES.items():
+        monkeypatch.setenv("ANIMEDLP_LANG", code)
+        assert please_wait_line(True, 2, 5, 40, 65) == (
+            f"• {phrase}. file 2/5, 40% finished, 1m 05s until finish"
+        )
+    leaf = tmp_path / ".local" / "AnimeDlp" / "language"
+    assert not leaf.exists()

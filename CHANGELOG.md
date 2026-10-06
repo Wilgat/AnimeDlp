@@ -7,6 +7,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__` (CLI reads package version only).
 
+## [1.5.1] - 2026-10-06
+
+### Changed
+
+- On a terminal, the download line starts with a flashing bullet and the saved-language words for please wait. English is `please wait`. The file count, the percent finished, and the time until finish stay on that line. The line does not print `{choice} has been selected. {process} takes time to finish.`
+- Sample download frames and the menu pictures in `screenshots/` show package **1.5.1**. The about picture stamp is the time of that capture.
+- Package version is **1.5.1**. The README badge, SECURITY current row, and requirement version cells follow that string.
+
+---
+
+## [1.5.0] - 2026-10-05
+
+### Added
+
+- On a terminal, `anime-dlp` with no page URL opens the text menu. Row 1 is download, row 3 is system-log, row 4 is language, row 8 is self-management, and row 9 is Exit. Row 2 stays omitted.
+- The README Screenshots section shows that menu: the language list, one main menu for each of the thirteen languages, self-management, about, and system-log. Each picture is a capture of the running screen, with the paragraph and the image alt naming what is on that screen.
+- Sample download frames stay in `screenshots/` and now show package **1.5.0**.
+
+### Changed
+
+- Package version is **1.5.0**. The README badge, SECURITY current row, and requirement version cells follow that string.
+
+---
+
 ## [1.4.0] - 2026-10-05
 
 ### Changed
