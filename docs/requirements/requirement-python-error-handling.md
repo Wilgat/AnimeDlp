@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-error-handling.md  
-**Status**: Active (Version 1.0.0)  
+**Status**: Active (Version 1.0.1)  
 **Area**: python  
 **Key**: `requirement-python-error-handling`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -31,6 +31,10 @@ Define how AnimeDlp **detects, reports, and recovers from errors** during depend
 | No titles / no apireq | parse failure | ERROR; exit 1 |
 | Title/video count mismatch | list lengths differ | ERROR; exit 1 |
 | Empty extract result | zero videos | INFO/WARN + no success claim; exit non-zero **SHOULD** when nothing found |
+| mpv missing or not mplayer2 | `mpv` verb and the player check fails | ERROR; exit 1; do not extract and do not play |
+| `mpv` without a page URL | verb `mpv` and no URL | ERROR; exit 1; do not open the menu |
+| `--id` without `mpv` | the switch is set and the verb is not `mpv` | ERROR; exit 1; do not open the menu and do not download |
+| mpv id out of range | `--id` is below 1 or greater than the extract count | ERROR; exit 1; do not start mpv |
 | HTTP fetch failure | non-200 / exception | WARN/ERROR; skip item or abort path per site logic |
 | API parse failure | me API exception | ERROR for item; continue or stop per current ship unit (log clearly) |
 | Download failure | yt-dlp exception | ERROR for that title; **MUST NOT** claim that title succeeded |
@@ -123,6 +127,7 @@ Define how AnimeDlp **detects, reports, and recovers from errors** during depend
 |----------------|-------|--------|------|
 | **TP-ERR-01** | `tests/test_errors.py` | **have** | unsupported host |
 | **TP-ERR-02** | `tests/test_errors.py` | **have** | missing dependency gate (mocked) |
+| **TP-CLI-06** | `tests/test_cli.py` | **have** | Peer: mpv missing, bad `--id`, and `mpv` without a URL exit 1 with a next command |
 
 ---
 
@@ -131,9 +136,10 @@ Define how AnimeDlp **detects, reports, and recovers from errors** during depend
 | Date | Status | Note |
 |------|--------|------|
 | 2026-08-09 | Active 1.0.0 | Error categories for AnimeDlp |
+| 2026-10-07 | Active 1.0.1 | The `mpv` verb fails closed when the player is missing, the page URL is missing, or `--id` is out of range |
 
 ---
 
-**Last Updated**: 2026-08-09  
+**Last Updated**: 2026-10-07  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-readme.md
-**Status**: Active (Version 1.0.8)
+**Status**: Active (Version 1.0.9)
 **Area**: python
 **Key**: `requirement-python-readme`
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -94,7 +94,7 @@ The first-row sentence in the user document **MUST** name the current directory 
 | **Pictures** | `screenshots/` |
 | **Package** | `AnimeDlp` |
 | **Console script** | `anime-dlp` |
-| **Version** | `1.5.2` from `src/AnimeDlp/__init__.py` (`__version__`). `pyproject.toml` copies that string |
+| **Version** | `1.5.3` from `src/AnimeDlp/__init__.py` (`__version__`). `pyproject.toml` copies that string |
 | **Python** | `>=3.8`. The badge says 3.8+ |
 | **License file** | `LICENSE.md` (MIT). The file is present. The document link stays relative |
 | **Homes** | `https://github.com/Wilgat/AnimeDlp` and `https://pypi.org/project/AnimeDlp/` |
@@ -113,17 +113,17 @@ The first-row sentence in the user document **MUST** name the current directory 
 
 | Heading | What this document must keep | Owner of the behavior |
 |---------|------------------------------|------------------------|
-| Features | Text menu: download, system-log, language, self-management, Exit. Row **1** is download. Row **2** is `stream to mpv player` only when `mpv --version` contains `mplayer2`; otherwise it is omitted. That row plays the extracted media URL in mpv and does not save a file. One video plays immediately. Several videos show a numbered title list. Path and a local clock on the first row. system-log is **3**. language is **4**. self-management is **8**. Hosts anime1.me and anime1.pw. Flags `-v` / `--debug`, `-x`, `-cf`, `-ua`. No `join` and no `list-videos`. `help`, `version`, and the pip words are menu rows, not command-line verbs in this build. The menu pictures on this capture show row 2, because this host's `mpv --version` contains `mplayer2` | Peers in §2.2. The path-row sentence is the clock rule in §2.2 |
+| Features | Text menu: download, system-log, language, self-management, Exit. Row **1** is download. Row **2** is `stream to mpv player` only when `mpv --version` contains `mplayer2`; otherwise it is omitted. That row plays the extracted media URL in mpv and does not save a file. One video plays immediately. Several videos show a numbered title list. Path and a local clock on the first row. system-log is **3**. language is **4**. self-management is **8**. Hosts anime1.me and anime1.pw. Flags `-v` / `--debug`, `-x`, `-cf`, `-ua`, and `--id`. No `join` and no `list-videos`. `help`, `version`, `about`, `mpv`, and the pip words are typed verbs. `anime-dlp mpv <url>` streams one extracted video and does not save a file. `--id` picks that video and defaults to 1. The verb does not open the menu. The menu pictures on this capture show row 2, because this host's `mpv --version` contains `mplayer2` | Peers in §2.2. The path-row sentence is the clock rule in §2.2 |
 | Advantages | The four parts and the comparison table below | This file for the contrast. Peers in §2.2 for the behavior |
 | Quick Installation | Python 3.8+. `ChronicleLogger>=1.2.3`. `pip install AnimeDlp`. Checkout uses a venv and `pip install -e .`. The fenced text menu (front, system-log, language, self-management) stays in this section. No FFmpeg gate | `requirement-runtime-prerequisites`, `requirement-python-packaging`, `requirement-python-tui` |
-| Usage | Menu versus a typed page URL. A URL does not open the menu. `--debug` with no URL still opens the menu. Esc returns from a menu question. No terminal: empty argv prints help and returns 0. No sudo. No `join` | `requirement-python-cli-interface`, `requirement-domain-animedlp`, `requirement-python-tui` |
+| Usage | Menu versus a typed page URL. A URL does not open the menu. `--debug` with no URL still opens the menu. Esc returns from a menu question. No terminal: empty argv prints help and returns 0. `anime-dlp mpv <url>` and `anime-dlp mpv <url> --id N` stream one video. The default id is 1. No sudo. No `join` | `requirement-python-cli-interface`, `requirement-domain-animedlp`, `requirement-python-tui` |
 | Screenshots | Lead: each heading is the file name, and the paragraph is what that picture shows. Package **1.5.2**. The paragraph and the image alt are the catalog below | This file |
-| Examples | A supported page URL stays in the terminal. Empty `anime-dlp` on a terminal opens the menu. `--debug` with no URL still opens the menu | `requirement-domain-animedlp`, `requirement-python-tui` |
+| Examples | A supported page URL stays in the terminal. Empty `anime-dlp` on a terminal opens the menu. `--debug` with no URL still opens the menu. `anime-dlp mpv <url>` streams video 1 | `requirement-domain-animedlp`, `requirement-python-tui`, `requirement-python-cli-interface` |
 | Platform Compatibility | Linux primary. macOS and Windows when Python 3.8+ is present. The text menu needs a terminal. No FFmpeg gate | `requirement-runtime-prerequisites` |
 | Related Projects | The six lines below, in that order, each with one sentence | This file |
 | Contributing | Keep product law in sync. Do not strip `shutil.move`. Version strings stay together | `requirement-python-coding-style`, `requirement-python-packaging` |
 | License | MIT, link `LICENSE.md`, and that file exists | `requirement-python-packaging` |
-| Last Update | Names package **1.5.2** and the picture catalog. A version bump is not required for pictures that did not change | This file for the line. `__version__` for the string |
+| Last Update | Names package **1.5.3** and the picture catalog. The menu pictures remain the **1.5.2** captures. A version bump is not required for pictures that did not change | This file for the line. `__version__` for the string |
 
 **Related projects, in this order.** The first two are this program. Each line is one sentence. Do not add an install recipe. Do not list VideoSpeed.
 
@@ -252,6 +252,7 @@ The documented install is for this login. **This requirement:** the user documen
 
 | Date | Status | Note |
 |------|--------|------|
+| 2026-10-07 | Active 1.0.9 | Package **1.5.3**. Usage names `anime-dlp mpv <url>` and `--id`. The menu pictures remain the **1.5.2** captures |
 | 2026-10-07 | Active 1.0.8 | Package **1.5.2**. The menu pictures show row 2. The catalog adds the stream title list and a frame of 黃泉使者 [24] in mpv. The about stamp is the time of that capture |
 | 2026-10-04 | Active 1.0.0 | User-document sections, Advantages, eight related projects, and twenty-two pictures. Image destinations are absolute `https`. `TP-DOC-01` have. `TP-DOC-03` todo |
 | 2026-10-04 | Active 1.0.1 | About and self-management pictures match the new page. Other menu pictures still show **1.1.0**. Package string is **1.1.0** |

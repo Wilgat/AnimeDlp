@@ -1,7 +1,7 @@
 # AnimeDlp — requirement ↔ test matrix (RTM)
 
-**Product:** AnimeDlp `1.5.1`  
-**Updated:** 2026-10-06  
+**Product:** AnimeDlp `1.5.3`  
+**Updated:** 2026-10-07  
 **Map:** `docs/reviews/test-plan.md`  
 **Law registry:** `docs/requirements/index.md`  
 **Architecture level:** **L2** (multi-class SRP)
@@ -13,7 +13,7 @@
 | `requirement-class-software-dev` | class | (document + packaging smoke) | TP-PKG-*, TP-STRUCT-01 | **have** (via peers) |
 | `requirement-domain-animedlp` | domain | **TP-ANIMEDLP**, TP-CLI | TP-ANIMEDLP-01..03, TP-ANIMEDLP-05, TP-CLI-03 | **have** (TP-ANIMEDLP-04 optional live) |
 | `requirement-download-ytdlp-pipeline` | download | **TP-YTDLP** | TP-YTDLP-01..05 | **have** |
-| `requirement-python-cli-interface` | python | **TP-CLI**, TP-PKG | TP-CLI-01..03, TP-PKG-01 | **have** |
+| `requirement-python-cli-interface` | python | **TP-CLI**, TP-PKG | TP-CLI-01..06, TP-PKG-01 | **have** |
 | `requirement-python-packaging` | python | **TP-PKG** | TP-PKG-01..03 | **have** |
 | `requirement-python-project-structure` | python | **TP-STRUCT** | TP-STRUCT-01 | **have** |
 | `requirement-python-coding-style` | python | **TP-STYLE**, TP-SEC | TP-STYLE-01, TP-SEC-01 | **have** |

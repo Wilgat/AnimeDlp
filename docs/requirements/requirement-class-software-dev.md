@@ -84,7 +84,7 @@ This file is **class law + residual SSOT**, not a second copy of domain download
 | **Architectures supported** | any arch with CPython available |
 | **Git surface** | used — remote `https://github.com/Wilgat/AnimeDlp` |
 | **Ship surface** | installable Python package `AnimeDlp`; console script `anime-dlp`; module form `python -m AnimeDlp` |
-| **Product version SSOT** | `src/AnimeDlp/__init__.py` → `__version__` and `pyproject.toml` `[project].version` **MUST** stay equal when either is bumped (current package: **1.5.2**). CLI-internal version constants in `cli.py` **MUST** not contradict without documentation |
+| **Product version SSOT** | `src/AnimeDlp/__init__.py` → `__version__` and `pyproject.toml` `[project].version` **MUST** stay equal when either is bumped (current package: **1.5.3**). CLI-internal version constants in `cli.py` **MUST** not contradict without documentation |
 | **Install mode** | **pip / local package** — not a shell online-install Type 0 product |
 | **Type 1 elevation** | **intentionally absent** — no root/sudo product surface |
 | **Author contact (non-secret)** | Wilgat Wong · `wilgat.wong@gmail.com` (also in `pyproject.toml`) |
@@ -192,6 +192,7 @@ This file is **class law + residual SSOT**, not a second copy of domain download
 | 2026-10-05 | Active 1.0.0 | Product version cell aligned to **1.5.0** |
 | 2026-10-06 | Active 1.0.0 | Product version cell aligned to **1.5.1** |
 | 2026-10-07 | Active 1.0.0 | Product version cell aligned to **1.5.2** |
+| 2026-10-07 | Active 1.0.0 | Product version cell aligned to **1.5.3** |
 
 ---
 

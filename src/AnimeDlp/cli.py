@@ -20,6 +20,7 @@ from .about_page import AboutPage
 from .check_system import CheckSystem
 from .downloader import Anime1Downloader, BeautifulSoup, lxml, requests, yt_dlp
 from .errors import AnimeDlpError
+from .mpv_stream import MpvStream
 from .self_management import SelfManage
 from .tui import Tui
 
@@ -33,6 +34,7 @@ _VALUE_FLAGS = {
     "--user-agent",
     "-o",
     "--output-dir",
+    "--id",
 }
 _SWITCHES = {
     "-v",
@@ -58,6 +60,7 @@ class Cli:
         "help",
         "version",
         "about",
+        "mpv",
         "self-install",
         "version-check",
         "self-update",
@@ -194,8 +197,10 @@ class Cli:
                 "With no URL on a terminal, opens the text menu.\n"
                 "With no URL and no terminal, prints this help and stops.\n"
                 "A page URL downloads or extracts and does not open the menu.\n"
-                "Verbs: help, version, about, self-install, version-check,\n"
-                "self-update, self-uninstall. language is not a verb."
+                "Verbs: help, version, about, mpv, self-install, version-check,\n"
+                "self-update, self-uninstall. language is not a verb.\n"
+                "mpv streams one extracted video in mpv and does not save a file.\n"
+                "--id picks that video. The default is 1."
             ),
         )
         parser.add_argument(
@@ -203,7 +208,14 @@ class Cli:
             nargs="?",
             default=None,
             metavar="url",
-            help="Page URL from anime1.me or anime1.pw",
+            help="Page URL from anime1.me or anime1.pw, or a verb",
+        )
+        parser.add_argument(
+            "page",
+            nargs="?",
+            default=None,
+            metavar="page",
+            help="Page URL for the mpv verb",
         )
         parser.add_argument(
             "-v",
@@ -239,6 +251,12 @@ class Cli:
             "--force",
             action="store_true",
             help="Confirm self-uninstall. Required on the command line",
+        )
+        parser.add_argument(
+            "--id",
+            type=int,
+            default=None,
+            help="Video number for the mpv verb. The default is 1. Only for mpv",
         )
         parser.add_argument(
             "--version",
@@ -297,6 +315,50 @@ class Cli:
             return head + "\n\n" + body
         return head
 
+    def _stream_cli(self, url, video_id):
+        """Stream one extracted video in mpv.
+
+        Last updated: 2026-10-07
+
+        Check mpv, then extract the page. Video numbers start at 1.
+        When the page has more than one video, ``video_id`` selects it.
+        This path does not open the text menu and does not save a file.
+        """
+        player = MpvStream(logger=self.logger)
+        if not player.available():
+            return self.report_error(
+                "mpv is not an mplayer2 build.",
+                "Install mpv, then run {0} mpv <url>".format(self.CONSOLE_NAME),
+            )
+        try:
+            items, user_agent = self.list_page(url)
+        except AnimeDlpError as exc:
+            return self.report_error(
+                str(exc),
+                "{0} mpv <anime1.me or anime1.pw url>".format(self.CONSOLE_NAME),
+            )
+        if not items:
+            return self.report_error(
+                "No videos extracted.",
+                "{0} mpv <url>".format(self.CONSOLE_NAME),
+            )
+        if video_id > len(items):
+            return self.report_error(
+                "Video {0} is not among the {1} videos on this page.".format(
+                    video_id, len(items)
+                ),
+                "{0} mpv <url> --id 1".format(self.CONSOLE_NAME),
+            )
+        title, media, cookie = items[video_id - 1]
+        ok, message = player.play(media, title, url, user_agent, cookie)
+        if not ok:
+            return self.report_error(
+                message,
+                "{0} mpv <url> --id {1}".format(self.CONSOLE_NAME, video_id),
+            )
+        print(message)
+        return 0
+
     def _dispatch(self, args):
         """One page URL, one verb, the front board, or help."""
         target = args.target
@@ -307,6 +369,16 @@ class Cli:
             return self.report_error(
                 "--force is only for self-uninstall.",
                 "{0} self-uninstall --force".format(self.CONSOLE_NAME),
+            )
+        if args.page and target != "mpv":
+            return self.report_error(
+                "A second page URL is only for mpv.",
+                "{0} mpv <url>".format(self.CONSOLE_NAME),
+            )
+        if args.id is not None and target != "mpv":
+            return self.report_error(
+                "--id is only for mpv.",
+                "{0} mpv <url> --id 1".format(self.CONSOLE_NAME),
             )
         if target == "help":
             self.build_parser().print_help()
@@ -332,6 +404,19 @@ class Cli:
         if target in ("version-check", "self-update", "self-install"):
             self._ensure_menu()
             return self.self_manage.emit(target)
+        if target == "mpv":
+            if not args.page:
+                return self.report_error(
+                    "mpv needs a page URL.",
+                    "{0} mpv <url>".format(self.CONSOLE_NAME),
+                )
+            video_id = 1 if args.id is None else args.id
+            if video_id < 1:
+                return self.report_error(
+                    "--id must be 1 or greater.",
+                    "{0} mpv <url> --id 1".format(self.CONSOLE_NAME),
+                )
+            return self._stream_cli(args.page, video_id)
         if target:
             return self._download_cli(target)
         if not self.stdout_is_tty():

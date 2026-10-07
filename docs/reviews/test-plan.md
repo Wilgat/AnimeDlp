@@ -1,7 +1,7 @@
 # AnimeDlp — product test plan (TP map)
 
-**Product:** AnimeDlp `1.5.1`  
-**Updated:** 2026-10-06  
+**Product:** AnimeDlp `1.5.3`  
+**Updated:** 2026-10-07  
 **Install mode:** pip / local package (`anime-dlp`) — **not** shell Type O  
 **Suite root:** `tests/`  
 **Architecture:** **L2** multi-class SRP (`requirement-python-system-architecture`, `requirement-python-classes`)  
@@ -37,9 +37,12 @@
 | **TP-PKG-03** | Packaging description honest (anime downloader) | Core | `tests/test_packaging.py` | `requirement-python-packaging` | **have** |
 | **TP-PRE-01** | No product-level `ensure_ffmpeg` gate | Core | `tests/test_prerequisites.py` | `requirement-runtime-prerequisites` | **have** |
 | **TP-PRE-02** | Declared pip deps importable | Core | `tests/test_prerequisites.py` | `requirement-runtime-prerequisites` | **have** |
-| **TP-CLI-01** | `--help` exits 0 (lists domain surface) | Core | `tests/test_cli.py` | `requirement-python-cli-interface` | **have** |
-| **TP-CLI-02** | Missing URL → non-zero | Core | `tests/test_cli.py` | `requirement-python-cli-interface` | **have** |
+| **TP-CLI-01** | `--help` exits 0 and lists `mpv` and `--id` | Core | `tests/test_cli.py` | `requirement-python-cli-interface` | **have** |
+| **TP-CLI-02** | No URL and no terminal → help, exit 0 | Core | `tests/test_cli.py` | `requirement-python-cli-interface` | **have** |
 | **TP-CLI-03** | Unsupported host → exit 1 | Core | `tests/test_cli.py` | `requirement-python-cli-interface`, `requirement-domain-animedlp` | **have** |
+| **TP-CLI-04** | No URL on a terminal, and `--debug` with no URL, open the text menu | Core | `tests/test_cli.py` | `requirement-python-cli-interface`, `requirement-python-tui` | **have** |
+| **TP-CLI-05** | A page URL does not open the text menu | Core | `tests/test_cli.py` | `requirement-python-cli-interface`, `requirement-python-tui` | **have** |
+| **TP-CLI-06** | `mpv` checks mplayer2, then extracts. `--id` defaults to 1 and selects the video. No menu and no saved file | Core | `tests/test_cli.py` | `requirement-python-cli-interface`, `requirement-domain-animedlp` | **have** |
 | **TP-ANIMEDLP-01** | Unsupported host domain reject | Core | `tests/test_domain.py` | `requirement-domain-animedlp` | **have** |
 | **TP-ANIMEDLP-02** | Extract mode prints without download | Core | `tests/test_domain.py` | `requirement-domain-animedlp`, `requirement-download-ytdlp-pipeline` | **have** |
 | **TP-ANIMEDLP-03** | anime1.pw routes to pw extractor | Core | `tests/test_domain.py` | `requirement-domain-animedlp` | **have** |
@@ -84,6 +87,8 @@ PYTHONPATH=src python3 -m pytest -q tests/test_tui.py
 # skip = TP-ANIMEDLP-04 optional live extract (ANIMEDLP_LIVE_NET not set)
 PYTHONPATH=src python3 -m pytest -q tests/
 # 48 passed, 1 skipped (2026-10-06) — product 1.5.1 / L2. The skip is TP-ANIMEDLP-04.
+PYTHONPATH=src python3 -m pytest -q tests/
+# 73 passed, 1 skipped (2026-10-07) — product 1.5.3 / L2. The skip is TP-ANIMEDLP-04.
 ```
 
 **Reviews:**  

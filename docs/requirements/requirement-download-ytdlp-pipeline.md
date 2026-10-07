@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-download-ytdlp-pipeline.md  
-**Status**: Active (Version 1.0.1)  
+**Status**: Active (Version 1.0.2)  
 **Area**: download  
 **Key**: `requirement-download-ytdlp-pipeline`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -55,7 +55,7 @@ CLI flags that enable extract-only mode are owned by **`requirement-python-cli-i
 
 ### 2.7 Stream boundary
 
-21. Menu row 2, when shown, is not this pipeline. It **MUST** pass one extracted media URL to `mpv` and **MUST NOT** call `YoutubeDL` and **MUST NOT** write a media file. Row 1 download stays on this pipeline.
+21. Menu row 2, when shown, is not this pipeline. It **MUST** pass one extracted media URL to `mpv` and **MUST NOT** call `YoutubeDL` and **MUST NOT** write a media file. The `mpv` verb is the same boundary: one extracted media URL, no `YoutubeDL`, and no media file. Row 1 download stays on this pipeline.
 
 ### 2.7 Implementation Notes (this project)
 
@@ -153,12 +153,13 @@ CLI flags that enable extract-only mode are owned by **`requirement-python-cli-i
 | Date | Status | Note |
 |------|--------|------|
 | 2026-10-07 | Active 1.0.1 | Menu row 2 streams one extracted URL through mpv and does not call YoutubeDL or save a file. Row 1 download stays on this pipeline |
+| 2026-10-07 | Active 1.0.2 | The `mpv` verb is the same boundary: one media URL, no YoutubeDL, and no saved file |
 | 2026-08-09 | Active 1.0.0 | yt-dlp + cookie-safe pipeline for AnimeDlp |
 | 2026-08-11 | Active 1.0.0 | Implementation path: `downloader.py`; L2 service target |
 | 2026-08-19 | Active 1.0.0 | TP-YTDLP-04 loopback HTTP fixture; TP-YTDLP-05 DTV row |
 
 ---
 
-**Last Updated**: 2026-08-19  
+**Last Updated**: 2026-10-07  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-tui.md  
-**Status**: Active (Version 1.2.2)  
+**Status**: Active (Version 1.2.3)  
 **Area**: python  
 **Key**: `requirement-python-tui`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -23,7 +23,7 @@ The argument contract stays on `requirement-python-cli-interface`. Download appl
 
 ## 2. Core Rules (Mandatory)
 
-1. **Door.** No positional URL on a terminal **MUST** open this menu, including when the only extra tokens are `--debug` or `--verbose`. `--help` and `--version` **MUST NOT** open it. A page URL **MUST NOT** open it.  
+1. **Door.** No positional URL on a terminal **MUST** open this menu, including when the only extra tokens are `--debug` or `--verbose`. `--help` and `--version` **MUST NOT** open it. A page URL **MUST NOT** open it. The verb `mpv` **MUST NOT** open it. Several videos on that verb are chosen with `--id` on `requirement-python-cli-interface`. This menu still shows the numbered title list.  
 2. **No terminal.** No URL and no terminal **MUST** print help and return 0. The menu **MUST NOT** wait on stdin.  
 3. **Front rows.** The front board **MUST** list **1** `download`, **3** `system-log`, **4** `language`, **8** `self-management`, and **9** `Exit`. Row **2** **MUST** be `stream to mpv player` only when `mpv` is on PATH and the text of `mpv --version` contains `mplayer2`. Otherwise row **2** **MUST** stay omitted.  
 4. **Download.** Choosing download focuses the bottom box. A token that starts with `http://` or `https://` on the front board, while row 2 is not the chosen row, **MUST** run that page through `Anime1Downloader` and then show the result on the result page. The menu **MUST NOT** start a download by itself.  
@@ -87,7 +87,7 @@ These captures are already on disk. The order is the operator flow. Each row nam
 **Future AI assistants MUST NOT**:
 
 1. Require a page URL before this menu can open on a terminal.  
-2. Open this menu when a page URL was given.  
+2. Open this menu when a page URL was given, or when the verb is `mpv`.  
 3. Show row 2 when `mpv` is absent or its version text does not contain `mplayer2`. Put install on the front board. Save a streamed video to disk.  
 4. Hang when stdout is not a terminal.  
 5. Drop a part, its place, or its display style from the components list.  
@@ -153,6 +153,7 @@ These captures are already on disk. The order is the operator flow. Each row nam
 
 | Date | Status | Note |
 |------|--------|------|
+| 2026-10-07 | Active 1.2.3 | The typed verb `mpv` does not open this menu. Row 2 still asks for a title when the page has several videos |
 | 2026-10-07 | Active 1.2.2 | Row 2 streams to mpv when `mpv --version` contains `mplayer2`. One video plays immediately. Several videos show a numbered title list. No file is saved |
 | 2026-10-07 | Active 1.2.1 | `video.png` is not a step of this menu |
 | 2026-10-06 | Active 1.2.0 | The time-consuming row is the download wait line: a flashing bullet and the saved-language words for please wait |

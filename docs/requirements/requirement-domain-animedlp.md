@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-domain-animedlp.md  
-**Status**: Active (Version 1.2.0)  
+**Status**: Active (Version 1.3.0)  
 **Area**: domain  
 **Key**: `requirement-domain-animedlp`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -31,9 +31,10 @@ AnimeDlp is a **URL-argument domain CLI** (not a multi-verb Type 0 shell product
 | D-04 | Extract episode list / media sources | page HTML + site APIs | Ordered list of `(title, source_url[, cookie_dict])` | domain extractors |
 | D-05a | Extract-only mode | `--extract` / `-x` | Print title, URL, optional cookie; **no download** | domain + CLI |
 | D-05b | Download mode | default (no `--extract`) | Download each item via yt-dlp | `requirement-download-ytdlp-pipeline` |
+| D-05c | Stream one video | verb `mpv`, page URL, optional `--id` (default 1) | Check that `mpv --version` contains `mplayer2`, extract, play that numbered video, no file | CLI + `MpvStream` |
 | D-06 | Report outcome | — | Per-item success/failure; completion summary | CLI + error peer |
 
-**Routing:** Entry (`anime-dlp` / `python -m AnimeDlp` / `AnimeDlp.cli:main`) **MUST** require a positional URL (unless a future Active requirement adds a no-URL help-only mode). Unsupported hosts **MUST** fail closed.
+**Routing:** A page URL downloads or extracts and does not open the text menu. No URL on a terminal opens the text menu. No URL and no terminal prints help and returns 0. The verb `mpv` plus a page URL streams one extracted video and does not download. `--id` selects that video and defaults to 1. When the page has more than one video, that number is the one that plays. Unsupported hosts **MUST** fail closed.
 
 **Supported hosts (current product law):**
 
@@ -64,6 +65,7 @@ The line is drawn by `src/AnimeDlp/please_wait.py`. The phrase is read once when
 | Series multi-episode discovery | Order episodes when multi-page | this file |
 | Cloudflare assist | Optional `cf_clearance` + User-Agent | this file + CLI |
 | Extract-only listing | Print sources without download | this file + CLI |
+| mpv stream | One extracted video in mpv. `--id` defaults to 1. No file | this file + CLI |
 | Playback-cookie handling | Safe subset for me API cookies | pipeline peer |
 | High-speed fragment download | Concurrent fragments via yt-dlp | pipeline peer |
 | Verbose diagnostics | `-v` / `--verbose` | CLI + error peer |
@@ -114,7 +116,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | **Domain implementation** | `src/AnimeDlp/extractors/me.py`, `extractors/pw.py` (coordinator: `downloader.py`) |
 | **CLI entry** | `src/AnimeDlp/cli.py` (thin) |
 | **L2 classes peer** | `requirement-python-classes` |
-| **VERSION (package)** | `1.5.2` (align `__init__.py` and `pyproject.toml`) |
+| **VERSION (package)** | `1.5.3` (align `__init__.py` and `pyproject.toml`) |
 | **Supported hosts** | `anime1.me`, `anime1.pw` |
 | **anime1.me path** | Parse `entry-title` + `video-js` `data-apireq`; POST `https://v.anime1.me/api`; collect cookies `e`,`h`,`p` |
 | **anime1.pw path** | Find episode links; per-page `<source>`, iframe, or m3u8/mp4 regex |
@@ -220,6 +222,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | 2026-10-05 | Active 1.1.0 | Package **1.5.0**. The text menu is on a terminal with no page URL |
 | 2026-10-06 | Active 1.2.0 | The wait line starts with a flashing bullet and the saved-language words for please wait. The file count, the percent, and the time until finish stay. Package **1.5.1** |
 | 2026-10-07 | Active 1.2.0 | Product version cell aligned to **1.5.2** |
+| 2026-10-07 | Active 1.3.0 | The `mpv` verb streams one extracted video. `--id` defaults to 1. Package **1.5.3** |
 
 ---
 

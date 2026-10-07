@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-classes.md  
-**Status**: Active (Version 1.1.1 – AnimeDlp L2 multi-class SRP — implemented on disk)  
+**Status**: Active (Version 1.1.2 – AnimeDlp L2 multi-class SRP — implemented on disk)  
 **Area**: python  
 **Key**: `requirement-python-classes`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -33,7 +33,7 @@ Architecture boundaries and project type live in **`requirement-python-system-ar
 | `Anime1MeExtractor` (`extractors/me.py`) | anime1.me extract | **OK** |
 | `Anime1PwExtractor` (`extractors/pw.py`) | anime1.pw extract | **OK** |
 | `YtDlpDownloadService` (`download_service.py`) | yt-dlp download + cookie header | **OK** |
-| `MpvStream` (`mpv_stream.py`) | Detect mplayer2 mpv and play one extracted media URL. No file | **OK** |
+| `MpvStream` (`mpv_stream.py`) | Detect mplayer2 mpv and play one extracted media URL. Menu row 2 and the `mpv` verb both call this class. No file | **OK** |
 | `AnimeDlpError` (`errors.py`) | Domain error + optional exit_code | **OK** |
 | `util` helpers | filename sanitize, cookie redaction | **OK** |
 
@@ -46,7 +46,7 @@ Architecture boundaries and project type live in **`requirement-python-system-ar
 | `Anime1MeExtractor` | Extract `(title, url, cookie_dict)` from anime1.me | session, HTTP | TP-CLASS-02 |
 | `Anime1PwExtractor` | Extract `(title, url)` from anime1.pw | session, HTML parse | domain / unit |
 | `YtDlpDownloadService` | Apply headers/cookies; run `YoutubeDL` per item | yt_dlp, util | TP-ARCH-02, TP-YTDLP-* |
-| `MpvStream` | Play one extracted media URL in mpv when `mpv --version` contains `mplayer2` | logger, mpv binary | `tests/test_mpv_stream.py` |
+| `MpvStream` | Play one extracted media URL in mpv when `mpv --version` contains `mplayer2`. The menu and the `mpv` verb share this class | logger, mpv binary | `tests/test_mpv_stream.py`, `tests/test_cli.py` TP-CLI-06 |
 | `AnimeDlpError` | User-facing operational failure | — | error tests |
 | `util` | Pure sanitize / redaction helpers | — | pure unit |
 
@@ -83,7 +83,7 @@ Coordinator **MAY** expose thin facade methods (`extract_anime1_me`, `download_v
 | **Architecture peer** | `requirement-python-system-architecture` |
 | **Domain peer** | `requirement-domain-animedlp` |
 | **Pipeline peer** | `requirement-download-ytdlp-pipeline` |
-| **Product version** | `1.5.2` |
+| **Product version** | `1.5.3` |
 
 ### 2.7 Why This Requirement Exists (CIAO)
 
@@ -169,6 +169,7 @@ Coordinator **MAY** expose thin facade methods (`extract_anime1_me`, `download_v
 | 2026-10-07 | Active 1.1.1 | `MpvStream` plays one extracted URL in mpv and does not save a file |
 | 2026-10-06 | Active 1.1.0 | Product version cell aligned to **1.5.1** |
 | 2026-10-07 | Active 1.1.1 | Product version cell aligned to **1.5.2** |
+| 2026-10-07 | Active 1.1.2 | Menu row 2 and the `mpv` verb share `MpvStream`. Package **1.5.3** |
 
 ---
 

@@ -55,7 +55,7 @@ Define packaging SSOT for the AnimeDlp Python distribution: **`pyproject.toml`**
 |------|--------|
 | **Manifest** | `pyproject.toml` |
 | **Project name** | `AnimeDlp` |
-| **Version** | `1.5.2` |
+| **Version** | `1.5.3` |
 | **requires-python** | as declared in `pyproject.toml` (broad string today — README advertises **Python 3.8+**; agents re-verify before marketing) |
 | **Dependencies** | `ChronicleLogger>=1.2.3`, `requests`, `beautifulsoup4`, `yt-dlp`, `lxml` |
 | **Build backend** | `setuptools.build_meta` |
@@ -67,7 +67,7 @@ Define packaging SSOT for the AnimeDlp Python distribution: **`pyproject.toml`**
 | **Public package exports** | `__version__` (+ optional `main`); **MUST NOT** re-export undefined `ChronicleLogger` from `.cli` |
 | **Metadata honesty** | Description/keywords must describe anime site downloader (not unrelated video editing) — aligned in 1.1.0 |
 | **User docs** | Root `README.md` Installation must document `pip install AnimeDlp` / local install and console script `anime-dlp` |
-| **README version badge** | Must match packaging version when README claims complete (**1.5.2**) |
+| **README version badge** | Must match packaging version when README claims complete (**1.5.3**) |
 
 ### 2.8 Why This Requirement Exists (CIAO)
 
@@ -145,6 +145,7 @@ Define packaging SSOT for the AnimeDlp Python distribution: **`pyproject.toml`**
 | 2026-10-05 | Active 1.0.0 | Version cell and README badge cell aligned to **1.5.0** |
 | 2026-10-06 | Active 1.0.0 | Version cell and README badge cell aligned to **1.5.1** |
 | 2026-10-07 | Active 1.0.0 | Version cell and README badge cell aligned to **1.5.2** |
+| 2026-10-07 | Active 1.0.0 | Version cell and README badge cell aligned to **1.5.3** |
 
 ---
 

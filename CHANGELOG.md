@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__` (CLI reads package version only).
 
+## [1.5.3] - 2026-10-07
+
+### Added
+
+- `anime-dlp mpv <url>` streams one extracted video in mpv and does not save a file. The verb checks that `mpv` is on PATH and that `mpv --version` contains `mplayer2`, then parses the page. `--id` picks the video when the page has more than one. The default is 1. A missing player, a missing URL, or an id outside the list exits 1 and names the next command. The verb does not open the text menu.
+
+### Changed
+
+- Package version is **1.5.3**. The README badge, SECURITY current row, and requirement version cells follow that string. The menu pictures remain the **1.5.2** captures.
+
+---
+
 ## [1.5.2] - 2026-10-07
 
 ### Added

@@ -1,6 +1,6 @@
 # AnimeDlp - Command-line downloader for anime1.me and anime1.pw
 
-![Version](https://img.shields.io/badge/version-1.5.2-green)
+![Version](https://img.shields.io/badge/version-1.5.3-green)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 [![CIAO](https://img.shields.io/badge/Philosophy-CIAO-purple)](https://github.com/cloudgen/ciao)
 [![Stars](https://img.shields.io/github/stars/Wilgat/AnimeDlp?style=social)](https://github.com/Wilgat/AnimeDlp)
@@ -14,13 +14,14 @@ AnimeDlp extracts or downloads from **anime1.me** and **anime1.pw**. **yt-dlp** 
 - Text menu on a terminal: **download** (**1**), **system-log** (**3**), **language** (**4**), **self-management** (**8**), and **Exit** (**9**). When `mpv` is installed and `mpv --version` names mplayer2, row **2** is **stream to mpv player**. Paste one page URL. One video plays in mpv. Several videos show a numbered title list, and the chosen title plays in mpv. mpv receives the media URL and the program does not save a file. Without that mpv, row **2** is omitted
 - The first row shows the current directory on the left and a local clock (`HH:MM:SS`) on the right when the row has room
 - Paste one `http://` or `https://` page URL in the bottom box. The menu runs that page through the downloader and then shows the result
-- Hosts **anime1.me** and **anime1.pw**. Flags `-v` / `--debug`, `-x` / `--extract`, `-cf`, `-ua`, `-o` / `--output-dir`, and `--show-cookies`
+- Hosts **anime1.me** and **anime1.pw**. Flags `-v` / `--debug`, `-x` / `--extract`, `-cf`, `-ua`, `-o` / `--output-dir`, `--show-cookies`, and `--id`
+- `anime-dlp mpv <url>` streams one extracted video in mpv and does not save a file. `--id` picks the video when the page has more than one. The default is 1. The verb checks that `mpv --version` names mplayer2, then parses the page. It does not open the menu. Without that mpv, the verb stops and names the next command
 - On a terminal, a flashing bullet and the saved-language words for please wait show the file being saved, the file total, the percent finished, and the time until finish. The line disappears when the downloads return
-- `help`, `version`, `about`, and the pip words are menu rows and typed verbs. `version` shows the installed version and does not call pip
+- `help`, `version`, `about`, `mpv`, and the pip words are menu rows or typed verbs. `version` shows the installed version and does not call pip. `mpv` is a typed verb and is not a menu row number
 
 ## Advantages
 
-1. **Dual-mode interface.** On a terminal with no arguments, the text menu opens. The front rows are download (**1**), system-log (**3**), language (**4**), self-management (**8**), and Exit (**9**). Row **2**, **stream to mpv player**, is shown only when `mpv --version` names mplayer2. That row plays the extracted media URL in mpv and does not save a file. One video plays immediately. Several videos show a numbered title list. Without that mpv, row 2 is omitted. Paste a page URL in the bottom box. A supported page URL on the command line downloads or extracts and does not open that menu. `--debug` with no URL still opens the menu. With no terminal and no arguments, the program prints help and returns 0.
+1. **Dual-mode interface.** On a terminal with no arguments, the text menu opens. The front rows are download (**1**), system-log (**3**), language (**4**), self-management (**8**), and Exit (**9**). Row **2**, **stream to mpv player**, is shown only when `mpv --version` names mplayer2. That row plays the extracted media URL in mpv and does not save a file. One video plays immediately. Several videos show a numbered title list. Without that mpv, row 2 is omitted. Paste a page URL in the bottom box. A supported page URL on the command line downloads or extracts and does not open that menu. `anime-dlp mpv <url>` streams one extracted video in mpv and does not save a file. `--id` selects the video and defaults to 1. That verb does not open the menu. `--debug` with no URL still opens the menu. With no terminal and no arguments, the program prints help and returns 0.
 2. **Built-in languages.** Row **4** lists thirteen languages: English, Simplified Chinese, Traditional Chinese, Spanish, Arabic, French, Portuguese, Russian, German, Japanese, Korean, Dutch, and Greek. The choice is saved for the next run.
 3. **USB-safe staging.** Intermediate files are written beside the output when that folder can be written, including on a removable drive. The finished file is published with `shutil.move`. When that folder cannot be written, the stage uses the system temporary directory.
 4. **Lifecycle and diagnostics.** `version-check`, `self-update`, `self-install`, and `self-uninstall` are menu rows **84**–**87** and typed verbs. `self-uninstall` on the command line needs `--force`. They call pip and do not use root. **system-log** (**3**) views a log, clears a log, and shows the log folder. **about** (**83**) stays in English.
@@ -130,28 +131,34 @@ python -m AnimeDlp
 
 On a terminal, that opens the main menu above. It does not download yet, and it does not call pip. When `mpv --version` names mplayer2, row **2** streams one page in mpv and does not save a file. With no terminal, the same command prints help and returns 0.
 
-A page URL stays in the terminal. It downloads or extracts and does not open the menu. `--debug` with no URL still opens the menu. Esc returns from a menu question to the front board.
+A page URL stays in the terminal. It downloads or extracts and does not open the menu. `anime-dlp mpv` takes a page URL, checks that `mpv --version` names mplayer2, parses the page, and streams one video. `--id` picks that video. The default is 1. The verb does not open the menu and does not save a file. `--debug` with no URL still opens the menu. Esc returns from a menu question to the front board.
 
 ```bash
 anime-dlp "https://anime1.me/your-series-or-episode-url"
 anime-dlp "https://anime1.pw/your-page-url" --extract
 anime-dlp "https://anime1.me/..." --cloudflare "your_cf_clearance_value" --user-agent "Mozilla/5.0 ..." --verbose
+anime-dlp mpv "https://anime1.me/your-series-or-episode-url"
+anime-dlp mpv "https://anime1.pw/your-page-url" --id 2
 ```
 
 ```text
 usage: anime-dlp [-h] [-v] [--debug] [-x] [-cf CLOUDFLARE] [-ua USER_AGENT]
-                 [-o OUTPUT_DIR] [--show-cookies] [--force] [--version]
-                 [url]
+                 [-o OUTPUT_DIR] [--show-cookies] [--force] [--id ID]
+                 [--version]
+                 [url] [page]
 
 Clean downloader for anime1.me and anime1.pw.
 With no URL on a terminal, opens the text menu.
 With no URL and no terminal, prints this help and stops.
 A page URL downloads or extracts and does not open the menu.
-Verbs: help, version, about, self-install, version-check,
+Verbs: help, version, about, mpv, self-install, version-check,
 self-update, self-uninstall. language is not a verb.
+mpv streams one extracted video in mpv and does not save a file.
+--id picks that video. The default is 1.
 
 positional arguments:
-  url                   Page URL from anime1.me or anime1.pw
+  url                   Page URL from anime1.me or anime1.pw, or a verb
+  page                  Page URL for the mpv verb
 
 options:
   -h, --help            show this help message and exit
@@ -166,6 +173,7 @@ options:
                         Directory for downloads (default: current directory)
   --show-cookies        Print full playback cookie values in --extract mode (default: redacted)
   --force               Confirm self-uninstall. Required on the command line
+  --id ID               Video number for the mpv verb. The default is 1. Only for mpv
   --version             show program's version number and exit
 ```
 
@@ -173,13 +181,15 @@ options:
 anime-dlp help
 anime-dlp version
 anime-dlp about
+anime-dlp mpv "https://anime1.me/your-series-or-episode-url"
+anime-dlp mpv "https://anime1.pw/your-page-url" --id 2
 anime-dlp version-check
 anime-dlp self-update
 anime-dlp self-install
 anime-dlp self-uninstall --force
 ```
 
-`version` prints `AnimeDlp 1.5.2` and does not call pip. `about` shows one English page: the product identity and a host check of this computer. It does not call pip. `version-check` runs `python -m pip index versions AnimeDlp`. `self-update` runs `python -m pip install --upgrade AnimeDlp`. `self-install` runs `python -m pip install AnimeDlp`. `self-uninstall` runs `python -m pip uninstall -y AnimeDlp` and needs `--force` on the command line. Those pip verbs do not use sudo. Empty arguments on a terminal open the menu and do not install or update.
+`version` prints `AnimeDlp 1.5.3` and does not call pip. `mpv` checks that `mpv --version` names mplayer2, parses the page, and streams the video selected by `--id`. The default is 1. When the page has more than one video, that number is the one that plays. The verb does not save a file and does not call pip. `about` shows one English page: the product identity and a host check of this computer. It does not call pip. `version-check` runs `python -m pip index versions AnimeDlp`. `self-update` runs `python -m pip install --upgrade AnimeDlp`. `self-install` runs `python -m pip install AnimeDlp`. `self-uninstall` runs `python -m pip uninstall -y AnimeDlp` and needs `--force` on the command line. Those pip verbs do not use sudo. Empty arguments on a terminal open the menu and do not install or update.
 
 Menu **Exit** (9) returns 0. An unsupported host exits non-zero.
 
@@ -325,9 +335,11 @@ A sample download frame, not a text-menu capture. The window title is `anime-dlp
 anime-dlp
 anime-dlp --debug
 anime-dlp "https://anime1.me/your-series-or-episode-url"
+anime-dlp mpv "https://anime1.me/your-series-or-episode-url"
+anime-dlp mpv "https://anime1.pw/your-page-url" --id 2
 ```
 
-Empty `anime-dlp` on a terminal opens the menu. `--debug` with no URL still opens the menu. A supported page URL stays in the terminal and does not open the menu.
+Empty `anime-dlp` on a terminal opens the menu. `--debug` with no URL still opens the menu. A supported page URL stays in the terminal and does not open the menu. `anime-dlp mpv` streams one video and does not open the menu.
 
 ## Platform Compatibility
 
@@ -352,4 +364,4 @@ MIT — see [`LICENSE.md`](./LICENSE.md). Reporting contact and design posture a
 
 ## Last Update
 
-Package **1.5.2**. The Screenshots section links every picture in `screenshots/`: the language list, one main menu for each of the thirteen languages, self-management, about, system-log, the stream title list, a frame of that video in mpv, and the three sample download frames.
+Package **1.5.3**. The Screenshots section links every picture in `screenshots/`: the language list, one main menu for each of the thirteen languages, self-management, about, system-log, the stream title list, a frame of that video in mpv, and the three sample download frames. Those pictures remain the **1.5.2** captures. The menu layout did not change.

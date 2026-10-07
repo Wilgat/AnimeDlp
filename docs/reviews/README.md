@@ -5,6 +5,8 @@ Not product law (`docs/requirements/`). Not incidents (`docs/incidents/`).
 
 | File | Date | Scope | Status |
 |------|------|-------|--------|
+| `2026-10-07-mpv-cli-verb-review.md` | 2026-10-07 | Typed verb `mpv` and `--id` (default 1) | **Closed** (`1.5.3`) |
+| `cli-routed-verb-table.md` | 2026-10-07 | Live dispatcher verbs | **Current** (`1.5.3`) |
 | `2026-10-05-download-progress-review.md` | 2026-10-06 | Wait line: flashing bullet, saved-language please wait, file count, percent finished, time until finish | **Current** (`1.5.1`) |
 | `test-plan.md` | 2026-10-06 | TP map Core **have**, including TP-ANIMEDLP-05 | **Current** (`1.5.1` / L2) |
 | `requirement-test-matrix.md` | 2026-08-19 | REQ ↔ TP RTM (incl. live/integration rows) | **Current** |
@@ -25,7 +27,8 @@ Not product law (`docs/requirements/`). Not incidents (`docs/incidents/`).
 | ID | Status | Notes |
 |----|--------|-------|
 | ADLP-NET-01 | **fixed** (2026-08-19) | TP-ANIMEDLP-04 optional live extract; TP-YTDLP-04 loopback HTTP **have** |
-| ADLP-DOC-02 | **fixed** (2026-08-19) | Live SSOT was aligned to 1.3.1; **1.4.0** realigned the version cells; **1.5.0** realigns them again; **1.5.1** realigns them again |
+| ADLP-DOC-02 | **fixed** (2026-08-19) | Live SSOT was aligned to 1.3.1; **1.4.0** realigned the version cells; **1.5.0** realigns them again; **1.5.1** realigns them again; **1.5.3** realigns them again |
+| ADLP-MPV-01 | **fixed** (2026-10-07) | `anime-dlp mpv <url>` streams one video. `--id` defaults to 1 |
 | ADLP-SEC-01 and earlier 1.2.0/1.3.0 findings | **fixed** | Superseded by 2026-08-11 revision + L2 reports |
 | ADLP-WAIT-02 | **fixed** (2026-10-05) | A terminal download shows the file line and turns off yt-dlp's own bar |
 | ADLP-WAIT-03 | **open** | Five unregistered requirement files stay out of the registry |

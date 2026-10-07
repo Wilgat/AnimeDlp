@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-cli-interface.md  
-**Status**: Active (Version 1.1.0)  
+**Status**: Active (Version 1.2.0)  
 **Area**: python  
 **Key**: `requirement-python-cli-interface`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -25,17 +25,19 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 
 5. **MUST** treat bare invocation with no URL as the text menu when stdout is a terminal, and as usage help with exit 0 when stdout is not a terminal. That path is not Type O online install-ensure.  
 6. **MUST NOT** default empty argv to shell channel install or self-update.  
-7. `--debug` and `--verbose` with no URL **MUST** still open the text menu on a terminal. A page URL **MUST** download or extract and **MUST NOT** open the text menu. `--help` and `--version` **MUST NOT** open the text menu.
+7. `--debug` and `--verbose` with no URL **MUST** still open the text menu on a terminal. A page URL **MUST** download or extract and **MUST NOT** open the text menu. `--help` and `--version` **MUST NOT** open the text menu. The verb `mpv` with a page URL **MUST** stay on the terminal. It **MUST NOT** open the text menu.
 
 ### 2.3 Required and optional arguments
 
 | Arg | Form | Required | Behavior |
 |-----|------|----------|----------|
-| URL | positional `url` | no | Source page from a supported host. Omit it to open the text menu on a terminal |
+| URL | positional `url` | no | Source page from a supported host. Omit it to open the text menu on a terminal. A verb may stand in this position |
+| Page | positional `page` | only for `mpv` | Page URL when the first word is `mpv`. A second URL on any other command **MUST** exit 1 |
 | Verbose | `-v` / `--verbose` | no | Debug logging + yt-dlp verbose |
-| Extract only | `-x` / `--extract` | no | Print sources; no download |
+| Extract only | `-x` / `--extract` | no | Print sources; no download. It does not apply to the `mpv` verb |
 | Cloudflare | `-cf` / `--cloudflare` | no | `cf_clearance` cookie value |
 | User-Agent | `-ua` / `--user-agent` | no | Custom User-Agent string |
+| Video number | `--id` | no | Integer video number for the `mpv` verb. Omitted means 1. Any other command that passes `--id` **MUST** exit 1 |
 
 8. **MUST** document that for Cloudflare-protected pages, providing **both** custom User-Agent and `cf_clearance` together (or neither) is the supported assist pattern when the ship unit enforces that pairing.  
 9. **MUST** fail closed when the host is not a supported anime1 host (domain peer).
@@ -57,7 +59,17 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 16. With a page URL, the CLI does not prompt. It is suitable for scripts. With no URL and no terminal, it prints help and returns 0. It does not wait for stdin.  
 17. Network failures **MUST** surface via logger/exit rather than hanging on stdin prompts. The text menu is the interactive path and is owned with `requirement-python-tui`.
 
-### 2.7 Implementation Notes (this project)
+### 2.7 The mpv verb
+
+18. `anime-dlp mpv <url>` **MUST** stream one extracted video. It **MUST NOT** save a media file and **MUST NOT** call the download pipeline.  
+19. The verb **MUST** require a page URL. With no page URL it **MUST** exit 1 and **MUST NOT** open the text menu.  
+20. Before extract, the verb **MUST** check that `mpv` is on PATH and that the text of `mpv --version` contains `mplayer2`. If that check fails, it **MUST** exit 1, **MUST NOT** extract the page, and **MUST NOT** start playback.  
+21. After that check, the verb **MUST** extract the page with the same host rules as a download. Videos are numbered from 1 in extract order, the same order as the menu title list.  
+22. `--id` selects that number. When the switch is omitted, the number **MUST** be 1. When the page has more than one video, the verb **MUST** stream the video at that number. When the page has one video and the number is 1, the verb **MUST** stream that video.  
+23. A number less than 1, or greater than the number of videos, **MUST** exit 1 and **MUST NOT** start mpv. `--id` without the `mpv` verb **MUST** exit 1 and **MUST NOT** open the text menu and **MUST NOT** download.  
+24. The failure line **MUST** say what happened and a next command. The next command for a missing player is to install mpv and run `anime-dlp mpv <url>`. The next command for a bad number is `anime-dlp mpv <url> --id 1`.
+
+### 2.8 Implementation Notes (this project)
 
 | Item | Value |
 |------|--------|
@@ -71,11 +83,12 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | **Ship CLI SSOT** | `src/AnimeDlp/cli.py` |
 | **Startup gates** | import checks for requests, BeautifulSoup, lxml, yt_dlp → FATAL + exit 1 |
 | **Logger** | `ChronicleLogger(logname='AnimeDlp')` |
-| **Class runner** | `Anime1Downloader(args, logger).run()` |
+| **Class runner** | `Anime1Downloader(args, logger).run()` for a page URL. `Cli._stream_cli` for the `mpv` verb, through `MpvStream` |
+| **mpv verb** | `anime-dlp mpv <url> [--id N]`. Default N is 1. No file. No menu |
 | **User docs** | Root `README.md` Usage / Options / Examples must match this contract |
-| **Product version** | package **1.5.2** |
+| **Product version** | package **1.5.3** |
 
-### 2.8 Why This Requirement Exists (CIAO)
+### 2.9 Why This Requirement Exists (CIAO)
 
 - **Principle 2 – Intentional**: Entry and argument surface are explicit.  
 - **Principle 16 – Interactive awareness**: Non-prompt CLI; argparse owns missing args.  
@@ -100,7 +113,8 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 2. Remove console script or module entry without packaging + docs update.  
 3. Bypass domain/pipeline peers by reimplementing download only in a second ad-hoc script as the “real” product.  
 4. Require root to run normal extract/download.  
-5. Drop the page-URL download without a documented replacement. The replacement for a missing URL is the text menu on a terminal and help (exit 0) with no terminal.
+5. Drop the page-URL download without a documented replacement. The replacement for a missing URL is the text menu on a terminal and help (exit 0) with no terminal.  
+6. Make the `mpv` verb save a file, call the download pipeline, open the text menu, or pick a video other than `--id` (default 1).
 
 **Violating this rule is a critical CLI regression.**
 
@@ -116,6 +130,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | AC-4 | Flags: verbose, extract, cloudflare, user-agent |
 | AC-5 | Missing Python deps → actionable FATAL messages |
 | AC-6 | Unsupported host → clear error |
+| AC-7 | `anime-dlp mpv <url>` streams video 1 when mpv is an mplayer2 build. `--id N` streams that video. A missing player, a bad id, `--id` without `mpv`, and `mpv` without a URL exit 1. No file is saved. The menu does not open |
 
 ---
 
@@ -144,6 +159,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | **TP-CLI-04** | `tests/test_cli.py` | **have** | no URL on a terminal, and `--debug` with no URL, open the text menu |
 | **TP-CLI-05** | `tests/test_cli.py` | **have** | a page URL does not open the text menu |
 | **TP-CLI-03** | `tests/test_cli.py` | **have** | unsupported host rejected |
+| **TP-CLI-06** | `tests/test_cli.py` | **have** | `mpv` checks mplayer2, then extracts. `--id` defaults to 1 and selects the video. No menu and no saved file |
 
 ---
 
@@ -157,6 +173,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | 2026-10-05 | Active 1.1.0 | No URL on a terminal opens the text menu. No terminal prints help and returns 0 |
 | 2026-10-06 | Active 1.1.0 | Product version cell aligned to **1.5.1** |
 | 2026-10-07 | Active 1.1.0 | Product version cell aligned to **1.5.2** |
+| 2026-10-07 | Active 1.2.0 | The `mpv` verb streams one extracted video. `--id` defaults to 1. Package **1.5.3** |
 
 ---
 
