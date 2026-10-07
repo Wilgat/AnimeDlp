@@ -21,6 +21,7 @@ def test_TP_STRUCT_01_package_layout():
         "errors.py",
         "util.py",
         "please_wait.py",
+        "mpv_stream.py",
         "tui.py",
         "menu_painter.py",
         "menu_model.py",

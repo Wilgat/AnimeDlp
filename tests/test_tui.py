@@ -8,8 +8,8 @@ from AnimeDlp.menu_model import MenuModel
 from AnimeDlp.menu_painter import MenuPainter
 
 
-def _painter(tmp_path):
-    return MenuPainter(home=str(tmp_path))
+def _painter(tmp_path, mpv_available=False):
+    return MenuPainter(home=str(tmp_path), mpv_available=mpv_available)
 
 
 def test_front_rows_download_and_omitted_row_2(tmp_path):
@@ -93,3 +93,40 @@ def test_components_list_and_storyboard():
         assert (root / name).is_file()
     assert "video.png" not in section_flow
     assert "download-progress" not in section_flow
+
+
+def test_stream_row_when_mpv_is_mplayer2(tmp_path):
+    painter = _painter(tmp_path, mpv_available=True)
+    rows = painter.display_rows("front")
+    numbers = [number for number, _short, _explain, _kind in rows]
+    assert numbers == [1, 2, 3, 4, 8, 9]
+    assert rows[1][1] == "stream to mpv player"
+    assert rows[1][3] == "stream"
+    assert painter.format_rows(rows)[1].startswith("2. stream to mpv player")
+
+
+def test_stream_choice_then_pasted_url(tmp_path):
+    model = MenuModel(painter=_painter(tmp_path, mpv_available=True))
+    model.index = 1
+    assert model.apply_key(curses.KEY_ENTER) is None
+    assert model.intent == "stream"
+    assert model.focus == "input"
+    model.buffer = "https://anime1.me/watch"
+    model.cursor = len(model.buffer)
+    assert model._commit() == "stream:https://anime1.me/watch"
+
+
+def test_pasted_url_on_download_stays_download_when_stream_is_shown(tmp_path):
+    model = MenuModel(painter=_painter(tmp_path, mpv_available=True))
+    model.buffer = "https://anime1.me/watch"
+    model.cursor = len(model.buffer)
+    assert model._commit() == "download:https://anime1.me/watch"
+
+
+def test_number_2_is_rejected_when_mpv_is_absent(tmp_path):
+    model = MenuModel(painter=_painter(tmp_path))
+    model.buffer = "2"
+    model.cursor = 1
+    assert model._commit() is None
+    assert model.error
+    assert model.layer == "front"

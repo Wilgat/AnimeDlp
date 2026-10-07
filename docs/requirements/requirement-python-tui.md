@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-tui.md  
-**Status**: Active (Version 1.2.0)  
+**Status**: Active (Version 1.2.2)  
 **Area**: python  
 **Key**: `requirement-python-tui`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -16,7 +16,7 @@ The argument contract stays on `requirement-python-cli-interface`. Download appl
 
 | You do… | What it means | What you type |
 |---------|---------------|---------------|
-| Open the menu | Front rows are download (**1**), system-log (**3**), language (**4**), self-management (**8**), and Exit (**9**). Row 2 is omitted | `anime-dlp` |
+| Open the menu | Front rows are download (**1**), system-log (**3**), language (**4**), self-management (**8**), and Exit (**9**). Row **2** `stream to mpv player` is shown only when `mpv` is on PATH and `mpv --version` contains `mplayer2`. Otherwise row 2 is omitted | `anime-dlp` |
 | Download | Paste one `http://` or `https://` page URL in the bottom box | the page URL, then Enter |
 | Leave | The program returns 0. There is no confirm question | `9` or `Exit` |
 | No terminal | Help is printed and the process returns 0. The menu is not drawn | `anime-dlp` with stdout redirected |
@@ -25,8 +25,9 @@ The argument contract stays on `requirement-python-cli-interface`. Download appl
 
 1. **Door.** No positional URL on a terminal **MUST** open this menu, including when the only extra tokens are `--debug` or `--verbose`. `--help` and `--version` **MUST NOT** open it. A page URL **MUST NOT** open it.  
 2. **No terminal.** No URL and no terminal **MUST** print help and return 0. The menu **MUST NOT** wait on stdin.  
-3. **Front rows.** The front board **MUST** list **1** `download`, **3** `system-log`, **4** `language`, **8** `self-management`, and **9** `Exit`. Row **2** **MUST** stay omitted.  
-4. **Download.** Choosing download focuses the bottom box. A token that starts with `http://` or `https://` on the front board **MUST** run that page through `Anime1Downloader` and then show the result on the result page. The menu **MUST NOT** start a download by itself.  
+3. **Front rows.** The front board **MUST** list **1** `download`, **3** `system-log`, **4** `language`, **8** `self-management`, and **9** `Exit`. Row **2** **MUST** be `stream to mpv player` only when `mpv` is on PATH and the text of `mpv --version` contains `mplayer2`. Otherwise row **2** **MUST** stay omitted.  
+4. **Download.** Choosing download focuses the bottom box. A token that starts with `http://` or `https://` on the front board, while row 2 is not the chosen row, **MUST** run that page through `Anime1Downloader` and then show the result on the result page. The menu **MUST NOT** start a download by itself.  
+4a. **Stream.** Choosing row 2 focuses the bottom box for one page URL. The program **MUST** extract that page and **MUST NOT** save a media file. One extracted video **MUST** be played by executing `mpv` with that media URL. More than one extracted video **MUST** show a numbered list of titles, and the chosen title **MUST** be the media URL passed to `mpv`. Esc on that list **MUST** return to the front board and **MUST NOT** start mpv. A pasted URL while another front row is chosen **MUST** stay a download.  
 5. **Children.** System-log children are **31** view-log, **32** clear-log, **33** log-folder, and **0** Back. Language children are **41** through **53**, then **0** Back. Self-management children are **82** version, **83** about, **84** version-check, **85** self-update, **86** self-uninstall, **87** self-install, and **0** Back.  
 6. **Frame.** The front board, system-log, language, and self-management show the current directory on the left of row 0 and a local `HH:MM:SS` clock on the right when the row has room. The status line shows the product name and version. The input box is the bottom three rows.  
 7. **Invalid choice.** A number or word that is not on the current board **MUST** stay on that board. It **MUST NOT** exit the process.  
@@ -49,7 +50,7 @@ This menu names each part, where that part sits, and the display style.
 
 | Part | What it is | Where it sits | Display style |
 |------|------------|---------------|---------------|
-| navigation | The numbered rows you pick | Under the path line and above the bottom input box, on the front board and on each child board | Each row is a number, a short name, and an explain sentence. The front board is **1** download, **3** system-log, **4** language, **8** self-management, and **9** Exit. Row **2** stays omitted. Child boards stay rule 5: system-log **31**–**33**, language **41**–**53**, self-management **82**–**87**, and each child board ends with **0** Back |
+| navigation | The numbered rows you pick | Under the path line and above the bottom input box, on the front board and on each child board | Each row is a number, a short name, and an explain sentence. The front board is **1** download, **3** system-log, **4** language, **8** self-management, and **9** Exit. Row **2** `stream to mpv player` is shown only when `mpv --version` contains `mplayer2`. Otherwise it stays omitted. Child boards stay rule 5: system-log **31**–**33**, language **41**–**53**, self-management **82**–**87**, and each child board ends with **0** Back |
 | status | The product name, the version, the board title, and the key hint | The line under the bottom input box. It is the last row of a choice board | Plain text: two spaces, the product name, one space, the version, two spaces, `│`, two spaces, the board title, two spaces, `│`, two spaces, `Up/Down  •  Enter`. A result page does not draw this line. When the about page is longer than the window, its footer is `Up/Down scrolls this page.` The return line is `Press a key to return to the main menu.` |
 | major input | The box where you type a row number or a page URL | The bottom three rows of a board that takes a choice: a top border, one typing line, and a bottom border | The typing line starts with `> `. The corners are `╭` `╮` `╰` `╯`. The horizontal stroke is `─`. The vertical stroke is `│`. A focused box shows the typed text and a block caret `█`. A result page has no input box |
 | major output | The board the screen writer draws | The whole terminal | `MenuPainter` in `src/AnimeDlp/menu_painter.py` is the writer. One paint replaces the screen. A result page scrolls with Up and Down and does not draw the path or the clock |
@@ -87,10 +88,10 @@ These captures are already on disk. The order is the operator flow. Each row nam
 
 1. Require a page URL before this menu can open on a terminal.  
 2. Open this menu when a page URL was given.  
-3. Put row 2 back, or put install on the front board.  
+3. Show row 2 when `mpv` is absent or its version text does not contain `mplayer2`. Put install on the front board. Save a streamed video to disk.  
 4. Hang when stdout is not a terminal.  
 5. Drop a part, its place, or its display style from the components list.  
-6. Name a storyboard capture that is not a file under `screenshots/`, or describe `screenshots/video.png` or a download-progress frame as a step of this menu.  
+6. Name a storyboard capture that is not a file under `screenshots/`, or describe a download-progress frame as a step of this menu.  
 7. Invent a capture, or recapture pictures from this requirement.
 
 ## 4. Acceptance criteria
@@ -99,8 +100,8 @@ These captures are already on disk. The order is the operator flow. Each row nam
 |----|-----------|
 | AC-1 | No URL on a terminal opens the menu |
 | AC-2 | No URL and no terminal prints help and returns 0 |
-| AC-3 | Front numbers are 1, 3, 4, 8, 9 |
-| AC-4 | A pasted `http(s)` URL is a download |
+| AC-3 | Front numbers are 1, 3, 4, 8, 9 when mpv is not an mplayer2 build, and 1, 2, 3, 4, 8, 9 when it is |
+| AC-4 | A pasted `http(s)` URL on a row other than stream is a download. Row 2 plays the extracted media URL in mpv and does not save a file |
 | AC-5 | An unknown choice stays on the board |
 | AC-6 | The components list names each part with where it sits and the display style, and the storyboard names the captured menu files in operator order |
 
@@ -152,6 +153,8 @@ These captures are already on disk. The order is the operator flow. Each row nam
 
 | Date | Status | Note |
 |------|--------|------|
+| 2026-10-07 | Active 1.2.2 | Row 2 streams to mpv when `mpv --version` contains `mplayer2`. One video plays immediately. Several videos show a numbered title list. No file is saved |
+| 2026-10-07 | Active 1.2.1 | `video.png` is not a step of this menu |
 | 2026-10-06 | Active 1.2.0 | The time-consuming row is the download wait line: a flashing bullet and the saved-language words for please wait |
 | 2026-10-06 | Active 1.1.0 | Components list, style guide, and storyboard of captures already on disk |
 | 2026-10-05 | Active 1.0.0 | Text menu for a bare `anime-dlp` |

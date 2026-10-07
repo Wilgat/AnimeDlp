@@ -9,8 +9,10 @@ from __future__ import annotations
 
 import curses
 
+from .errors import AnimeDlpError
 from .menu_painter import MenuPainter
 from .menu_session import MenuSession
+from .mpv_stream import MpvStream
 from .system_log import SystemLog
 
 
@@ -30,9 +32,10 @@ class Tui:
 
     MenuModel, MenuSession, and MenuPainter live in their own modules.
     The rows are download, system-log, language, self-management, and Exit.
+    Row 2, stream to mpv player, is added when mpv reports mplayer2.
     """
 
-    def __init__(self, app=None, app_name="AnimeDlp", version=None, logger=None):
+    def __init__(self, app=None, app_name="AnimeDlp", version=None, logger=None, player=None):
         self.logger = logger
         if logger is not None:
             logger.log_message("instantiated", component="Tui")
@@ -42,7 +45,10 @@ class Tui:
             from . import __version__
             version = __version__
         self.version = version
-        self.painter = MenuPainter(logger=logger)
+        if player is None:
+            player = MpvStream(logger=logger)
+        self.player = player
+        self.painter = MenuPainter(logger=logger, mpv_available=self.player.available())
         self.system_log = SystemLog(logger=logger)
 
     def _name(self):
@@ -90,6 +96,9 @@ class Tui:
             "With no arguments on a terminal, this menu opens.\n"
             "Paste one http(s) page URL in the bottom box, or pass it on the command line.\n"
             "A page URL on the command line downloads and does not open this menu.\n"
+            "When mpv is installed and mpv --version names mplayer2, row 2 "
+            "streams one pasted page in mpv and does not save a file. "
+            "One video plays immediately. Several videos show a numbered title list.\n"
             "Verbs: help, version, about, self-install, version-check, "
             "self-update, self-uninstall.\n"
             "version shows the installed version and does not call pip.\n"
@@ -125,6 +134,70 @@ class Tui:
                 curses.doupdate()
             except Exception:
                 pass
+
+    def stream_result(self, url, screen, model):
+        """Extract one page and play the chosen media URL in mpv.
+
+        One video plays immediately. Several videos ask for a title number.
+        mpv receives the media URL. This method does not save a file.
+        """
+        if self.app is None:
+            return "ERROR: No downloader."
+        self._leave_screen()
+        try:
+            try:
+                items, user_agent = self.app.list_page(url)
+            except AnimeDlpError as exc:
+                return "ERROR: {0}".format(exc)
+            except Exception as exc:
+                return "ERROR: {0}".format(exc)
+        finally:
+            self._restore_screen()
+
+        if not items:
+            return "ERROR: No videos extracted"
+        if len(items) == 1:
+            title, media, cookie = items[0]
+            return self._play_in_mpv(title, media, cookie, url, user_agent)
+
+        lines = ["Videos:"]
+        for index, (title, _media, _cookie) in enumerate(items, start=1):
+            lines.append("{0}. {1}".format(index, title))
+        lines.append("")
+        lines.append("Choose a video:")
+        if screen is None or model is None:
+            return "ERROR: No screen for the video list."
+        picked = self._read_index(screen, model, lines, len(items), title="stream")
+        if picked is None:
+            return None
+        title, media, cookie = items[picked]
+        return self._play_in_mpv(title, media, cookie, url, user_agent)
+
+    def _play_in_mpv(self, title, media, cookie, page_url, user_agent):
+        """Leave the text screen while mpv owns the terminal."""
+        self._leave_screen()
+        try:
+            ok, message = self.player.play(
+                media, title, page_url, user_agent, cookie
+            )
+        finally:
+            self._restore_screen()
+        if not ok:
+            return "ERROR: {0}".format(message)
+        return message
+
+    def _leave_screen(self):
+        try:
+            curses.endwin()
+        except Exception:
+            pass
+
+    def _restore_screen(self):
+        try:
+            curses.reset_prog_mode()
+            curses.doupdate()
+        except Exception:
+            pass
 
     def _show_waiting(self, screen, model, lines):
         """Paint the waiting sentence and refresh. Does not wait for a key.
@@ -319,6 +392,11 @@ class Tui:
                 return self.help_on_screen()
             if isinstance(kind, str) and kind.startswith("download:"):
                 return self.download_result(kind[len("download:"):])
+            if isinstance(kind, str) and kind.startswith("stream:"):
+                screen = screen_box.get("screen")
+                return self.stream_result(
+                    kind[len("stream:"):], screen, session.model
+                )
             if kind in ("version-check", "self-update", "self-install", "self-uninstall"):
                 _code, text = self.app.self_manage.run_pip(kind)
                 return text

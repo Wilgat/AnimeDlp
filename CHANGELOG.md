@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__` (CLI reads package version only).
 
+## [1.5.2] - 2026-10-07
+
+### Added
+
+- When `mpv` is on PATH and `mpv --version` contains `mplayer2`, the text menu shows row 2, `stream to mpv player`. A pasted page with one video plays in mpv. A page with several videos shows a numbered title list, and the chosen title plays in mpv. The program passes the media URL to mpv and does not save a file. Without that mpv, row 2 stays omitted.
+- The README Screenshots section shows that row on each front-board picture, plus the title list for a multi-video page and a frame of the video in mpv.
+
+### Changed
+
+- Menu pictures and the sample download frames in `screenshots/` show package **1.5.2**. The about picture stamp is the time of that capture.
+- Package version is **1.5.2**. The README badge, SECURITY current row, and requirement version cells follow that string. The about box date is 2026-10-07.
+
+---
+
 ## [1.5.1] - 2026-10-06
 
 ### Changed

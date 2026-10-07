@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-cli-language.md
-**Status**: Active (Version 1.0.5)
+**Status**: Active (Version 1.0.6)
 **Area**: python
 **Key**: `requirement-python-cli-language`
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -45,7 +45,7 @@ Class `MenuLanguage` in `src/AnimeDlp/menu_language.py` holds the codes, the sav
 2. **Default.** The code **MUST** be `en` when the leaf is missing, when the first line is empty, or when that line is not one of the thirteen codes. An invalid first line **MUST NOT** be rewritten. `LANG`, `LANGUAGE`, `LC_ALL`, and `LC_MESSAGES` **MUST NOT** select a code. This file does not use gettext.
 3. **Process override.** When `ANIMEDLP_LANG` is one of the thirteen codes, that code **MUST** win at process start. That start **MUST NOT** write the leaf. Any other value of `ANIMEDLP_LANG` is ignored and the leaf is read.
 4. **Leaf.** The leaf is `${HOME}/.local/AnimeDlp/language`. The program reads only the first line, ignores a trailing carriage return, and ignores later lines. A menu pick **MUST** write the code, one newline, and nothing else. The directory **MUST** be mode `0700`. The file **MUST** be mode `0600`. The program creates that directory only when a pick is saved. A missing home, or a write that fails, **MUST** keep the code this process already had and **MUST** show the failed-write line in that previous language. The front board **MUST** still return.
-5. **Front row 4.** On every host, including Termux, Git Bash, and Windows cmd, the front board **MUST** print row **4** `language`. That row **MUST** open the language board. It **MUST NOT** run a command and **MUST NOT** leave the program. Row **1** is `download`. Row **2** stays omitted. Rows **8** and **9** stay self-management and Exit. **MUST NOT** put `join` on row 1. System-log is front row **3**. Its children are **31** view-log, **32** clear-log, and **33** log-folder. Those numbers are the picture on `requirement-python-tui`. The leaf short `download` stays English.
+5. **Front row 4.** On every host, including Termux, Git Bash, and Windows cmd, the front board **MUST** print row **4** `language`. That row **MUST** open the language board. It **MUST NOT** run a command and **MUST NOT** leave the program. Row **1** is `download`. Row **2** is `stream to mpv player` only when `mpv` is on PATH and `mpv --version` contains `mplayer2`; otherwise row **2** stays omitted. That short stays English. Rows **8** and **9** stay self-management and Exit. **MUST NOT** put `join` on row 1. System-log is front row **3**. Its children are **31** view-log, **32** clear-log, and **33** log-folder. Those numbers are the picture on `requirement-python-tui`. The leaf short `download` stays English.
 6. **Language block.** The language board uses the twenty numbers **40** through **59**. Assigned rows are **41** through **53**, in the order below. **40** and **54** through **59** are reserved. They **MUST NOT** be printed. Typing a reserved number **MUST** show the unknown-choice line and **MUST NOT** write the leaf. **0**, an empty Enter on Back, and Esc **MUST** return to the front board and **MUST NOT** write the leaf.
 7. **Names on the language board.** Each assigned row **MUST** show that language’s endonym as the short. This build prints the English explain `use this language for this menu` on every language row. The per-language sentence in the table below is the saved-language line. A translated explain for every UI language stays with `TP-LANG-01`.
 8. **What follows the code.** This build applies the path word, the saved-language sentence, and the please-wait phrase for the selected code. Board titles, category shorts, Back, Exit, the unknown-choice line, and the failed-write line stay English. Full translation of those strings is `TP-LANG-01` and stays todo. Leaf shorts stay the English tokens `download`, `view-log`, `clear-log`, `log-folder`, `version`, `about`, `version-check`, `self-update`, `self-uninstall`, and `self-install`. `join` is not a leaf.
@@ -201,10 +201,11 @@ On Termux, Git Bash, Windows cmd, or the same class, the person runs `anime-dlp`
 | 2026-10-05 | Active 1.0.2 | Specialized from the VideoJoin bootstrap. About explain no longer names FFmpeg. Product is AnimeDlp |
 | 2026-10-05 | Active 1.0.3 | Specialized from the VideoJoin bootstrap. Row 1 is omitted. `join` is not a leaf. The process override is `ANIMEDLP_LANG` |
 | 2026-10-05 | Active 1.0.4 | Row 1 is `download`. Row 2 stays omitted. The running session stores the codes on `Tui`. `TP-LANG-01` stays todo |
+| 2026-10-07 | Active 1.0.6 | Row 2 `stream to mpv player` is English and appears only when `mpv --version` contains `mplayer2` |
 | 2026-10-06 | Active 1.0.5 | The download line’s please-wait phrase follows the saved code. The rest of that line stays English. `TP-LANG-01` stays todo |
 
 ---
 
-**Last Updated**: 2026-10-06
+**Last Updated**: 2026-10-07
 **Owner**: project maintainers
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

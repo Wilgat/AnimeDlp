@@ -50,7 +50,7 @@ Declare **host and Python runtime prerequisites** required to run AnimeDlp succe
 | **System binary** | **none required** beyond CPython for core CLI (yt-dlp may use ffmpeg for some formats as its own optional tool — not claimed as AnimeDlp product auto-install) |
 | **Auto install command** | **none** for OS packages |
 | **Platform notes** | Linux primary; macOS/Windows OK when CPython + network available |
-| **Product version** | 1.5.1 |
+| **Product version** | 1.5.2 |
 | **Startup checks** | Import gates in `cli.main()` for requests, BeautifulSoup, yt_dlp, lxml |
 | **User docs** | Root `README.md` Required Dependencies / Requirements sections |
 
@@ -127,9 +127,10 @@ Declare **host and Python runtime prerequisites** required to run AnimeDlp succe
 | 2026-10-05 | Active 1.0.0 | Product version cell aligned to **1.4.0** |
 | 2026-10-05 | Active 1.0.0 | Product version cell aligned to **1.5.0** |
 | 2026-10-06 | Active 1.0.0 | Product version cell aligned to **1.5.1** |
+| 2026-10-07 | Active 1.0.0 | Product version cell aligned to **1.5.2** |
 
 ---
 
-**Last Updated**: 2026-10-06  
+**Last Updated**: 2026-10-07  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

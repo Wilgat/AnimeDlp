@@ -9,7 +9,7 @@ Authoritative specialized product law for **AnimeDlp** lives here.
 | Field | Value |
 |-------|--------|
 | Product / package | `AnimeDlp` |
-| Version SSOT | **`1.5.1`** (`pyproject.toml` + `src/AnimeDlp/__init__.py`) |
+| Version SSOT | **`1.5.2`** (`pyproject.toml` + `src/AnimeDlp/__init__.py`) |
 | Product README SSOT | Root `README.md` (app-name, short description, version badge) |
 | Ship surface | Python package; console script **`anime-dlp`**; module `python -m AnimeDlp` |
 | Install mode | **pip / local package** — not shell Type O |

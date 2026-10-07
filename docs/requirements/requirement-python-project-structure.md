@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-project-structure.md  
-**Status**: Active (Version 1.0.2)  
+**Status**: Active (Version 1.0.3)  
 **Area**: python  
 **Key**: `requirement-python-project-structure`  
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -51,6 +51,7 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 | `src/AnimeDlp/errors.py` | `AnimeDlpError` |
 | `src/AnimeDlp/util.py` | Pure helpers (sanitize, redaction) |
 | `src/AnimeDlp/please_wait.py` | Download line: flashing bullet, saved-language please wait, file count, percent finished, time until finish |
+| `src/AnimeDlp/mpv_stream.py` | `MpvStream`: mplayer2 detection and one media URL played by mpv, with no saved file |
 | `src/AnimeDlp/tui.py` | Text menu session (`Tui`) |
 | `src/AnimeDlp/menu_painter.py` | Menu frame (`MenuPainter`) |
 | `src/AnimeDlp/menu_model.py` | Keystroke state (`MenuModel`) |
@@ -142,10 +143,11 @@ Define the **repository layout** and package structure for AnimeDlp as a Python 
 | 2026-08-11 | Active 1.0.0 | Thin cli + downloader/helpers; L2 target modules |
 | 2026-08-11 | Active 1.0.0 | L2 modules on disk; product **1.3.0** |
 | 2026-10-05 | Active 1.0.1 | `please_wait.py` draws the file count, the percent finished, and the time until finish |
+| 2026-10-07 | Active 1.0.3 | `mpv_stream.py` plays one extracted media URL in mpv and does not save a file |
 | 2026-10-06 | Active 1.0.2 | That line also draws the saved-language please-wait phrase |
 
 ---
 
-**Last Updated**: 2026-10-06  
+**Last Updated**: 2026-10-07  
 **Owner**: Wilgat Wong  
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

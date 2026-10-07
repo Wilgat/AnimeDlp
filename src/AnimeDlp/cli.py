@@ -51,7 +51,7 @@ class Cli:
     APP_NAME = "AnimeDlp"
     CONSOLE_NAME = "anime-dlp"
     AUTHOR_NAME = "Wilgat Wong"
-    LAST_UPDATE = "2026-10-06"
+    LAST_UPDATE = "2026-10-07"
     HOMEPAGE = "https://github.com/Wilgat/AnimeDlp"
     BASIC_USAGE = "anime-dlp <url>"
     PRODUCT_VERBS = (
@@ -269,6 +269,11 @@ class Cli:
         except AnimeDlpError as exc:
             self.logger.log_message(str(exc), level="ERROR", component="main")
             return int(getattr(exc, "exit_code", 1) or 1)
+
+    def list_page(self, url):
+        """Extract one page for the stream row. Does not download."""
+        downloader = Anime1Downloader(self._namespace(url), self.logger)
+        return downloader.list_sources(), downloader.headers["User-Agent"]
 
     def download_page(self, url):
         """One menu download. stdout is kept for the result page."""

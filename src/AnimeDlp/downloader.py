@@ -89,10 +89,10 @@ class Anime1Downloader:
         """Delegate to YtDlpDownloadService."""
         return self.download_service.download(title, video_url, special_cookie)
 
-    def run(self) -> int:
-        """
-        Run extract or download pipeline.
-        Returns process exit code (0 success, 1 failure). Does not call sys.exit.
+    def list_sources(self) -> List[Tuple[str, str, Optional[Dict]]]:
+        """Extract the page. Does not download and does not start mpv.
+
+        Each item is ``(title, media_url, cookie_or_none)``.
         """
         url = self.args.url.strip().rstrip("/")
         self.logger.log_message(f"Processing: {url}", level="INFO", component="main")
@@ -129,6 +129,14 @@ class Anime1Downloader:
 
         if not all_videos:
             raise AnimeDlpError("No videos extracted")
+        return all_videos
+
+    def run(self) -> int:
+        """
+        Run extract or download pipeline.
+        Returns process exit code (0 success, 1 failure). Does not call sys.exit.
+        """
+        all_videos = self.list_sources()
 
         if self.args.extract:
             for title, src, cookie in all_videos:

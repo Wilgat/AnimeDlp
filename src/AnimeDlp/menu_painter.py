@@ -64,12 +64,17 @@ class MenuPainter:
         kept.reverse()
         return "".join(kept)
 
-    def __init__(self, logger=None, home=None):
+    def __init__(self, logger=None, home=None, mpv_available=None):
         self.logger = logger
         if logger is not None:
             logger.log_message("instantiated", component="MenuPainter")
         # The site that needs the language writes MenuLanguage(...).
         self.language = MenuLanguage(logger=logger, home=home)
+        if mpv_available is None:
+            from .mpv_stream import MpvStream
+
+            mpv_available = MpvStream(logger=logger).available()
+        self.mpv_available = bool(mpv_available)
 
     # =============================================================================
     # CIAO-Lite Protection Zone
@@ -100,6 +105,12 @@ class MenuPainter:
         (4, "language", "display language for this menu", "language"),
         (8, "self-management", "version, about, and pip lifecycle", "self-management"),
         (9, "Exit", "leave", "exit"),
+    )
+    STREAM_ROW = (
+        2,
+        "stream to mpv player",
+        "paste one http(s) page URL",
+        "stream",
     )
     SELF_ROWS = (
         (82, "version", "show the installed version", "version"),
@@ -132,11 +143,21 @@ class MenuPainter:
         "log-folder": "log-folder",
     }
 
+    def front_rows(self) -> tuple:
+        """Front board. Row 2 is present only for an mplayer2 mpv."""
+        if not self.mpv_available:
+            return self.MENU_ROWS
+        rows = list(self.MENU_ROWS)
+        rows.insert(1, self.STREAM_ROW)
+        return tuple(rows)
+
     def rows_for(self, layer: str) -> tuple:
         if layer == "self":
             return self.SELF_ROWS
         if layer == "log":
             return self.LOG_ROWS
+        if layer == "front":
+            return self.front_rows()
         return self.MENU_ROWS
 
     def display_rows(self, layer: str) -> tuple:

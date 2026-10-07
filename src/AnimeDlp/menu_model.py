@@ -16,7 +16,8 @@ class MenuModel:
     boards, when set, replaces the rows for this session. Omit boards and
     the painter supplies the live rows, so a language save repaints them.
     Front rows are download, system-log, language, self-management, and Exit.
-    System-log is under 3. Language is under 4.
+    Row 2, stream to mpv player, is present only when the painter says mpv
+    is an mplayer2 build. System-log is under 3. Language is under 4.
     """
 
     def __init__(self, boards: dict | None = None, logger=None, painter=None) -> None:
@@ -38,6 +39,7 @@ class MenuModel:
         self.phase = "board"
         self.result_text = ""
         self.result_offset = 0
+        self.intent = ""
 
     def edge_keys(self) -> tuple[int, int]:
         return (getattr(curses, "KEY_HOME", -2), getattr(curses, "KEY_END", -3))
@@ -137,6 +139,7 @@ class MenuModel:
         self.focus = "list"
         self.error = ""
         self.result_offset = 0
+        self.intent = ""
 
     def _scroll_result(self, delta: int, screen_height: int) -> None:
         """Move the result window. Up/Down stay on the page when it overflows."""
@@ -152,6 +155,7 @@ class MenuModel:
         if self.focus == "input":
             self.focus = "list"
             self.index = 0 if down else last
+            self._keep_stream_intent()
             return
         if down:
             if self.index < last:
@@ -159,12 +163,21 @@ class MenuModel:
             else:
                 self.focus = "input"
                 self.cursor = len(self.buffer)
+            self._keep_stream_intent()
             return
         if self.index > 0:
             self.index -= 1
+            self._keep_stream_intent()
             return
         self.focus = "input"
         self.cursor = len(self.buffer)
+        self._keep_stream_intent()
+
+    def _keep_stream_intent(self) -> None:
+        """A pasted URL streams only while row 2 stays chosen."""
+        row = self.highlighted_row()
+        if self.focus != "input" or row is None or row[3] != "stream":
+            self.intent = ""
 
     def _slide(self, key: int) -> None:
         if self.focus != "input":
@@ -211,7 +224,17 @@ class MenuModel:
             self.layer == "front"
             and (token.startswith("http://") or token.startswith("https://"))
         ):
+            highlighted = self.highlighted_row()
+            highlighted_kind = highlighted[3] if highlighted else ""
+            stream = self.intent == "stream" or highlighted_kind == "stream"
+            self.intent = ""
+            if stream:
+                return "stream:" + token
             return "download:" + token
+        if token == "stream":
+            for number, _short, _explain, kind in self.rows():
+                if kind == "stream":
+                    return self._activate(number, kind)
         if token == "":
             number, _short, _explain, kind = self.rows()[self.index]
             return self._activate(number, kind)
@@ -240,6 +263,8 @@ class MenuModel:
         self.error = ""
         self.focus = "list"
         self.cursor = 0
+        if kind != "stream":
+            self.intent = ""
         if kind == "exit":
             return "exit"
         if kind == "back":
@@ -268,6 +293,13 @@ class MenuModel:
             self.cursor = 0
             return None
         if kind == "download":
+            self.intent = ""
+            self.focus = "input"
+            self.cursor = len(self.buffer)
+            self.notice = "Paste one http(s) page URL"
+            return None
+        if kind == "stream":
+            self.intent = "stream"
             self.focus = "input"
             self.cursor = len(self.buffer)
             self.notice = "Paste one http(s) page URL"
