@@ -21,10 +21,19 @@ AnimeDlp extracts or downloads from **anime1.me** and **anime1.pw**. **yt-dlp** 
 
 ## Advantages
 
-1. **Dual-mode interface.** On a terminal with no arguments, the text menu opens. The front rows are download (**1**), system-log (**3**), language (**4**), self-management (**8**), and Exit (**9**). Row **2**, **stream to mpv player**, is shown only when `mpv --version` names mplayer2. That row plays the extracted media URL in mpv and does not save a file. One video plays immediately. Several videos show a numbered title list. Without that mpv, row 2 is omitted. Paste a page URL in the bottom box. A supported page URL on the command line downloads or extracts and does not open that menu. `anime-dlp mpv <url>` streams one extracted video in mpv and does not save a file. `--id` selects the video and defaults to 1. That verb does not open the menu. `--debug` with no URL still opens the menu. With no terminal and no arguments, the program prints help and returns 0.
-2. **Built-in languages.** Row **4** lists thirteen languages: English, Simplified Chinese, Traditional Chinese, Spanish, Arabic, French, Portuguese, Russian, German, Japanese, Korean, Dutch, and Greek. The choice is saved for the next run.
-3. **USB-safe staging.** Intermediate files are written beside the output when that folder can be written, including on a removable drive. The finished file is published with `shutil.move`. When that folder cannot be written, the stage uses the system temporary directory.
-4. **Lifecycle and diagnostics.** `version-check`, `self-update`, `self-install`, and `self-uninstall` are menu rows **84**–**87** and typed verbs. `self-uninstall` on the command line needs `--force`. They call pip and do not use root. **system-log** (**3**) views a log, clears a log, and shows the log folder. **about** (**83**) stays in English.
+AnimeDlp is a command-line utility for extracting and downloading from **anime1.me** and **anime1.pw**. The parts below are the advantages of that design.
+
+1. **Dual-mode interface.** On a terminal, `anime-dlp` with no arguments opens the text menu. A page URL skips that menu and downloads or extracts in the terminal. The front rows are download (**1**), system-log (**3**), language (**4**), self-management (**8**), and Exit (**9**). The first row shows the current directory on the left and a local clock (`HH:MM:SS`) on the right when the row has room. `--debug` with no URL still opens the menu. With no terminal and no arguments, the program prints help and returns 0. There is no `--json`.
+
+   When `mpv` is installed and `mpv --version` names mplayer2, row **2** is **stream to mpv player**. Paste one page URL. One video plays immediately. Several videos show a numbered title list. `anime-dlp mpv <url>` does that job from the command line. `--id` selects the video and defaults to 1. Both paths hand mpv the extracted media URL and do not save a file. Without that mpv, row 2 is omitted and the verb stops and names the next command.
+
+2. **Thirteen languages.** Row **4** lists English, Simplified Chinese, Traditional Chinese, Spanish, Arabic, French, Portuguese, Russian, German, Japanese, Korean, Dutch, and Greek. The choice is saved for the next run. Arabic words on each row are shaped and read right to left. The numbers stay on the left.
+
+3. **Safe staging and package care.** Intermediate files are written beside the output when that folder can be written, including on a removable drive. The finished file is published with `shutil.move`. When that folder cannot be written, the stage uses the system temporary directory. `version-check`, `self-update`, `self-install`, and `self-uninstall` are menu rows **84**–**87** and typed verbs. `self-uninstall` on the command line needs `--force`. They call pip and do not use root.
+
+4. **Diagnostics.** **system-log** (**3**) views a log, clears a log, and shows the log folder. The log stays on this computer. **about** (**83**) stays in English. That page names the package, the Python environment, the C library, the operating system, whether the process is inside a container, and the program location.
+
+5. **CIAO.** The program follows [CIAO](https://github.com/cloudgen/ciao): Caution, Intentional, Anti-fragile, and Over-engineered. A failed extract or download stays visible. The version in `pyproject.toml` matches `src/AnimeDlp/__init__.py`. Status lines go through ChronicleLogger.
 
 ## Quick Installation
 

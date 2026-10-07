@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-readme.md
-**Status**: Active (Version 1.0.9)
+**Status**: Active (Version 1.0.10)
 **Area**: python
 **Key**: `requirement-python-readme`
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -114,7 +114,7 @@ The first-row sentence in the user document **MUST** name the current directory 
 | Heading | What this document must keep | Owner of the behavior |
 |---------|------------------------------|------------------------|
 | Features | Text menu: download, system-log, language, self-management, Exit. Row **1** is download. Row **2** is `stream to mpv player` only when `mpv --version` contains `mplayer2`; otherwise it is omitted. That row plays the extracted media URL in mpv and does not save a file. One video plays immediately. Several videos show a numbered title list. Path and a local clock on the first row. system-log is **3**. language is **4**. self-management is **8**. Hosts anime1.me and anime1.pw. Flags `-v` / `--debug`, `-x`, `-cf`, `-ua`, and `--id`. No `join` and no `list-videos`. `help`, `version`, `about`, `mpv`, and the pip words are typed verbs. `anime-dlp mpv <url>` streams one extracted video and does not save a file. `--id` picks that video and defaults to 1. The verb does not open the menu. The menu pictures on this capture show row 2, because this host's `mpv --version` contains `mplayer2` | Peers in §2.2. The path-row sentence is the clock rule in §2.2 |
-| Advantages | The four parts and the comparison table below | This file for the contrast. Peers in §2.2 for the behavior |
+| Advantages | The five parts and the comparison list below | This file for the contrast. Peers in §2.2 for the behavior |
 | Quick Installation | Python 3.8+. `ChronicleLogger>=1.2.3`. `pip install AnimeDlp`. Checkout uses a venv and `pip install -e .`. The fenced text menu (front, system-log, language, self-management) stays in this section. No FFmpeg gate | `requirement-runtime-prerequisites`, `requirement-python-packaging`, `requirement-python-tui` |
 | Usage | Menu versus a typed page URL. A URL does not open the menu. `--debug` with no URL still opens the menu. Esc returns from a menu question. No terminal: empty argv prints help and returns 0. `anime-dlp mpv <url>` and `anime-dlp mpv <url> --id N` stream one video. The default id is 1. No sudo. No `join` | `requirement-python-cli-interface`, `requirement-domain-animedlp`, `requirement-python-tui` |
 | Screenshots | Lead: each heading is the file name, and the paragraph is what that picture shows. Package **1.5.2**. The paragraph and the image alt are the catalog below | This file |
@@ -136,12 +136,13 @@ The first-row sentence in the user document **MUST** name the current directory 
 | 5 | `https://github.com/cloudgen/ciao-lite` | Short agent contract |
 | 6 | `https://github.com/cloudgen/safe-rm` | Guarded `rm` |
 
-**Advantages, after Features and before Quick Installation.** Four parts. The path row in this section names the local clock.
+**Advantages, after Features and before Quick Installation.** Five parts. The path row in this section names the local clock. The section **MUST NOT** say the stage never uses the system temporary directory. The section **MUST NOT** call the local log remote telemetry.
 
-1. **Dual-mode interface.** On a terminal with no arguments, the text menu opens. The front rows are download (**1**), system-log (**3**), language (**4**), self-management (**8**), and Exit (**9**). Row **2**, **stream to mpv player**, is shown only when `mpv --version` names mplayer2. That row plays the extracted media URL in mpv and does not save a file. One video plays immediately. Several videos show a numbered title list. Without that mpv, row 2 is omitted. Paste a page URL in the bottom box. A supported page URL on the command line downloads or extracts and does not open that menu. `--debug` with no URL still opens the menu. There is no `--json`. With no terminal and no arguments, the program prints help and returns 0.
-2. **Built-in languages.** Row **4** lists thirteen languages: English, Simplified Chinese, Traditional Chinese, Spanish, Arabic, French, Portuguese, Russian, German, Japanese, Korean, Dutch, and Greek. The choice is saved for the next run.
-3. **USB-safe staging.** Intermediate files are written beside the output when that folder can be written, including on a removable drive. The finished file is published with `shutil.move`. When that folder cannot be written, the stage uses the system temporary directory. The section **MUST NOT** say the stage never uses that directory.
-4. **Lifecycle and diagnostics.** `version-check`, `self-update`, `self-install`, and `self-uninstall` are menu rows **84**–**87** and typed verbs. `self-uninstall` on the command line needs `--force`. They call pip and do not use root. **system-log** (**3**) views a log, clears a log, and shows the log folder. **about** (**83**) stays in English.
+1. **Dual-mode interface.** On a terminal, `anime-dlp` with no arguments opens the text menu. A page URL skips that menu and downloads or extracts in the terminal. The front rows are download (**1**), system-log (**3**), language (**4**), self-management (**8**), and Exit (**9**). The first row shows the current directory on the left and a local clock (`HH:MM:SS`) on the right when the row has room. `--debug` with no URL still opens the menu. With no terminal and no arguments, the program prints help and returns 0. There is no `--json`. When `mpv` is installed and `mpv --version` names mplayer2, row **2** is **stream to mpv player**. Paste one page URL. One video plays immediately. Several videos show a numbered title list. `anime-dlp mpv <url>` does that job from the command line. `--id` selects the video and defaults to 1. Both paths hand mpv the extracted media URL and do not save a file. Without that mpv, row 2 is omitted and the verb stops and names the next command.
+2. **Thirteen languages.** Row **4** lists English, Simplified Chinese, Traditional Chinese, Spanish, Arabic, French, Portuguese, Russian, German, Japanese, Korean, Dutch, and Greek. The choice is saved for the next run. Arabic words on each row are shaped and read right to left. The numbers stay on the left.
+3. **Safe staging and package care.** Intermediate files are written beside the output when that folder can be written, including on a removable drive. The finished file is published with `shutil.move`. When that folder cannot be written, the stage uses the system temporary directory. `version-check`, `self-update`, `self-install`, and `self-uninstall` are menu rows **84**–**87** and typed verbs. `self-uninstall` on the command line needs `--force`. They call pip and do not use root.
+4. **Diagnostics.** **system-log** (**3**) views a log, clears a log, and shows the log folder. The log stays on this computer. **about** (**83**) stays in English. That page names the package, the Python environment, the C library, the operating system, whether the process is inside a container, and the program location.
+5. **CIAO.** The program follows CIAO: Caution, Intentional, Anti-fragile, and Over-engineered. The link is `https://github.com/cloudgen/ciao`. A failed extract or download stays visible. The version in `pyproject.toml` matches `src/AnimeDlp/__init__.py`. Status lines go through ChronicleLogger.
 
 **Screenshot catalog, in this order.** Each image destination is the absolute `https` URL in Implementation Notes, with that file’s basename. The paragraph and the alt are the words `README.md` prints for that file.
 
@@ -252,6 +253,7 @@ The documented install is for this login. **This requirement:** the user documen
 
 | Date | Status | Note |
 |------|--------|------|
+| 2026-10-07 | Active 1.0.10 | Advantages are five parts: dual mode and mpv, thirteen languages, staging and pip care, local diagnostics, and CIAO |
 | 2026-10-07 | Active 1.0.9 | Package **1.5.3**. Usage names `anime-dlp mpv <url>` and `--id`. The menu pictures remain the **1.5.2** captures |
 | 2026-10-07 | Active 1.0.8 | Package **1.5.2**. The menu pictures show row 2. The catalog adds the stream title list and a frame of 黃泉使者 [24] in mpv. The about stamp is the time of that capture |
 | 2026-10-04 | Active 1.0.0 | User-document sections, Advantages, eight related projects, and twenty-two pictures. Image destinations are absolute `https`. `TP-DOC-01` have. `TP-DOC-03` todo |
