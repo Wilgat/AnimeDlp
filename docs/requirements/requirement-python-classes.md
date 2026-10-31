@@ -83,7 +83,7 @@ Coordinator **MAY** expose thin facade methods (`extract_anime1_me`, `download_v
 | **Architecture peer** | `requirement-python-system-architecture` |
 | **Domain peer** | `requirement-domain-animedlp` |
 | **Pipeline peer** | `requirement-download-ytdlp-pipeline` |
-| **Product version** | `1.5.3` |
+| **Product version** | `1.5.4` |
 
 ### 2.7 Why This Requirement Exists (CIAO)
 
@@ -170,6 +170,7 @@ Coordinator **MAY** expose thin facade methods (`extract_anime1_me`, `download_v
 | 2026-10-06 | Active 1.1.0 | Product version cell aligned to **1.5.1** |
 | 2026-10-07 | Active 1.1.1 | Product version cell aligned to **1.5.2** |
 | 2026-10-07 | Active 1.1.2 | Menu row 2 and the `mpv` verb share `MpvStream`. Package **1.5.3** |
+| 2026-10-31 | Active 1.1.2 | Product version cell aligned to **1.5.4** |
 
 ---
 

@@ -31,7 +31,7 @@ Not product law (`docs/requirements/`). Not incidents (`docs/incidents/`).
 | ADLP-MPV-01 | **fixed** (2026-10-07) | `anime-dlp mpv <url>` streams one video. `--id` defaults to 1 |
 | ADLP-SEC-01 and earlier 1.2.0/1.3.0 findings | **fixed** | Superseded by 2026-08-11 revision + L2 reports |
 | ADLP-WAIT-02 | **fixed** (2026-10-05) | A terminal download shows the file line and turns off yt-dlp's own bar |
-| ADLP-WAIT-03 | **open** | Five unregistered requirement files stay out of the registry |
+| ADLP-WAIT-03 | **fixed** (2026-10-31) | `requirement-python-about`, `requirement-python-cli-language`, `requirement-python-cli-logging`, `requirement-python-oop`, and `requirement-python-readme` are registered in `docs/requirements/index.md` |
 
 ## Conventions
 

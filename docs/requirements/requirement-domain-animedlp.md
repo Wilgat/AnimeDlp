@@ -116,7 +116,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | **Domain implementation** | `src/AnimeDlp/extractors/me.py`, `extractors/pw.py` (coordinator: `downloader.py`) |
 | **CLI entry** | `src/AnimeDlp/cli.py` (thin) |
 | **L2 classes peer** | `requirement-python-classes` |
-| **VERSION (package)** | `1.5.3` (align `__init__.py` and `pyproject.toml`) |
+| **VERSION (package)** | `1.5.4` (align `__init__.py` and `pyproject.toml`) |
 | **Supported hosts** | `anime1.me`, `anime1.pw` |
 | **anime1.me path** | Parse `entry-title` + `video-js` `data-apireq`; POST `https://v.anime1.me/api`; collect cookies `e`,`h`,`p` |
 | **anime1.pw path** | Find episode links; per-page `<source>`, iframe, or m3u8/mp4 regex |
@@ -223,6 +223,7 @@ Product identity / about **MUST** be able to report (via package metadata, logge
 | 2026-10-06 | Active 1.2.0 | The wait line starts with a flashing bullet and the saved-language words for please wait. The file count, the percent, and the time until finish stay. Package **1.5.1** |
 | 2026-10-07 | Active 1.2.0 | Product version cell aligned to **1.5.2** |
 | 2026-10-07 | Active 1.3.0 | The `mpv` verb streams one extracted video. `--id` defaults to 1. Package **1.5.3** |
+| 2026-10-31 | Active 1.3.0 | Product version cell aligned to **1.5.4** |
 
 ---
 

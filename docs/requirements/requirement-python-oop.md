@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-oop.md
-**Status**: Active (Version 1.1.3)
+**Status**: Active (Version 1.1.5)
 **Area**: python
 **Key**: `requirement-python-oop`
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -10,7 +10,7 @@ Define when AnimeDlp uses a class, and name the file that holds each class. One 
 
 The menu picture stays on `requirement-python-tui`. The about page stays on `requirement-python-about`. The domain sentence stays on `requirement-domain-animedlp`. Download apply stays on `requirement-download-ytdlp-pipeline`. `shutil.move` stays on `requirement-python-coding-style`. This file decides the class and the file. It does not invent a second picture, a second about page, or a join/concat class.
 
-The target is an ordinary multi-class split. A StateLogic + `Attr` rewrite stays unordered. This file does not claim that rewrite. The notes still record the older three-module gap. `CheckSystem` and `AboutPage` are named in the map. They are not in the running tree. `TP-OOP-*` stay todo.
+The target is an ordinary multi-class split. A StateLogic + `Attr` rewrite stays unordered. This file does not claim that rewrite. The ten classes in the map are in the running tree, including `CheckSystem` and `AboutPage`. `TP-OOP-01` through `TP-OOP-04` have. Download and extract stay on `Anime1Downloader` in `src/AnimeDlp/downloader.py`. `cli.py` imports that class and does not define it.
 
 ### 1.1 Human-facing
 
@@ -49,14 +49,14 @@ The target is an ordinary multi-class split. A StateLogic + `Attr` rewrite stays
 3. The class **MUST** be the only public surface of its module. A module-level `def` beside that class is a second home. **MUST NOT** add one.
 4. That module **MUST** define one class. One exception type raised by that class **MAY** share the file. `MenuScreenError` shares `tui.py` with `Tui`.
 5. The file name **MUST** be the class job in snake case (`MenuPainter` → `menu_painter.py`, `AboutPage` → `about_page.py`, `SelfManage` → `self_management.py`).
-6. A full StateLogic + `Attr` rewrite of `main` stays unordered (`requirement-python-coding-style`). This file does not order that rewrite. The classes in the map are ordinary classes. The allowed end state is this map. **MUST NOT** collapse the end state back to a single procedural module. The running three-module tree remains legal until an implement order lands the files named here.
+6. A full StateLogic + `Attr` rewrite of `main` stays unordered (`requirement-python-coding-style`). This file does not order that rewrite. The classes in the map are ordinary classes. The allowed end state is this map. **MUST NOT** collapse the end state back to a single procedural module. The ten class files named in this map are in the tree. `TP-OOP-01` through `TP-OOP-04` have.
 
 ### 2.2 Entry: `main` stays in `cli.py`
 
 7. `src/AnimeDlp/cli.py` **MUST** define class `Cli` and **MUST NOT** define another class.
 8. `def main` **MUST** stay in `src/AnimeDlp/cli.py`. The signature stays `main(argv=None, basedir="", logdir="")`. `main` writes `ChronicleLogger(...)` (`requirement-python-cli-logging`), builds `Cli`, and runs one job. Empty `basedir` and `logdir` leave folder resolution to the library.
 9. The console script **MUST** stay `anime-dlp = AnimeDlp.cli:main`. `src/AnimeDlp/__main__.py` **MUST** keep `from .cli import main`.
-10. `cli.py` **MUST NOT** define another class's methods. `Cli` owns `build_parser`, `dispatch`, `opens_text_screen`, `verb_help`, `verb_version`, `verb_about`, `verb_hello`, `verb_lifecycle`, `unknown_verb`, `stdin_is_tty`, and `stdout_is_tty`. `Cli` does not own the ChronicleLogger construct. Pip argument lists stay on `SelfManage`. The about body stays on `AboutPage`. Download and extract stay on `Anime1Downloader` in `cli.py` until a later class split. There is no `Join` class and no `verb_join`. The frame stays on `MenuPainter`.
+10. `cli.py` **MUST NOT** define another class's methods. `Cli` owns `build_parser`, `dispatch`, `opens_text_screen`, `verb_help`, `verb_version`, `verb_about`, `verb_hello`, `verb_lifecycle`, `unknown_verb`, `stdin_is_tty`, and `stdout_is_tty`. `Cli` does not own the ChronicleLogger construct. Pip argument lists stay on `SelfManage`. The about body stays on `AboutPage`. Download and extract stay on `Anime1Downloader` in `src/AnimeDlp/downloader.py`. `cli.py` imports that class and does not define it. There is no `Join` class and no `verb_join`. The frame stays on `MenuPainter`.
 11. `Cli` constructs the other classes and calls them. Each class receives its collaborators through its constructor.
 11f. A constant or variable that class `Cli` or `def main` owns is an attribute of class `Cli`, or a name assigned inside `main()`. It is not a module-level assignment in `cli.py`. That set is `APP_NAME` (`AnimeDlp`), `CONSOLE_NAME` (`anime-dlp`), `PRODUCT_VERBS`, `LIFECYCLE_VERBS`, `AUTHOR_NAME`, `AUTHOR_EMAIL`, `HOMEPAGE`, `LAST_UPDATE`, `DOWNLOAD_URL`, and `BASIC_USAGE`. The about page prints the author name, the homepage, the box date, and the usage line. It does not print the email. The email stays on `Cli`. `Cli` reads the package version from `__version__` only and **MUST NOT** keep a second literal, including a fallback `"1.1.0"`. `Cli` **MUST NOT** keep `MAJOR`, `MINOR`, or `PATCH` integers. `Cli` passes the values other classes print. Those classes do not import the names from the `cli` module.
 11g. Another class keeps its own constants. The frame glyphs, `MENU_ROWS`, `SELF_ROWS`, `LOG_ROWS`, `PATH_LABEL_EN`, and `PATH_LABEL_ZH_HANT` stay on `MenuPainter`. `Cli` does not own those names.
@@ -78,7 +78,7 @@ The target is an ordinary multi-class split. A StateLogic + `Attr` rewrite stays
 15. Class `MenuSession` in `src/AnimeDlp/menu_session.py` owns `run`, `take_action`, `wait_key`, and `leave_to_front`. `wait_key` is the one-second clock wait from `requirement-python-tui` rule 13, including the language board. It does not start a thread. `run` loops until row 9 Exit. A leaf action returns to the front board. A language pick saves through the shared `MenuLanguage` and returns to the front board. `MenuSession` dispatches system-log, language, self-management, and exit. It does not paint the frame.
 15a. Class `MenuLanguage` in `src/AnimeDlp/menu_language.py` owns the thirteen codes, the language leaf, and the menu words. One class. No second class in that file. The logger arrives through `__init__`. The codes and the leaf stay on `requirement-python-cli-language`.
 16. The menu picture stays on `requirement-python-tui`. These classes implement that picture. They do not invent a second layout.
-17. Until an implement order lands this split, `cli.py` still holds the prompt session. After the split, `cli.py` **MUST NOT** hold `Tui`, `MenuPainter`, `MenuModel`, or `MenuSession` methods.
+17. `cli.py` **MUST NOT** hold `Tui`, `MenuPainter`, `MenuModel`, or `MenuSession` methods. Those classes live in their own files. `TP-OOP-*` stay todo.
 
 ### 2.4 About page
 
@@ -108,8 +108,8 @@ The target is an ordinary multi-class split. A StateLogic + `Attr` rewrite stays
 |------|--------|
 | **Console script** | `anime-dlp = AnimeDlp.cli:main` |
 | **Module entry** | `src/AnimeDlp/__main__.py` imports `main` from `.cli` |
-| **Running tree** | `src/AnimeDlp/__init__.py`, `__main__.py`, `cli.py`, `tui.py`, and `menu_painter.py`. Class `Anime1Downloader` lives in `cli.py`. Class `Tui` and class `MenuPainter` draw the text menu. That tree is not the full map below |
-| **Landed** | `Tui` and `MenuPainter` are in the tree for the download menu. `Cli`, `MenuLanguage`, `MenuModel`, `MenuSession`, `SystemLog`, `SelfManage`, `CheckSystem`, and `AboutPage` are named in the map and are not in the tree. `TP-OOP-01` through `TP-OOP-04` stay todo |
+| **Running tree** | `src/AnimeDlp/__init__.py`, `__main__.py`, and the ten class files in the map: `cli.py`, `tui.py`, `menu_painter.py`, `menu_language.py`, `menu_model.py`, `menu_session.py`, `system_log.py`, `self_management.py`, `check_system.py`, `about_page.py` |
+| **Landed** | `Cli`, `Tui`, `MenuPainter`, `MenuLanguage`, `MenuModel`, `MenuSession`, `SystemLog`, `SelfManage`, `CheckSystem`, and `AboutPage` are in the tree. `TP-OOP-01` through `TP-OOP-04` have. `Anime1Downloader` is in `downloader.py` |
 | **Logger** | Every class `__init__` in the map accepts `logger` and stores it. `def main` writes `ChronicleLogger(...)` and then `Cli(logger)`. Collaborators are `OtherClass(...)` at the site that needs them |
 | **Not this split** | Menu rows, about line facts, download steps, version string, the wording of the instantiation line |
 
@@ -117,7 +117,7 @@ The target is an ordinary multi-class split. A StateLogic + `Attr` rewrite stays
 
 - **Principle 2 – Intentional**: Each job has one class and one file. That class receives the logger in `__init__`.
 - **Principle 5 – SSOT**: `cli.py` does not keep a second copy of another class's methods. `main` has one home.
-- **Principle 1 – Caution**: The picture, the about facts, and the download steps stay where their requirements already put them. The running tree is not declared illegal before the split lands.
+- **Principle 1 – Caution**: The picture, the about facts, and the download steps stay where their requirements already put them. The ten class files are in the tree. `TP-OOP-01` through `TP-OOP-04` have.
 
 ## Under command line for normal user only
 
@@ -125,7 +125,7 @@ On Termux, Git Bash, Windows cmd, or the same class, each class still receives t
 
 ## Sample code
 
-StateLogic stays unordered. The site writes the class name. This sample is the allowed end state. The running `cli.py` does not look like this yet.
+StateLogic stays unordered. The site writes the class name. This sample is the allowed end state for the logger handoff. The ten classes in the map are in the tree. The running entry is `main(argv=None, basedir="", logdir="")`. Empty `basedir` and `logdir` leave folder resolution to ChronicleLogger. The running program builds `Tui` in `Cli._ensure_menu`, not inside `Cli.__init__`. `TP-OOP-01` through `TP-OOP-04` have.
 
 ```python
 def main(argv=None, basedir="", logdir=""):
@@ -146,8 +146,8 @@ class Cli:
 
 ## 3. Design Principles (CIAO / CIAO-Lite)
 
-- **Caution:** Do not treat `Tui` and `MenuPainter` as the full map, and do not pretend the unlanded class files are already on disk.
-- **Intentional:** One job, one class, one file. Download stays on `Anime1Downloader` until a later split. There is no encoder class.
+- **Caution:** The ten classes in the map are in the tree. `TP-OOP-01` through `TP-OOP-04` have.
+- **Intentional:** One job, one class, one file. Download stays on `Anime1Downloader` in `src/AnimeDlp/downloader.py`. There is no encoder class.
 - **Anti-fragile:** `def main` and the console script keep their addresses.
 - **Over-protect:** No factory, no second logger, no StateLogic rewrite hidden inside this map.
 
@@ -177,8 +177,8 @@ class Cli:
 | AC-2 | `def main` stays in `cli.py`. The console script stays `AnimeDlp.cli:main` |
 | AC-3 | Every class `__init__` accepts the logger. The site writes `ClassName(...)` |
 | AC-4 | `Cli` owns the identity constants. `MenuPainter` owns the row tuples and the glyphs |
-| AC-5 | `AboutPage` composes the about page. `CheckSystem` owns the host check. Download and extract stay on `Anime1Downloader` until a later class split |
-| AC-6 | `tui.py` and `menu_painter.py` are in the tree. The rest of the map is not. Proofs stay todo |
+| AC-5 | `AboutPage` composes the about page. `CheckSystem` owns the host check. Download and extract stay on `Anime1Downloader` in `src/AnimeDlp/downloader.py`. `cli.py` imports that class and does not define it |
+| AC-6 | The ten class files in the map are in the tree. `TP-OOP-01` through `TP-OOP-04` have |
 
 ## 6. Related requirements (peer keys only)
 
@@ -200,10 +200,10 @@ class Cli:
 
 | TP family / ID | Suite | Status | Note |
 |----------------|-------|--------|------|
-| **TP-OOP-01** | `tests/test_oop.py` | todo | The class files in the map exist. `cli.py` defines `Cli` and `def main` and does not define another class's methods |
-| **TP-OOP-02** | `tests/test_oop.py` | todo | Every class `__init__` takes the logger, stores it, and logs `instantiated` |
-| **TP-OOP-03** | `tests/test_oop.py` | todo | `MenuPainter` owns the frame glyphs and `MENU_ROWS` / `SELF_ROWS` / `LOG_ROWS`. Those names are absent from `cli.py` |
-| **TP-OOP-04** | `tests/test_oop.py` | todo | `APP_NAME`, `CONSOLE_NAME`, `PRODUCT_VERBS`, `LIFECYCLE_VERBS`, identity constants are attributes of `Cli`. Display version is `__version__` only |
+| **TP-OOP-01** | `tests/test_oop.py` | have | The class files in the map exist. `cli.py` defines `Cli` and `def main` and does not define another class's methods |
+| **TP-OOP-02** | `tests/test_oop.py` | have | Every class `__init__` takes the logger, stores it, and logs `instantiated` |
+| **TP-OOP-03** | `tests/test_oop.py` | have | `MenuPainter` owns the frame glyphs and `MENU_ROWS` / `SELF_ROWS` / `LOG_ROWS`. Those names are absent from `cli.py` |
+| **TP-OOP-04** | `tests/test_oop.py` | have | `APP_NAME`, `CONSOLE_NAME`, `PRODUCT_VERBS`, `LIFECYCLE_VERBS`, identity constants are attributes of `Cli`. Display version is `__version__` only |
 
 **Matrix:** `docs/reviews/requirement-test-matrix.md`
 **Map:** `docs/reviews/test-plan.md`
@@ -220,9 +220,11 @@ class Cli:
 | 2026-10-05 | Active 1.1.1 | Specialized from the VideoJoin bootstrap. Class `Join`, concat, and video suffix sets removed |
 | 2026-10-05 | Active 1.1.2 | Acceptance rows no longer name class `Join`. Video suffix sets stay off `Cli`. The map is not claimed to be on disk |
 | 2026-10-05 | Active 1.1.3 | `Tui` and `MenuPainter` are in the running tree. The rest of the map stays todo |
+| 2026-10-31 | Active 1.1.4 | The ten classes in the map are in the tree. `TP-OOP-01` through `TP-OOP-04` stay todo |
+| 2026-10-31 | Active 1.1.5 | `Anime1Downloader` lives in `downloader.py`. `cli.py` imports it and does not define it. `TP-OOP-01` through `TP-OOP-04` have |
 
 ---
 
-**Last Updated**: 2026-10-05
+**Last Updated**: 2026-10-31
 **Owner**: project maintainers
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

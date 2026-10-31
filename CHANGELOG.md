@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 Version SSOT: `pyproject.toml` + `src/AnimeDlp/__init__.__version__` (CLI reads package version only).
 
+## [1.5.4] - 2026-10-31
+
+### Changed
+
+- `main` accepts `basedir` and `logdir` and passes empty values through to ChronicleLogger. A debug run logs the program identity, the ChronicleLogger version, the resolved base, and `debug mode`. `Cli` logs `instantiated` and carries the author email, an empty download URL, and the lifecycle verb names.
+- The about box date is 2026-10-31.
+- Menu pictures and the sample download frames in `screenshots/` show package **1.5.4**. The about picture stamp is the time of that capture. The stream title list keeps the previous fourteen titles. `stream-mpv.png` is unchanged.
+- Package version is **1.5.4**. The README badge, SECURITY current row, and requirement version cells follow that string.
+
+---
+
 ## [1.5.3] - 2026-10-07
 
 ### Added

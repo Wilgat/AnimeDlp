@@ -50,7 +50,7 @@ Declare **host and Python runtime prerequisites** required to run AnimeDlp succe
 | **System binary** | **none required** beyond CPython for download and extract. `mpv` is optional and is not installed by this product. The `mpv` verb and menu row 2 need an mplayer2 build on PATH (yt-dlp may use ffmpeg for some formats as its own optional tool — not claimed as AnimeDlp product auto-install) |
 | **Auto install command** | **none** for OS packages |
 | **Platform notes** | Linux primary; macOS/Windows OK when CPython + network available |
-| **Product version** | 1.5.3 |
+| **Product version** | 1.5.4 |
 | **Startup checks** | Import gates in `cli.main()` for requests, BeautifulSoup, yt_dlp, lxml |
 | **User docs** | Root `README.md` Required Dependencies / Requirements sections |
 
@@ -129,6 +129,7 @@ Declare **host and Python runtime prerequisites** required to run AnimeDlp succe
 | 2026-10-06 | Active 1.0.0 | Product version cell aligned to **1.5.1** |
 | 2026-10-07 | Active 1.0.0 | Product version cell aligned to **1.5.2** |
 | 2026-10-07 | Active 1.0.1 | `mpv` is optional and is not installed by this product. Package **1.5.3** |
+| 2026-10-31 | Active 1.0.1 | Product version cell aligned to **1.5.4** |
 
 ---
 

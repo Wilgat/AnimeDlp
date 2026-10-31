@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-cli-language.md
-**Status**: Active (Version 1.0.6)
+**Status**: Active (Version 1.0.8)
 **Area**: python
 **Key**: `requirement-python-cli-language`
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -47,10 +47,10 @@ Class `MenuLanguage` in `src/AnimeDlp/menu_language.py` holds the codes, the sav
 4. **Leaf.** The leaf is `${HOME}/.local/AnimeDlp/language`. The program reads only the first line, ignores a trailing carriage return, and ignores later lines. A menu pick **MUST** write the code, one newline, and nothing else. The directory **MUST** be mode `0700`. The file **MUST** be mode `0600`. The program creates that directory only when a pick is saved. A missing home, or a write that fails, **MUST** keep the code this process already had and **MUST** show the failed-write line in that previous language. The front board **MUST** still return.
 5. **Front row 4.** On every host, including Termux, Git Bash, and Windows cmd, the front board **MUST** print row **4** `language`. That row **MUST** open the language board. It **MUST NOT** run a command and **MUST NOT** leave the program. Row **1** is `download`. Row **2** is `stream to mpv player` only when `mpv` is on PATH and `mpv --version` contains `mplayer2`; otherwise row **2** stays omitted. That short stays English. Rows **8** and **9** stay self-management and Exit. **MUST NOT** put `join` on row 1. System-log is front row **3**. Its children are **31** view-log, **32** clear-log, and **33** log-folder. Those numbers are the picture on `requirement-python-tui`. The leaf short `download` stays English.
 6. **Language block.** The language board uses the twenty numbers **40** through **59**. Assigned rows are **41** through **53**, in the order below. **40** and **54** through **59** are reserved. They **MUST NOT** be printed. Typing a reserved number **MUST** show the unknown-choice line and **MUST NOT** write the leaf. **0**, an empty Enter on Back, and Esc **MUST** return to the front board and **MUST NOT** write the leaf.
-7. **Names on the language board.** Each assigned row **MUST** show that language’s endonym as the short. This build prints the English explain `use this language for this menu` on every language row. The per-language sentence in the table below is the saved-language line. A translated explain for every UI language stays with `TP-LANG-01`.
-8. **What follows the code.** This build applies the path word, the saved-language sentence, and the please-wait phrase for the selected code. Board titles, category shorts, Back, Exit, the unknown-choice line, and the failed-write line stay English. Full translation of those strings is `TP-LANG-01` and stays todo. Leaf shorts stay the English tokens `download`, `view-log`, `clear-log`, `log-folder`, `version`, `about`, `version-check`, `self-update`, `self-uninstall`, and `self-install`. `join` is not a leaf.
+7. **Names on the language board.** Each assigned row **MUST** show that language’s endonym as the short. This build prints the English explain `use {name} for this menu` on every language row, with `{name}` replaced by that row’s endonym. The per-language sentence in the table below is the saved-language line. A translated explain for every UI language stays with `TP-LANG-01`.
+8. **What follows the code.** This build applies the path word, the saved-language sentence, the please-wait phrase, the board titles, the category shorts, Back, Exit, the unknown-choice line, and the failed-write line for the selected code. Leaf shorts stay the English tokens `download`, `view-log`, `clear-log`, `log-folder`, `version`, `about`, `version-check`, `self-update`, `self-uninstall`, and `self-install`. The download-row explain and row 2 `stream to mpv player` stay English. The language-row explain stays `use {name} for this menu`. `join` is not a leaf. Full translation of the remaining English strings is `TP-LANG-01` and stays todo.
 9. **What stays English.** Extract messages, download messages other than the please-wait phrase, command output, pip lifecycle output, the argv `version` line, host and download fail-closed sentences, the help body, and the about page stay English in this version. On the download line, `file`, `finished`, `until finish`, and `estimating` stay English. The key hint `Up/Down  •  Enter` stays English. The folder path and the clock `HH:MM:SS` are not translated. The product name and the version stay on the status line. The please-wait phrase is the one download phrase this build translates. It is not `TP-LANG-01`.
-10. **After a successful pick.** The session **MUST** show the saved-language line and **MUST** return to the front board with the new path word. That line sits above the box. It is not the error line. It stays until the next key. A failed write uses the same place. This build shows the English line `Could not save the menu language`.
+10. **After a successful pick.** The session **MUST** show the saved-language line and **MUST** return to the front board with the new path word. That line sits above the box. It is not the error line. It stays until the next key. A failed write uses the same place and shows the failed-write line for the code this process already had. The English line is `Could not save the menu language`.
 11. **Unknown choice.** A number or a word that is not on the current board **MUST** stay on that board and show the unknown-choice line in the selected language. It **MUST NOT** exit the process and **MUST NOT** write the leaf. The English line is `That choice is not on this list. Pick a listed number.`
 12. **Clock.** The language board is a clock board. The one-second wait from `requirement-python-tui` rule 13 includes it. A language pick does not open a result page.
 13. **Construct.** `MenuPainter.__init__` writes `MenuLanguage(...)`. The session and the model share that painter, so a save updates the rows the next paint reads. The site does not call a factory. `def main` stays in `src/AnimeDlp/cli.py`.
@@ -95,8 +95,8 @@ The download line’s please-wait phrase. `requirement-domain-animedlp` owns whe
 
 | Item | Value |
 |------|--------|
-| **Class** | This build stores the thirteen codes on `Tui` in `src/AnimeDlp/tui.py`. Class `MenuLanguage` remains the named end state and is not in the tree |
-| **Painter site** | `Tui` supplies the path word. A pick writes the leaf. The next start reads it. `ANIMEDLP_LANG` wins and does not write |
+| **Class** | Class `MenuLanguage` in `src/AnimeDlp/menu_language.py` holds the thirteen codes. `TP-LANG-01` stays todo for a full translation of every explain |
+| **Painter site** | `MenuPainter.path_label` asks `MenuLanguage`. A pick writes the leaf. The next start reads it. `ANIMEDLP_LANG` wins and does not write |
 | **Front row** | **4** language. Children **41**–**53**. Reserved and not printed: **40**, **54**–**59** |
 | **System-log** | Front **3**. Children **31** view-log, **32** clear-log, **33** log-folder |
 | **Leaf** | `${HOME}/.local/AnimeDlp/language`. Directory mode `0700`. File mode `0600`. Not the cache folder. Not `/var/AnimeDlp` |
@@ -106,7 +106,7 @@ The download line’s please-wait phrase. `requirement-domain-animedlp` owns whe
 | **Language-board tokens** | 41 `english` / `en` / `English`. 42 `simplified-chinese` / `zh-hans` / `zh-Hans` / `简体中文`. 43 `traditional-chinese` / `zh-hant` / `zh-Hant` / `繁體中文`. 44 `spanish` / `es` / `Español` / `español`. 45 `arabic` / `ar` / `العربية` / `عربي`. 46 `french` / `fr` / `Français` / `français`. 47 `portuguese` / `pt` / `Português` / `português` / `portugues`. 48 `russian` / `ru` / `Русский` / `русский`. 49 `german` / `de` / `Deutsch` / `deutsch`. 50 `japanese` / `ja` / `日本語`. 51 `korean` / `ko` / `한국어`. 52 `dutch` / `nl` / `Nederlands` / `nederlands`. 53 `greek` / `el` / `Ελληνικά` / `ελληνικά` |
 | **About leaf long (en)** | `version, yt-dlp, and this computer`. The other twelve codes say that fact in that language. The about page stays English and is `requirement-python-about` |
 | **Not a verb** | `language` is absent from `Cli.PRODUCT_VERBS` |
-| **Proof** | `TP-TUI-09` has for the path word, the leaf, and `ANIMEDLP_LANG`. `TP-LANG-01` stays todo: full translation of every explain, and class `MenuLanguage`, are not this build |
+| **Proof** | `TP-TUI-09` has for the path word, the leaf, and `ANIMEDLP_LANG`. `TP-LANG-01` stays todo for a full translation of every explain. Class `MenuLanguage` is in `menu_language.py` |
 
 Worked leaf, this login, after choosing Traditional Chinese:
 
@@ -186,7 +186,7 @@ On Termux, Git Bash, Windows cmd, or the same class, the person runs `anime-dlp`
 
 | TP family / ID | Suite | Status | Note |
 |----------------|-------|--------|------|
-| **TP-LANG-01** | `tests/test_language.py` | todo | Full board translation and class `MenuLanguage`. Not this build |
+| **TP-LANG-01** | `tests/test_language.py` | todo | Full board translation of every explain. Class `MenuLanguage` is in `menu_language.py` |
 | **TP-TUI-09** | `tests/test_tui.py` | **have** | No leaf keeps `Path`. `LANG` does not switch it. A pick saves `zh-Hant` and `路徑`. `ANIMEDLP_LANG` wins and does not write. An invalid leaf is not rewritten |
 
 **Matrix:** `docs/reviews/requirement-test-matrix.md`
@@ -203,9 +203,11 @@ On Termux, Git Bash, Windows cmd, or the same class, the person runs `anime-dlp`
 | 2026-10-05 | Active 1.0.4 | Row 1 is `download`. Row 2 stays omitted. The running session stores the codes on `Tui`. `TP-LANG-01` stays todo |
 | 2026-10-07 | Active 1.0.6 | Row 2 `stream to mpv player` is English and appears only when `mpv --version` contains `mplayer2` |
 | 2026-10-06 | Active 1.0.5 | The download line’s please-wait phrase follows the saved code. The rest of that line stays English. `TP-LANG-01` stays todo |
+| 2026-10-31 | Active 1.0.7 | Class `MenuLanguage` is in `menu_language.py` and holds the thirteen codes. `TP-LANG-01` stays todo |
+| 2026-10-31 | Active 1.0.8 | Rule 8 follows the running boards: titles, category shorts, Back, Exit, the unknown-choice line, and the failed-write line follow the selected code. The language-row explain stays `use {name} for this menu`. `MenuPainter.path_label` asks `MenuLanguage`. `TP-LANG-01` stays todo |
 
 ---
 
-**Last Updated**: 2026-10-07
+**Last Updated**: 2026-10-31
 **Owner**: project maintainers
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

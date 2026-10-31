@@ -53,9 +53,17 @@ class Cli:
     APP_NAME = "AnimeDlp"
     CONSOLE_NAME = "anime-dlp"
     AUTHOR_NAME = "Wilgat Wong"
-    LAST_UPDATE = "2026-10-07"
+    AUTHOR_EMAIL = "wilgat.wong@gmail.com"
+    LAST_UPDATE = "2026-10-31"
     HOMEPAGE = "https://github.com/Wilgat/AnimeDlp"
+    DOWNLOAD_URL = ""
     BASIC_USAGE = "anime-dlp <url>"
+    LIFECYCLE_VERBS = (
+        "version-check",
+        "self-update",
+        "self-install",
+        "self-uninstall",
+    )
     PRODUCT_VERBS = (
         "help",
         "version",
@@ -69,6 +77,8 @@ class Cli:
 
     def __init__(self, logger):
         self.logger = logger
+        if logger is not None:
+            logger.log_message("instantiated", component="Cli")
         self.version = __version__
         self.app_name = self.APP_NAME
         self.flags = None
@@ -95,7 +105,7 @@ class Cli:
             self.AUTHOR_NAME,
             self.LAST_UPDATE,
             self.HOMEPAGE,
-            "",
+            self.DOWNLOAD_URL,
             self.BASIC_USAGE,
             self.CONSOLE_NAME,
             logger=logger,
@@ -318,7 +328,7 @@ class Cli:
     def _stream_cli(self, url, video_id):
         """Stream one extracted video in mpv.
 
-        Last updated: 2026-10-07
+        Last updated: 2026-10-31
 
         Check mpv, then extract the page. Video numbers start at 1.
         When the page has more than one video, ``video_id`` selects it.
@@ -451,15 +461,24 @@ def _missing_module(logger, message):
     return 1
 
 
-def main(argv=None) -> int:
-    """CLI entry. Returns process exit code (setuptools wraps with sys.exit)."""
+def main(argv=None, basedir="", logdir="") -> int:
+    """CLI entry. Returns process exit code (setuptools wraps with sys.exit).
+
+    Empty basedir and logdir leave folder resolution to ChronicleLogger.
+    """
     if argv is None:
         argv = sys.argv[1:]
     argv = list(argv)
 
-    logger = ChronicleLogger(logname="AnimeDlp", is_quiet=Cli.quiet_console(argv))
+    logger = ChronicleLogger(
+        logname="AnimeDlp",
+        is_quiet=Cli.quiet_console(argv),
+        basedir=basedir,
+        logdir=logdir,
+    )
     appname = logger.logName()
-    _basedir = logger.baseDir()
+    resolved_base = logger.baseDir()
+    logger.logDir()
 
     if logger.isDebug():
         logger.log_message(
@@ -467,8 +486,14 @@ def main(argv=None) -> int:
             component="main",
         )
         logger.log_message(
-            f"Using {ChronicleLogger.class_version()}", component="main"
+            f"Using {ChronicleLogger.class_version()}",
+            component="main",
         )
+        logger.log_message(
+            f"Base {resolved_base}",
+            component="main",
+        )
+        logger.log_message("debug mode", component="main")
 
     if requests is None:
         return _missing_module(

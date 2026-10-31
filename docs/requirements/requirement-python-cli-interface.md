@@ -86,7 +86,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | **Class runner** | `Anime1Downloader(args, logger).run()` for a page URL. `Cli._stream_cli` for the `mpv` verb, through `MpvStream` |
 | **mpv verb** | `anime-dlp mpv <url> [--id N]`. Default N is 1. No file. No menu |
 | **User docs** | Root `README.md` Usage / Options / Examples must match this contract |
-| **Product version** | package **1.5.3** |
+| **Product version** | package **1.5.4** |
 
 ### 2.9 Why This Requirement Exists (CIAO)
 
@@ -174,6 +174,7 @@ Domain catalog is owned by **`requirement-domain-animedlp`**. Download ops are o
 | 2026-10-06 | Active 1.1.0 | Product version cell aligned to **1.5.1** |
 | 2026-10-07 | Active 1.1.0 | Product version cell aligned to **1.5.2** |
 | 2026-10-07 | Active 1.2.0 | The `mpv` verb streams one extracted video. `--id` defaults to 1. Package **1.5.3** |
+| 2026-10-31 | Active 1.2.0 | Product version cell aligned to **1.5.4** |
 
 ---
 

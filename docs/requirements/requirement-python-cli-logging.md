@@ -1,5 +1,5 @@
 **file**: docs/requirements/requirement-python-cli-logging.md
-**Status**: Active (Version 1.0.2)
+**Status**: Active (Version 1.0.4)
 **Area**: python
 **Key**: `requirement-python-cli-logging`
 **Philosophy**: CIAO **v2.10.2** / CIAO-Lite (Caution • Intentional • Anti-fragile • Over-engineered / Over-protect)
@@ -66,7 +66,7 @@ The running `src/AnimeDlp/cli.py` writes `ChronicleLogger(...)` in `def main`. T
 10. `isDebug()` remembers the first answer. `DEBUG` or `debug` **MUST** already be `1`, `true`, or `show` (any letter case) **before** `ChronicleLogger(...)`.
 11. The startup identity lines **MUST** run only inside `if logger.isDebug():`, and `main` **MUST** run that block before the argument parser. The block is four `log_message` calls, each with `component="main"`: the resolved app name, the package version, and this file’s path; `Using` plus `ChronicleLogger.class_version()`; the `baseDir()` value; a line whose message is `debug mode`. **MUST NOT** type the library version by hand. When `isDebug()` is false, those lines **MUST NOT** be displayed.
 11a. **Console mirror.** When this run will open the text screen, and that fact is known before construct, `main` **MUST** pass `is_quiet=True` into `ChronicleLogger(...)`. The runs that open the text screen are: empty argv on a terminal, and `about` on a terminal. A URL download does not open this screen. A small argv peek may decide `is_quiet` before the constructor. `ArgumentParser.parse_args` runs after the constructor and after the debug block. The library stores that flag before it resolves the name and the folders and before it creates the log directory. That constructor can print `Created directory:`. A call to `quiet(True)` after the constructor returns **MUST NOT** be the only quiet for those runs. A run that does not open the text screen **MUST** leave `is_quiet` false, so the operator sees `debug mode` on the console. The text screen **MUST** keep that mirror off the console. The same lines still go to the daily file. This product does not claim `--json`. `logger.quiet(True)` remains the setter when a screen opens later and was not known at construct.
-11b. **Version string.** The identity line and the `version` verb read the same package version: the single string `__version__` in `src/AnimeDlp/__init__.py`, which matches `pyproject.toml` (`requirement-python-packaging`). The current string is `1.1.0`. **MUST NOT** add `MAJOR` / `MINOR` / `PATCH` integers. **MUST NOT** keep a second version literal for display. A suite assertion may compare the displayed string with `__version__` and with `pyproject.toml`. `main` **MUST NOT** raise because those strings differ.
+11b. **Version string.** The identity line and the `version` verb read the same package version: the single string `__version__` in `src/AnimeDlp/__init__.py`, which matches `pyproject.toml` (`requirement-python-packaging`). The current string is `__version__` (package **1.5.4**). **MUST NOT** add `MAJOR` / `MINOR` / `PATCH` integers. **MUST NOT** keep a second version literal for display. A suite assertion may compare the displayed string with `__version__` and with `pyproject.toml`. `main` **MUST NOT** raise because those strings differ.
 11c. **Environment checks.** `CheckSystem.in_venv`, `in_pyenv`, and `in_conda` **MUST** call `inVenv()`, `inPyenv()`, and `inConda()` on the one logger. When the logger is absent, each method **MUST** return false. Those three results **MUST NOT** be printed on the about page and **MUST NOT** choose `python2 location`, `python3 location`, `conda location`, or `pyenv location`. The path reads stay on `requirement-python-about`. The proof is `TP-ABOUT-16`.
 
 ### 2.3 `log_message` level and component
@@ -142,11 +142,11 @@ The class-name components are `Cli`, `Tui`, `MenuPainter`, `MenuModel`, `MenuSes
 | **Resolved name** | `anime-dlp` from `logName()` |
 | **Call order** | Inside `def main`: peek argv for the text screen, write `ChronicleLogger(...)` with `logname` and `is_quiet` when that screen is already known, read `logName()`, `baseDir()`, and `logDir()`, run the `isDebug()` block including `debug mode`, then parse arguments, then `Cli(logger)`. |
 | **Quiet** | `is_quiet=True` for empty argv on a terminal and for `about` on a terminal. A URL download leaves it false. `quiet(True)` after return does not hide `Created directory:`. |
-| **Version** | Identity and `version` use `__version__` (`1.1.0`). No second integer triple. `cli.py` reads `__version__` and does not keep a second literal. |
+| **Version** | Identity and `version` use `__version__` (package **1.5.4**). No second integer triple. `cli.py` reads `__version__` and does not keep a second literal. |
 | **Threads** | None in the running product. No timeout is named. |
 | **Control-C** | Not confirmed law here. |
 | **Debug switch** | Environment `DEBUG` or `debug` already set to `1`, `true`, or `show`. No `--debug` flag. |
-| **Proof** | `TP-LOG-01`, `TP-LOG-02`, `TP-LOG-03`, `TP-LOG-04`, `TP-LOG-05` stay todo. The ship unit does not pass this law. |
+| **Proof** | `TP-LOG-01` and `TP-LOG-02` have. `TP-LOG-03`, `TP-LOG-04`, and `TP-LOG-05` stay todo. |
 
 ### Sample code
 
@@ -274,8 +274,8 @@ On Termux, Git Bash, Windows cmd, or the same class, status files stay in the fo
 
 | TP family / ID | Suite | Status | Note |
 |----------------|-------|--------|------|
-| **TP-LOG-01** | `tests/test_logging.py` | todo | One construct in `main`. `logName` / `baseDir` / `logDir` read back. Resolved name is `anime-dlp` |
-| **TP-LOG-02** | `tests/test_logging.py` | todo | `DEBUG` already on shows identity lines and `debug mode` on a non-screen run. Unset shows neither. A text-screen run does not mirror those lines. The daily file still receives them |
+| **TP-LOG-01** | `tests/test_logging.py` | have | One construct in `main`. `logName` / `baseDir` / `logDir` read back. The daily file name is `anime-dlp-YYYYMMDD.log` |
+| **TP-LOG-02** | `tests/test_logging.py` | have | `DEBUG` already on shows identity lines and `debug mode` on a non-screen run. Unset shows neither. A text-screen run does not mirror those lines. The daily file still receives them |
 | **TP-LOG-03** | `tests/test_logging.py` | todo | The product creates no threads. A later thread logs create, start, join, wait, lock, and pool before the blocking call, and does not call `log_message` under a work lock |
 | **TP-LOG-04** | `tests/test_logging.py` | todo | Each class `__init__` logs `instantiated` at INFO, component the class name, outside `isDebug()` |
 | **TP-LOG-05** | `tests/test_logging.py` | todo | Temp write, publish, and discard are logged before the operation, component `download` |
@@ -292,9 +292,10 @@ On Termux, Git Bash, Windows cmd, or the same class, status files stay in the fo
 | 2026-10-04 | Active 1.0.1 | Product version **1.1.0**. Manifest floor is `ChronicleLogger>=1.2.3`. `cli.py` reads `__version__` only |
 | 2026-10-04 | Active 1.0.2 | Rule 11c: environment checks read the one logger. Current version string is **1.1.0**. `TP-LOG-*` stay todo. `TP-ABOUT-16` is have. Primary owner is `requirement-python-about` |
 | 2026-10-05 | Active 1.0.3 | Specialized from the VideoJoin bootstrap. Component `join` removed. Download steps use `download`. Logger floor matches `pyproject.toml` (`ChronicleLogger>=1.2.3`) |
+| 2026-10-31 | Active 1.0.4 | Current version string is package **1.5.4**. `main` passes empty `basedir` and `logdir` through. `TP-LOG-01` and `TP-LOG-02` have. `TP-LOG-03`, `TP-LOG-04`, and `TP-LOG-05` stay todo |
 
 ---
 
-**Last Updated**: 2026-10-05
+**Last Updated**: 2026-10-31
 **Owner**: project maintainers
 **Alignment**: Registry `docs/requirements/index.md`; **CIAO** (https://github.com/cloudgen/ciao); CIAO-Lite (https://github.com/cloudgen/ciao-lite).

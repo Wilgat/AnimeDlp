@@ -188,7 +188,7 @@ Invocation: `anime-dlp` on a terminal, then `8`, then `83`. The same page is `an
 | **TTY / Interactive** | `yes` or `no` from `sys.stdout.isatty()` |
 | **JSON** | Not claimed. No `--json` stream |
 | **Privilege** | normal user privilege |
-| **Product version** | `1.1.0` |
+| **Product version** | `1.5.4` |
 
 ### 2.3 Why This Requirement Exists (Direct CIAO Alignment)
 
@@ -285,6 +285,7 @@ TP-ABOUT-01 asserts the identity line, every host-check label, the star-box titl
 | 2026-10-04 | Active 1.0.0 | About page: identity, host check, star box. Pyenv and conda reads stay here. No `--json`. Product version **1.1.0**. `./tests/run.sh` — 23 tests, OK. `TP-ABOUT-01` through `TP-ABOUT-14` and `TP-ABOUT-16` are have. There is no `TP-ABOUT-15` |
 | 2026-10-05 | Active 1.0.1 | Specialized from the VideoJoin bootstrap. Domain line is the anime downloader. The page does not probe ffmpeg |
 | 2026-10-06 | Active 1.0.2 | The about box date is `2026-10-06`. The host-check stamp is the time of the capture |
+| 2026-10-31 | Active 1.0.2 | Product version cell aligned to **1.5.4**. The worked sample keeps the page shape |
 
 **Last Updated**: 2026-10-06
 **Owner**: project maintainers
